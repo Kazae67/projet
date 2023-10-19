@@ -27,6 +27,10 @@ class OrderDetail
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $order = null;
 
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -40,7 +44,6 @@ class OrderDetail
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
@@ -52,7 +55,6 @@ class OrderDetail
     public function setPrice(string $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -64,7 +66,6 @@ class OrderDetail
     public function setSubtotal(string $subtotal): self
     {
         $this->subtotal = $subtotal;
-
         return $this;
     }
 
@@ -76,7 +77,17 @@ class OrderDetail
     public function setOrder(?Order $order): self
     {
         $this->order = $order;
+        return $this;
+    }
 
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
         return $this;
     }
 }
