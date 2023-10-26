@@ -11,6 +11,7 @@ use App\Entity\Category;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Product
 {
     #[ORM\Id]
@@ -63,6 +64,8 @@ class Product
     {
         $this->wishlists = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->price = 0.0;
+        $this->stock_quantity = 0;
     }
     public function getId(): ?int
     {
@@ -243,5 +246,18 @@ class Product
         $this->category = $category;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
     }
 }
