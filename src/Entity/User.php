@@ -8,12 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`', uniqueConstraints: [
     new ORM\UniqueConstraint(name: "email_unique", columns: ["email"])
 ])]
-class User
+#[ORM\HasLifecycleCallbacks]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -62,6 +66,16 @@ class User
     #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: "user")]
     private Collection $addresses;
 
+    /**
+     * @Assert\NotBlank(message="Please enter a password.")
+     * @Assert\Length(
+     *     min=6,
+     *     minMessage="Your password should be at least 6 characters.",
+     *     // max length allowed by Symfony for security reasons
+     *     max=4096,
+     * )
+     */
+    private $plainPassword;
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -288,7 +302,6 @@ class User
         return $this;
     }
 
-
     /**
      * @return Collection<int, Adress>
      */
@@ -318,5 +331,42 @@ class User
 
         return $this;
     }
+
+    public function getSalt()
+    {
+        // Pas besoin de salt avec les algorithmes de hachage
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+        // Vide, car les mots de passe sont déjà hashés sur la base de données
+    }
+
+    public function getRoles(): array
+    {
+        // transforme le $role en tableau
+        // l'interface UserInterface.
+        return [$this->role];
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
+    }
+
 
 }

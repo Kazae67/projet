@@ -1,0 +1,29 @@
+security:
+    password_hashers:
+        App\Entity\User:
+            algorithm: bcrypt # utiliser "argon2i" ou "auto"
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            provider: app_user_provider
+            form_login: 
+                login_path: app_login 
+                check_path: app_login 
+                default_target_path: home  # Redirige vers la route 'home' après connexion réussie
+            logout:
+                path: app_logout 
+                target: home  # Redirige vers la route 'home' après déconnexion
+
+    access_control:
+        - { path: ^/login_app, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/public_route, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # autres routes si j'ai besoin

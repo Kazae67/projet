@@ -19,6 +19,12 @@
 		<div class="navbar">
 			<a href="{{ path('home') }}">Accueil</a>
 			<a href="{{ path('product') }}">Produits</a>
+			{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+				<a href="{{ path('app_register') }}">S'enregistrer</a>
+				<a href="{{ path('app_login') }}">Se connecter</a>
+			{% else %}
+				<a href="{{ path('app_logout') }}">Se déconnecter</a>
+			{% endif %}
 		</div>
 		{% block body %}{% endblock %}
 	</body>
