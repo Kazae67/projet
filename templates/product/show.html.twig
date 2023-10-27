@@ -1,14 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ product.name }}{% endblock %}
+{% block title %}
+	Détail du produit -
+	{{ product.name }}
+{% endblock %}
 
 {% block body %}
-    <h1>{{ product.name }}</h1>
+	<h1>{{ product.name }}</h1>
 
-    <div class="product-detail">
-        <img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="product-img">
-        <p>{{ product.description }}</p>
-        <p>Prix : {{ product.price }}€</p>
-        <a href="{{ path('product') }}" class="btn btn-primary">Retour à la liste des produits</a>
-    </div>
+	<div class="product-detail">
+		<img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="product-img">
+		<p>
+			<strong>Description:</strong>
+			{{ product.description }}</p>
+		<p>
+			<strong>Prix:</strong>
+			{{ product.price }}€</p>
+		<p>
+			<strong>Quantité en stock:</strong>
+			{{ product.getStockQuantity }}</p>
+		<p>
+			<strong>Date de création:</strong>
+			{{ product.getCreatedAt ? product.getCreatedAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
+		<p>
+			<strong>Date de mise à jour:</strong>
+			{{ product.getUpdatedAt ? product.getUpdatedAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
+		<a href="{{ path('product') }}" class="btn btn-primary">Retour à la liste des produits</a>
+	</div>
 {% endblock %}
