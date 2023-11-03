@@ -25,3 +25,5 @@ class SecurityController extends AbstractController
         // La logique de déconnexion sera gérée automatiquement par Symfony
     }
 }
+
+
