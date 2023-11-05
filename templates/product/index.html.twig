@@ -1,28 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produits{% endblock %}
+{% block title %}Products
+{% endblock %}
 
 {% block body %}
-    <h1>Liste des produits</h1>
+	<h1>List of products</h1>
 
-    <div class="products">
-        {% for product in products %}
-            <div class="card">
-                <!-- Intégration de l'image par défaut -->
+	<div class="products">
+		{% for product in products %}
+			<div
+				class="card">
+				<!-- Intégration de l'image par défaut -->
 				<img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
 
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}</p>
-                    <div class="d-flex justify-content-between align-items-center">
+				<div class="card-body">
+					<h5 class="card-title">{{ product.name }}</h5>
+					<p class="card-text">{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}</p>
+					<div class="d-flex justify-content-between align-items-center">
 						<div class="btn-group">
-							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn">Voir</a>
-							<button type="button" class="btn">Ajouter au panier</button>
+							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn">Show</a>
+							<button type="button" class="btn">Add to cart</button>
 						</div>
-                        <small class="text-muted">{{ product.price }}€</small>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+						<small class="text-muted">{{ product.price }}€</small>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}

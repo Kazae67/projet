@@ -23,10 +23,10 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('role', ChoiceType::class, [
                 'choices' => [
-                    'Artisan' => 'artisan',
-                    'Client' => 'client',
+                    'Craftsman' => 'craftsman',
+                    'Customer' => 'customer',
                 ],
-                'label' => 'Rôle',
+                'label' => 'Role',
             ])
             // Ajout du champ pour l'entité Adress sous forme d'une collection
             ->add('addresses', CollectionType::class, [

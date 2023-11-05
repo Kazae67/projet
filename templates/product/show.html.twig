@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Détail du produit -
+	Product details -
 	{{ product.name }}
 {% endblock %}
 
@@ -14,17 +14,17 @@
 			<strong>Description:</strong>
 			{{ product.description }}</p>
 		<p>
-			<strong>Prix:</strong>
+			<strong>Price:</strong>
 			{{ product.price }}€</p>
 		<p>
-			<strong>Quantité en stock:</strong>
+			<strong>Quantity in stock:</strong>
 			{{ product.getStockQuantity }}</p>
 		<p>
-			<strong>Date de création:</strong>
+			<strong>Date of creation:</strong>
 			{{ product.getCreatedAt ? product.getCreatedAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
 		<p>
-			<strong>Date de mise à jour:</strong>
+			<strong>Update date:</strong>
 			{{ product.getUpdatedAt ? product.getUpdatedAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
-		<a href="{{ path('product') }}" class="btn btn-primary">Retour à la liste des produits</a>
+		<a href="{{ path('product') }}" class="btn btn-primary">Back to products list</a>
 	</div>
 {% endblock %}

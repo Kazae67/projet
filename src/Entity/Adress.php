@@ -64,6 +64,9 @@ class Adress
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
+    #[ORM\Column(type: "boolean")]
+    private $isDefault = false;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "addresses")]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
@@ -147,6 +150,17 @@ class Adress
     public function setUser(?User $user): self
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->isDefault;
+    }
+
+    public function setIsDefault(bool $isDefault): self
+    {
+        $this->isDefault = $isDefault;
         return $this;
     }
 }

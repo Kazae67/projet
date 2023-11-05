@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AdressFormType extends AbstractType
@@ -39,6 +40,10 @@ class AdressFormType extends AbstractType
                     'Billing' => 'billing',
                 ],
                 'label' => 'Address Type',
+            ])
+            ->add('isDefault', CheckboxType::class, [
+                'label' => 'Set as default address',
+                'required' => false,
             ]);
     }
 

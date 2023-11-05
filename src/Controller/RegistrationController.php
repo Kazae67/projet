@@ -29,6 +29,27 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Initialiser un tableau pour suivre l'adresse par défaut de chaque type
+            $defaultAddresses = [
+                'billing' => null,
+                'delivery' => null,
+            ];
+
+            // Parcourir chaque adresse soumise
+            foreach ($user->getAddresses() as $address) {
+                // Identifier le type de l'adresse
+                $type = $address->getType();
+
+                // Vérifier si l'adresse est marquée comme par défaut et si un type est déjà défini
+                if ($address->getIsDefault() && isset($defaultAddresses[$type])) {
+                    // Si une adresse par défaut pour ce type est déjà définie, désactiver l'option
+                    $address->setIsDefault(false);
+                } elseif ($address->getIsDefault()) {
+                    // Sinon, définir cette adresse comme par défaut pour le type
+                    $defaultAddresses[$type] = $address;
+                }
+            }
+
             // Persister seulement l'utilisateur. Les adresses seront persistées en cascade
             $entityManager->persist($user);
             $entityManager->flush();

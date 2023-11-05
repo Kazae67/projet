@@ -1,35 +1,36 @@
-{# templates/profile/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Profil
+{% block title %}My Profile
 {% endblock %}
 
 {% block body %}
-	<h1>Mon Profil</h1>
+	<h1>My Profile</h1>
 
-	<h2>Informations personnelles</h2>
+	<h2>Personal information</h2>
 	<ul>
-		<li>Nom d'utilisateur:
+		<li>User name:
 			{{ user.username }}</li>
 		<li>Email:
 			{{ user.email }}</li>
 	</ul>
 
-	<h2>Adresses</h2>
+	<h2>Addresses</h2>
 	{% for address in user.addresses %}
+		{% if address.isDefault %}
+			<p>This is your default address:</p>
+		{% endif %}
 		<ul>
 			<li>
 				{{ address.type }}
 				{{ address.street }},
 				{{ address.city }},
 				{{ address.postalCode }},
-				{{ address.country }}
+				{{ address.country }},
 				{{ address.state }}
 			</li>
 		</ul>
 	{% endfor %}
 
-	{# je dois pas oublier d'ajouter de quoi éditer ici #}
+	{# Ici, vous pouvez ajouter des options pour éditer les informations #}
 
 {% endblock %}

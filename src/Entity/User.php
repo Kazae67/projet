@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     /**
-     * @Assert\Choice({"artisan", "client"})
+     * @Assert\Choice({"craftsman", "customer"})
      */
     private ?string $role = null;
 
@@ -367,6 +367,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->updated_at = new \DateTimeImmutable();
     }
-
+    public function setDefaultAddress(Adress $defaultAdress): void
+    {
+        foreach ($this->addresses as $adress) {
+            $adress->setIsDefault(false);
+        }
+        $defaultAdress->setIsDefault(true);
+        $this->addAddress($defaultAdress);
+    }
 
 }
