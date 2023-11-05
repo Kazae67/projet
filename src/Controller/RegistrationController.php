@@ -9,9 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
 
 class RegistrationController extends AbstractController
 {
@@ -23,6 +21,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Hash le mot de passe de l'utilisateur
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -30,11 +29,11 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Persister seulement l'utilisateur. Les adresses seront persistées en cascade
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
-
+            // Redirect sur login après l'enregistrement
             return $this->redirectToRoute('app_login');
         }
 

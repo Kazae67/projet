@@ -1,17 +1,30 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Register
-{% endblock %}
-
 {% block body %}
 	<h1>Register</h1>
 
 	{{ form_start(registrationForm) }}
+	{{ form_row(registrationForm.username) }}
 	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+	{{ form_row(registrationForm.plainPassword, { label: 'Password' }) }}
+	{{ form_row(registrationForm.role) }}
+
+	<h2>Addresses</h2>
+	<div id="addresses-fields-list" data-prototype="{{ form_widget(registrationForm.addresses.vars.prototype)|e('html_attr') }}" data-index="{{ registrationForm.addresses|length }}">
+		{% for addressForm in registrationForm.addresses %}
+			<div class="address-item">
+				{{ form_row(addressForm.street) }}
+				{{ form_row(addressForm.city) }}
+				{{ form_row(addressForm.postal_code) }}
+				{{ form_row(addressForm.country) }}
+				{{ form_row(addressForm.state) }}
+				{{ form_row(addressForm.type) }}
+			</div>
+		{% endfor %}
+	</div>
 
 	<button type="submit">Register</button>
 	{{ form_end(registrationForm) }}
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('js/form.js') }}"></script>
 {% endblock %}

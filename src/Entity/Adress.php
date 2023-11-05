@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdressRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: AdressRepository::class)]
 class Adress

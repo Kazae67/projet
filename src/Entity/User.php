@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Entity\Adress;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -63,7 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Wishlist::class)]
     private Collection $wishlists;
 
-    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: "user")]
+    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: "user", cascade: ['persist', 'remove'])]
     private Collection $addresses;
 
     /**
@@ -313,8 +314,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function addAddress(Adress $address): self
     {
         if (!$this->addresses->contains($address)) {
-            $this->addresses->add($address);
-            $address->setUser($this);
+            $this->addresses[] = $address;
+            $address->setUser($this); // Ceci est important pour relier correctement l'adresse à l'utilisateur.
         }
 
         return $this;
@@ -323,7 +324,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeAddress(Adress $address): self
     {
         if ($this->addresses->removeElement($address)) {
-            // set the owning side to null (unless already changed)
             if ($address->getUser() === $this) {
                 $address->setUser(null);
             }
