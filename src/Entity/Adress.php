@@ -52,7 +52,7 @@ class Adress
      * )
      */
     #[ORM\Column(length: 10)]
-    private ?string $postal_code = null;
+    private ?string $postalCode = null;
 
     /**
      * @Assert\NotBlank(message="Country cannot be empty.")
@@ -119,12 +119,12 @@ class Adress
 
     public function getPostalCode(): ?string
     {
-        return $this->postal_code;
+        return $this->postalCode;
     }
 
-    public function setPostalCode(string $postal_code): self
+    public function setPostalCode(string $postalCode): self
     {
-        $this->postal_code = $postal_code;
+        $this->postalCode = $postalCode;
         return $this;
     }
 
