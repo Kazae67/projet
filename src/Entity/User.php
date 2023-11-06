@@ -315,7 +315,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->addresses->contains($address)) {
             $this->addresses[] = $address;
-            $address->setUser($this); // Ceci est important pour relier correctement l'adresse à l'utilisateur.
+            $address->setUser($this); // relie l'adresse à l'utilisateur
         }
 
         return $this;
@@ -367,13 +367,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->updated_at = new \DateTimeImmutable();
     }
-    public function setDefaultAddress(Adress $defaultAdress): void
+    public function setDefaultBillingAddress(Adress $defaultBillingAddress): void
     {
-        foreach ($this->addresses as $adress) {
-            $adress->setIsDefault(false);
+        foreach ($this->addresses as $address) {
+            if ($address->getType() === 'billing') {
+                $address->setIsDefaultBilling(false);
+            }
         }
-        $defaultAdress->setIsDefault(true);
-        $this->addAddress($defaultAdress);
+        $defaultBillingAddress->setIsDefaultBilling(true);
+        $this->addAddress($defaultBillingAddress);
     }
 
+    public function setDefaultShippingAddress(Adress $defaultShippingAddress): void
+    {
+        foreach ($this->addresses as $address) {
+            if ($address->getType() === 'delivery') {
+                $address->setIsDefaultDelivery(false);
+            }
+        }
+        $defaultShippingAddress->setIsDefaultDelivery(true);
+        // La méthode addAddress devrait ajouter l'adresse à la collection, si ce n'est pas déjà fait
+        $this->addAddress($defaultShippingAddress);
+    }
 }

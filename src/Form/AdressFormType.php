@@ -10,7 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AdressFormType extends AbstractType
 {
@@ -27,12 +26,12 @@ class AdressFormType extends AbstractType
                 'label' => 'State/Province',
                 'required' => false,
             ])
-            ->add('postal_code', TextType::class, [
+            ->add('postalCode', TextType::class, [
                 'label' => 'Postal Code',
             ])
             ->add('country', CountryType::class, [
                 'label' => 'Country',
-                'preferred_choices' => ['US', 'GB'],
+                'preferred_choices' => ['FR', 'GB', 'DE'],
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
@@ -40,10 +39,19 @@ class AdressFormType extends AbstractType
                     'Billing' => 'billing',
                 ],
                 'label' => 'Address Type',
+                'attr' => ['class' => 'address-type-select'],
             ])
-            ->add('isDefault', CheckboxType::class, [
-                'label' => 'Set as default address',
+            ->add('isDefaultBilling', CheckboxType::class, [
+                'mapped' => true,
                 'required' => false,
+                'label' => 'Use as my default billing address',
+                'attr' => ['class' => 'default-billing-checkbox'],
+            ])
+            ->add('isDefaultDelivery', CheckboxType::class, [
+                'mapped' => true,
+                'required' => false,
+                'label' => 'Use as my default delivery address',
+                'attr' => ['class' => 'default-delivery-checkbox'],
             ]);
     }
 

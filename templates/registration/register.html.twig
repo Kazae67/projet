@@ -22,6 +22,8 @@
 				{{ form_row(addressForm.country) }}
 				{{ form_row(addressForm.state) }}
 				{{ form_row(addressForm.type) }}
+				{{ form_row(addressForm.isDefaultBilling, { 'attr': {'class': 'default-billing'} }) }}
+				{{ form_row(addressForm.isDefaultDelivery, { 'attr': {'class': 'default-delivery'} }) }}
 			</div>
 		{% endfor %}
 	</div>

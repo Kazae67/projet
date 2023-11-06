@@ -1,3 +1,4 @@
+{# profile/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}My Profile
@@ -16,21 +17,26 @@
 
 	<h2>Addresses</h2>
 	{% for address in user.addresses %}
-		{% if address.isDefault %}
-			<p>This is your default address:</p>
-		{% endif %}
 		<ul>
 			<li>
-				{{ address.type }}
+				{{ address.type }}:
 				{{ address.street }},
 				{{ address.city }},
 				{{ address.postalCode }},
-				{{ address.country }},
-				{{ address.state }}
+				{{ address.country }}
+				{% if address.state %},
+					{{ address.state }}
+				{% endif %}
+				{% if address.isDefaultBilling %}
+					(Default Billing Address)
+				{% endif %}
+				{% if address.isDefaultDelivery %}
+					(Default Delivery Address)
+				{% endif %}
 			</li>
 		</ul>
 	{% endfor %}
 
-	{# Ici, vous pouvez ajouter des options pour éditer les informations #}
+	{# je dois pas oublier de mettre les options pour éditer à l'avenir #}
 
 {% endblock %}

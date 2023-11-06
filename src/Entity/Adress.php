@@ -65,7 +65,9 @@ class Adress
     private ?string $country = null;
 
     #[ORM\Column(type: "boolean")]
-    private $isDefault = false;
+    private $isDefaultBilling = false;
+    #[ORM\Column(type: "boolean")]
+    private $isDefaultDelivery = false;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "addresses")]
     #[ORM\JoinColumn(nullable: true)]
@@ -152,15 +154,26 @@ class Adress
         $this->user = $user;
         return $this;
     }
-
-    public function isDefault(): bool
+    public function getIsDefaultBilling(): bool
     {
-        return $this->isDefault;
+        return $this->isDefaultBilling;
     }
 
-    public function setIsDefault(bool $isDefault): self
+    public function setIsDefaultBilling(bool $isDefaultBilling): self
     {
-        $this->isDefault = $isDefault;
+        $this->isDefaultBilling = $isDefaultBilling;
         return $this;
     }
+
+    public function getIsDefaultDelivery(): bool
+    {
+        return $this->isDefaultDelivery;
+    }
+
+    public function setIsDefaultDelivery(bool $isDefaultDelivery): self
+    {
+        $this->isDefaultDelivery = $isDefaultDelivery;
+        return $this;
+    }
+
 }

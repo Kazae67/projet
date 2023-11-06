@@ -22,7 +22,7 @@ class SecurityController extends AbstractController
     #[Route('/logout', name: 'app_logout')]
     public function logout()
     {
-        // La logique de déconnexion sera gérée automatiquement par Symfony
+        // La logique de déconnexion sera gérée automatiquement par Symfony donc je laisse vide
     }
 }
 
