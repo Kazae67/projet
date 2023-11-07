@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class OrderController extends AbstractController
 {
@@ -21,7 +22,14 @@ class OrderController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user) {
-            throw $this->createNotFoundException('User not found or not logged in.');
+            $this->addFlash('error', 'You must be logged in to confirm an order.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        // S'assurer que l'utilisateur a l'un des deux rôles nécessaires pour confirmer une commande
+        if (!in_array('ROLE_CUSTOMER', $user->getRoles()) && !in_array('ROLE_CRAFTSMAN', $user->getRoles())) {
+            $this->addFlash('error', 'Only customers and craftsmen can confirm orders.');
+            return $this->redirectToRoute('product_index');
         }
 
         $cart = $cartService->getFullCart();

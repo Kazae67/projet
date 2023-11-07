@@ -345,9 +345,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        // transforme le $role en tableau
-        // l'interface UserInterface.
-        return [$this->role];
+        // Garantir que chaque utilisateur a au moins le rôle ROLE_USER
+        $roles = ['ROLE_USER'];
+
+        // Ajoutez votre rôle dynamique ici
+        if ($this->role === 'customer') {
+            $roles[] = 'ROLE_CUSTOMER';
+        } elseif ($this->role === 'craftsman') {
+            $roles[] = 'ROLE_CRAFTSMAN';
+        }
+
+        return array_unique($roles);
     }
 
     public function getUserIdentifier(): string

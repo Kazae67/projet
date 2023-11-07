@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
-use App\Repository\ProductRepository;
 use App\Entity\Product;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\ProductType;
+use App\Repository\ProductRepository;
+use App\Service\CartService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\CartService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ProductController extends AbstractController
 {
@@ -54,6 +58,28 @@ class ProductController extends AbstractController
         return $this->render('cart/index.html.twig', [
             'items' => $cart,
             'total' => $total,
+        ]);
+    }
+
+    #[IsGranted('ROLE_CRAFTSMAN')]
+    #[Route('/product/add', name: 'product_add')]
+    public function addProduct(Request $request, EntityManagerInterface $em): Response
+    {
+        $product = new Product();
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product->setUser($this->getUser());
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('success', 'Product successfully added.');
+            return $this->redirectToRoute('product_index');
+        }
+
+        return $this->render('product/add.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
