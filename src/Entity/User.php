@@ -77,6 +77,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      */
     private $plainPassword;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Cart::class, orphanRemoval: true)]
+    private Collection $cart;
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -84,6 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reviews = new ArrayCollection();
         $this->wishlists = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+        $this->cart = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -388,5 +392,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $defaultShippingAddress->setIsDefaultDelivery(true);
         // La méthode addAddress devrait ajouter l'adresse à la collection, si ce n'est pas déjà fait
         $this->addAddress($defaultShippingAddress);
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCart(): Collection
+    {
+        return $this->cart;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->cart->contains($cart)) {
+            $this->cart->add($cart);
+            $cart->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->cart->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getUser() === $this) {
+                $cart->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
