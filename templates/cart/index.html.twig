@@ -5,17 +5,35 @@
 
 {% block body %}
 	<h1>Shopping Cart</h1>
-	{% for item in items %}
-		<div>
-			{{ item.product.name }}
-			- Quantity:
-			{{ item.quantity }}
-			- Unit Price:
-			{{ item.product.price }}€
-						- Subtotal:
-			{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€
-		</div>
+
+	{# Afficher les messages flash #}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">{{ message }}</div>
 	{% endfor %}
-	<div>Total:
-		{{ total }}€</div>
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">{{ message }}</div>
+	{% endfor %}
+
+	{% if items %}
+		{% for item in items %}
+			<div>
+				{{ item.product.name }}
+				- Quantity:
+				{{ item.quantity }}
+				- Price per unit:
+				{{ item.product.price }}€
+				                - Subtotal:
+				{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€
+			</div>
+		{% endfor %}
+		<div>Total:
+			{{ total }}€</div>
+
+		{# Bouton pour confirmer la commande #}
+		<form action="{{ path('order_confirm') }}" method="post">
+			<button type="submit" class="btn btn-primary">Confirm Order</button>
+		</form>
+	{% else %}
+		<p>Your basket is empty.</p>
+	{% endif %}
 {% endblock %}

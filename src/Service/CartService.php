@@ -18,26 +18,21 @@ class CartService
 
     public function add(int $productId)
     {
-        // Récupération du panier dans la session
         $cart = $this->session->get('cart', []);
 
-        // incrémenter le produit dans le panier
         if (!empty($cart[$productId])) {
             $cart[$productId]++;
         } else {
             $cart[$productId] = 1;
         }
 
-        // Sauvegarde du panier dans la session
         $this->session->set('cart', $cart);
     }
 
     public function remove(int $productId)
     {
-        // Récupération du panier dans la session
         $cart = $this->session->get('cart', []);
 
-        // Supprimer le produit du panier
         if (!empty($cart[$productId])) {
             if ($cart[$productId] > 1) {
                 $cart[$productId]--;
@@ -46,24 +41,19 @@ class CartService
             }
         }
 
-        // Sauvegarde du panier dans la session
         $this->session->set('cart', $cart);
     }
 
     public function getFullCart(): array
     {
-        // Initialise un tableau pour le panier complet
         $fullCart = [];
-
-        // Récupère le panier de la session
         $cart = $this->session->get('cart', []);
 
-        // Pour chaque produit dans le panier, récupère les détails du produit
         foreach ($cart as $id => $quantity) {
-            $productDetails = $this->getProductDetails($id);
-            if ($productDetails) {
+            $product = $this->getProductDetails($id);
+            if ($product) {
                 $fullCart[] = [
-                    'product' => $productDetails,
+                    'product' => $product,
                     'quantity' => $quantity
                 ];
             }
@@ -84,6 +74,11 @@ class CartService
         }
 
         return $total;
+    }
+
+    public function emptyCart()
+    {
+        $this->session->set('cart', []);
     }
 
     private function getProductDetails(int $productId)
