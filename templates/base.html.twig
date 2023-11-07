@@ -19,6 +19,7 @@
 		<div class="navbar">
 			<a href="{{ path('home') }}">Home</a>
 			<a href="{{ path('product') }}">Products</a>
+			<a href="{{ path('cart_index') }}">Cart</a>
 			{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
 				<a href="{{ path('app_register') }}">Register</a>
 				<a href="{{ path('app_login') }}">Login</a>

@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\ProductRepository;
-use App\Entity\Product; // Assurez-vous d'importer l'entité Product
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\CartService;
 
 class ProductController extends AbstractController
 {
@@ -27,11 +28,32 @@ class ProductController extends AbstractController
         $product = $productRepository->find($id);
 
         if (!$product) {
-            throw $this->createNotFoundException('Le produit demandé n\'existe pas.');
+            throw $this->createNotFoundException('The requested product does not exist.');
         }
 
         return $this->render('product/show.html.twig', [
             'product' => $product,
+        ]);
+    }
+
+    #[Route('/add-to-cart/{id}', name: 'add_to_cart')]
+    public function addToCart(int $id, CartService $cartService): Response
+    {
+        $cartService->add($id);
+
+        // Rediriger vers la page du panier
+        return $this->redirectToRoute('cart_index');
+    }
+
+    #[Route('/cart', name: 'cart_index')]
+    public function cartIndex(CartService $cartService): Response
+    {
+        $cart = $cartService->getFullCart();
+        $total = $cartService->getTotal();
+
+        return $this->render('cart/index.html.twig', [
+            'items' => $cart,
+            'total' => $total,
         ]);
     }
 }

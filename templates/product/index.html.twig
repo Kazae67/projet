@@ -18,8 +18,8 @@
 					<p class="card-text">{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}</p>
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="btn-group">
-							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn">Show</a>
-							<button type="button" class="btn">Add to cart</button>
+							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-primary">Show</a>
+							<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-secondary">Add to cart</a>
 						</div>
 						<small class="text-muted">{{ product.price }}€</small>
 					</div>

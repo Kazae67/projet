@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cart
+{% endblock %}
+
+{% block body %}
+	<h1>Shopping Cart</h1>
+	{% for item in items %}
+		<div>
+			{{ item.product.name }}
+			- Quantity:
+			{{ item.quantity }}
+			- Unit Price:
+			{{ item.product.price }}€
+						- Subtotal:
+			{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€
+		</div>
+	{% endfor %}
+	<div>Total:
+		{{ total }}€</div>
+{% endblock %}

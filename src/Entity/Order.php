@@ -172,4 +172,3 @@ class Order
         return $this;
     }
 }
-
