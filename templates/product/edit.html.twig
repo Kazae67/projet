@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Product
+{% endblock %}
+
+{% block body %}
+	<h1>Edit Product</h1>
+
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	<button class="btn btn-primary">Update Product</button>
+	{{ form_end(form) }}
+
+	<a href="{{ path('product') }}">Back to list</a>
+{% endblock %}

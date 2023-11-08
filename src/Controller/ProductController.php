@@ -25,7 +25,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    // Nouvelle action pour afficher un produit en détail
+    // action pour afficher un produit en détail
     #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]
     public function show(int $id, ProductRepository $productRepository): Response
     {
@@ -97,6 +97,25 @@ class ProductController extends AbstractController
 
         return $this->render('product/myProducts.html.twig', [
             'products' => $products
+        ]);
+    }
+
+    #[IsGranted('ROLE_CRAFTSMAN')]
+    #[Route('/product/edit/{id}', name: 'product_edit')]
+    public function editProduct(Request $request, EntityManagerInterface $em, Product $product): Response
+    {
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Product successfully updated.');
+
+            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+        }
+
+        return $this->render('product/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
