@@ -82,4 +82,21 @@ class ProductController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[IsGranted('ROLE_CRAFTSMAN')]
+    #[Route('/my-products', name: 'my_products')]
+    public function myProducts(ProductRepository $productRepository): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found or not logged in.');
+        }
+
+        $products = $productRepository->findByUser($user);
+
+        return $this->render('product/myProducts.html.twig', [
+            'products' => $products
+        ]);
+    }
 }
