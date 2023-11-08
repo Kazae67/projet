@@ -26,7 +26,7 @@ class ProductController extends AbstractController
     }
 
     // Nouvelle action pour afficher un produit en détail
-    #[Route('/product/{id}', name: 'product_show')]
+    #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]
     public function show(int $id, ProductRepository $productRepository): Response
     {
         $product = $productRepository->find($id);
@@ -75,7 +75,7 @@ class ProductController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Product successfully added.');
-            return $this->redirectToRoute('product_index');
+            return $this->redirectToRoute('product');
         }
 
         return $this->render('product/add.html.twig', [

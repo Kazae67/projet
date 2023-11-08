@@ -6,6 +6,11 @@
 {% block body %}
 	<h1>List of products</h1>
 
+	<!-- Lien pour ajouter un produit visible uniquement par les craftsmen -->
+	{% if is_granted('ROLE_CRAFTSMAN') %}
+		<a href="{{ path('product_add') }}" class="btn btn-success">Add New Product</a>
+	{% endif %}
+
 	<div class="products">
 		{% for product in products %}
 			<div
