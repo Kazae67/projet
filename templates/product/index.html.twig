@@ -6,7 +6,7 @@
 {% block body %}
 	<h1>List of products</h1>
 
-	<!-- Lien pour ajouter un produit visible uniquement par les craftsmen -->
+	<!-- Lien pour ajouter un produit visible uniquement par les artisans -->
 	{% if is_granted('ROLE_CRAFTSMAN') %}
 		<a href="{{ path('product_add') }}" class="btn btn-success">Add New Product</a>
 	{% endif %}
@@ -24,7 +24,9 @@
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="btn-group">
 							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-primary">Show</a>
-							<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-secondary">Add to cart</a>
+							{% if product.user != app.user %}
+								<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-secondary">Add to cart</a>
+							{% endif %}
 						</div>
 						<small class="text-muted">{{ product.price }}€</small>
 					</div>
