@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\DTO\ChangePasswordModel;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProfileController extends AbstractController
 {
@@ -17,6 +19,10 @@ class ProfileController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser(); // Récupère l'utilisateur actuellement connecté
+        if (!$user instanceof User) {
+            throw new AccessDeniedException('You must be logged in.');
+        }
+
         return $this->render('profile/index.html.twig', [
             'user' => $user,
         ]);
@@ -26,7 +32,7 @@ class ProfileController extends AbstractController
     public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser(); // S'assurer que l'utilisateur est connecté
-        if (!$user) {
+        if (!$user instanceof User) {
             return $this->redirectToRoute('app_login');
         }
 
