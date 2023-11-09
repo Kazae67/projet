@@ -29,7 +29,11 @@ class CartService
             throw new \Exception('Product not found.');
         }
 
-        // Vérifier si l'utilisateur actuel est le propriétaire du produit
+        if (!$this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            throw new \Exception('You must be logged in to add products to the cart.');
+        }
+
+        // Vérifie si l'utilisateur actuel est le propriétaire du produit
         if ($product->getUser() === $this->tokenStorage->getToken()->getUser()) {
             throw new \Exception('You cannot add your own product to the cart.');
         }

@@ -44,12 +44,15 @@ class ProductController extends AbstractController
     #[Route('/add-to-cart/{id}', name: 'add_to_cart')]
     public function addToCart(int $id, CartService $cartService): Response
     {
-        $cartService->add($id);
-
-        // Rediriger vers la page du panier
-        return $this->redirectToRoute('cart_index');
+        try {
+            $cartService->add($id);
+            $this->addFlash('success', 'Product added to cart.');
+            return $this->redirectToRoute('cart_index');
+        } catch (\Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_login');
+        }
     }
-
     #[Route('/cart', name: 'cart_index')]
     public function cartIndex(CartService $cartService): Response
     {
