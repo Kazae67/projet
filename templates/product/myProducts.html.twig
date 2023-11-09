@@ -1,4 +1,3 @@
-{# templates/product/myProducts.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}My Products
@@ -17,6 +16,10 @@
 						<div class="btn-group">
 							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-primary">View</a>
 							<a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-secondary">Edit</a>
+							<form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this product?');">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+								<button type="submit" class="btn btn-danger">Delete</button>
+							</form>
 						</div>
 						<small class="text-muted">{{ product.price }}€</small>
 					</div>

@@ -119,4 +119,17 @@ class ProductController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[IsGranted('ROLE_CRAFTSMAN')]
+    #[Route('/product/delete/{id}', name: 'product_delete', methods: ['POST'])]
+    public function deleteProduct(Request $request, EntityManagerInterface $em, Product $product): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+            $em->remove($product);
+            $em->flush();
+            $this->addFlash('success', 'Product successfully deleted.');
+        }
+
+        return $this->redirectToRoute('my_products');
+    }
 }
