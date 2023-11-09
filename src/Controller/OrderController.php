@@ -44,7 +44,7 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $order = new Order();
             $order->setUser($user);
-            $order->setStatus('pending');
+            $order->setStatus('pending'); // La commande commence par le statut 'pending'
 
             $total = 0;
             foreach ($cart as $item) {

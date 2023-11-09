@@ -24,5 +24,7 @@ services:
     App\Service\CartService:
         arguments:
             $session: '@=service("session.factory").createSession()'
+            $tokenStorage: '@security.token_storage'
+            $authorizationChecker: '@security.authorization_checker'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

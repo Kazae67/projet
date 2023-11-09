@@ -4,20 +4,36 @@ namespace App\Service;
 
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class CartService
 {
     private $session;
     private $productRepository;
+    private $tokenStorage;
+    private $authorizationChecker;
 
-    public function __construct(SessionInterface $session, ProductRepository $productRepository)
+    public function __construct(SessionInterface $session, ProductRepository $productRepository, TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->session = $session;
         $this->productRepository = $productRepository;
+        $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
     }
-
     public function add(int $productId)
     {
+        $product = $this->productRepository->find($productId);
+
+        if (!$product) {
+            throw new \Exception('Product not found.');
+        }
+
+        // Vérifier si l'utilisateur actuel est le propriétaire du produit
+        if ($product->getUser() === $this->tokenStorage->getToken()->getUser()) {
+            throw new \Exception('You cannot add your own product to the cart.');
+        }
+
         $cart = $this->session->get('cart', []);
 
         if (!empty($cart[$productId])) {
