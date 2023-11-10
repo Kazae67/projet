@@ -1,7 +1,5 @@
 <?php
 
-// src/Controller/OrderController.php
-
 namespace App\Controller;
 
 use App\Form\OrderConfirmationFormType;
