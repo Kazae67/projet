@@ -1,41 +1,68 @@
 <?php
+
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Order;
-use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 
-class paymentController extends AbstractController{
-    private EntityManagerInterface $em;
+class PaymentController extends AbstractController
+{
+  private $stripeSecretKey;
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
+  public function __construct(string $stripeSecretKey)
+  {
+    $this->stripeSecretKey = $stripeSecretKey;
+  }
+
+  #[Route('/payment', name: 'payment')]
+  public function index(): Response
+  {
+    return $this->render('payment/index.html.twig', [
+      'stripe_public_key' => $this->getParameter('stripe.public_key')
+    ]);
+  }
+
+  #[Route('/payment/charge', name: 'payment_charge', methods: ['POST'])]
+  public function charge(Request $request): Response
+  {
+    Stripe::setApiKey($this->stripeSecretKey);
+
+    $token = $request->request->get('stripeToken');
+    $amount = 1000; // En centime 1000 = 10€
+
+    try {
+      $charge = \Stripe\Charge::create([
+        'amount' => $amount,
+        'currency' => 'eur',
+        'description' => 'Example charge',
+        'source' => $token,
+      ]);
+
+      // Traiter le succès du paiement, enregistrer le paiement, etc.
+      // $charge contiendra la réponse de l'API Stripe
+
+      return $this->redirectToRoute('payment_success');
+    } catch (\Exception $e) {
+      // Échoué
+      return $this->redirectToRoute('payment_failed');
     }
+  }
 
-    #[Route('/order/creaate-session-stripe', name: 'payment_stripe')]
-    public function stripeCheckout(): RedirectResponse
-    {
-        $order = $this->em->getRepository(Order::class)->findOneBy($item)
-        Stripe::setApiKey('sk_test_51OAZApEONNRmxI8s8QGk9wxatBTors1YM35uGSYHVnCvOIZ6tb7GjuINQKRR4tmWJXOUGOe65qBK4pHdKeGjGPex00Yx7uEAIH');
-        
-        $checkout_session = \Stripe\Checkout\Session::create([
-          'line_items' => [[
-            # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-            'price' => '{{PRICE_ID}}',
-            'quantity' => 1,
-          ]],
-          'mode' => 'payment',
-          'success_url' => $YOUR_DOMAIN . '/success.html',
-          'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
-        ]);
+  #[Route('/payment/success', name: 'payment_success')]
+  public function paymentSuccess(): Response
+  {
+    // j'devrais ajouter le traitement à la bdd
+    return $this->render('payment/success.html.twig');
+  }
 
-
-        $checkout_session = \Stripe\Checkout\Session::create([
-
-    }
+  #[Route('/payment/failed', name: 'payment_failed')]
+  public function paymentFailed(): Response
+  {
+    return $this->render('payment/failed.html.twig');
+  }
 }
