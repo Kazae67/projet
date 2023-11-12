@@ -15,8 +15,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class OrderController extends AbstractController
 {
-    #[Route('/order/confirm', name: 'order_confirm')]
-    public function confirmOrder(Request $request, CartService $cartService, EntityManagerInterface $em): Response
+    #[Route('/order/prepare', name: 'order_prepare')]
+    public function prepareOrder(Request $request, CartService $cartService, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -24,7 +24,6 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // S'assurer que l'utilisateur a l'un des deux rôles nécessaires pour confirmer une commande
         if (!in_array('ROLE_CUSTOMER', $user->getRoles()) && !in_array('ROLE_CRAFTSMAN', $user->getRoles())) {
             $this->addFlash('error', 'Only customers and craftsmen can confirm orders.');
             return $this->redirectToRoute('product_index');
@@ -42,7 +41,7 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $order = new Order();
             $order->setUser($user);
-            $order->setStatus('pending'); // La commande commence par le statut 'pending'
+            $order->setStatus('pending');
 
             $total = 0;
             foreach ($cart as $item) {
@@ -58,12 +57,12 @@ class OrderController extends AbstractController
 
             $order->setTotalPrice((string) $total);
             $em->persist($order);
-
-            $cartService->emptyCart();
             $em->flush();
 
-            $this->addFlash('success', 'Your order has been successfully confirmed.');
-            return $this->redirectToRoute('order_thank_you');
+            // Enregistre l'ID de la commande dans la session
+            $cartService->setOrderIdInSession($order->getId());
+
+            return $this->redirectToRoute('payment');
         }
 
         return $this->render('order/confirm.html.twig', [
@@ -71,6 +70,41 @@ class OrderController extends AbstractController
             'items' => $cart,
             'total' => $cartService->getTotal(),
         ]);
+    }
+    #[Route('/payment', name: 'payment')]
+    public function payment(Request $request, EntityManagerInterface $em): Response
+    {
+        $order_id = $request->query->get('order_id');
+        $order = $em->getRepository(Order::class)->find($order_id);
+        dump($order_id, $order); // Débogage
+
+        if (!$order) {
+            // Je dois pas oublier de gérer l'erreur, rediriger ou afficher un message d'erreur
+        }
+
+        return $this->render('payment/index.html.twig', [
+            'stripe_public_key' => $this->getParameter('stripe.public_key'),
+            'order' => $order
+        ]);
+    }
+
+    #[Route('/order/confirm/{order_id}', name: 'order_confirm')]
+    public function confirmOrder(int $order_id, EntityManagerInterface $em): Response
+    {
+        // Confirmer la commande 
+        $order = $em->getRepository(Order::class)->find($order_id);
+        if ($order) {
+            $order->setStatus('confirmed');
+            $em->flush();
+
+            // Ici, vider le panier
+
+            $this->addFlash('success', 'Your order has been successfully confirmed.');
+            return $this->redirectToRoute('order_thank_you');
+        } else {
+            $this->addFlash('error', 'Order not found.');
+            return $this->redirectToRoute('cart_index');
+        }
     }
 
     #[Route('/order/thank-you', name: 'order_thank_you')]

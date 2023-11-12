@@ -106,4 +106,8 @@ class CartService
         return $this->productRepository->find($productId);
     }
 
+    public function setOrderIdInSession($orderId)
+    {
+        $this->session->set('orderId', $orderId);
+    }
 }

@@ -22,7 +22,7 @@
 				{{ item.quantity }}
 				- Price per unit:
 				{{ item.product.price }}€
-								                - Subtotal:
+																								                - Subtotal:
 				{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€
 			</div>
 		{% endfor %}
@@ -30,7 +30,7 @@
 			{{ total }}€</div>
 
 		{# Bouton pour confirmer la commande #}
-		<form action="{{ path('order_confirm') }}" method="post">
+		<form action="{{ path('order_prepare') }}" method="post">
 			<button type="submit" class="btn btn-primary">Confirm Order</button>
 		</form>
 	{% else %}
