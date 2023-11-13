@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 
 class AdressFormType extends AbstractType
 {
@@ -40,19 +40,8 @@ class AdressFormType extends AbstractType
                 ],
                 'label' => 'Address Type',
                 'attr' => ['class' => 'address-type-select'],
-            ])
-            ->add('isDefaultBilling', CheckboxType::class, [
-                'mapped' => true,
-                'required' => false,
-                'label' => 'Use as my default billing address',
-                'attr' => ['class' => 'default-billing-checkbox'],
-            ])
-            ->add('isDefaultDelivery', CheckboxType::class, [
-                'mapped' => true,
-                'required' => false,
-                'label' => 'Use as my default delivery address',
-                'attr' => ['class' => 'default-delivery-checkbox'],
             ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

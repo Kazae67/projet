@@ -369,6 +369,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->created_at = new \DateTimeImmutable();
     }
 
+
+    public function getDefaultBillingAddress(): ?Adress
+    {
+        foreach ($this->addresses as $address) {
+            if ($address->getIsDefaultBilling()) {
+                return $address;
+            }
+        }
+
+        return null;
+    }
+
+    public function getDefaultDeliveryAddress(): ?Adress
+    {
+        foreach ($this->addresses as $address) {
+            if ($address->getIsDefaultDelivery()) {
+                return $address;
+            }
+        }
+
+        return null;
+    }
+
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function setUpdatedAtValue(): void

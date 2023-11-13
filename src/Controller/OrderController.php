@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Form\OrderConfirmationFormType;
+use App\Form\AdressFormType;
 use App\Service\CartService;
 use App\Entity\Order;
+use App\Entity\User;
 use App\Entity\OrderDetail;
+use App\Entity\Adress;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +22,7 @@ class OrderController extends AbstractController
     public function prepareOrder(Request $request, CartService $cartService, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->addFlash('error', 'You must be logged in to confirm an order.');
             return $this->redirectToRoute('app_login');
         }
@@ -35,10 +38,17 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('cart_index');
         }
 
-        $form = $this->createForm(OrderConfirmationFormType::class);
-        $form->handleRequest($request);
+        // Création du formulaire de commande
+        $orderForm = $this->createForm(OrderConfirmationFormType::class);
+        $orderForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // Création de l'objet Adresse et du formulaire correspondant
+        $address = new Adress();
+        $addressForm = $this->createForm(AdressFormType::class, $address);
+        $addressForm->handleRequest($request);
+
+        // Traitement du formulaire de commande
+        if ($orderForm->isSubmitted() && $orderForm->isValid()) {
             $order = new Order();
             $order->setUser($user);
             $order->setStatus('pending');
@@ -59,18 +69,67 @@ class OrderController extends AbstractController
             $em->persist($order);
             $em->flush();
 
-            // Enregistre l'ID de la commande dans la session
             $cartService->setOrderIdInSession($order->getId());
 
-            return $this->redirectToRoute('payment');
+            // Redirige vers la page de paiement si le formulaire d'adresse n'a pas été soumis
+            if (!$addressForm->isSubmitted()) {
+                return $this->redirectToRoute('payment');
+            }
+        }
+
+        // Traitement du formulaire d'adresse
+        if ($addressForm->isSubmitted() && $addressForm->isValid()) {
+            $this->handleAddressSubmission($address, $user, $em);
+            $this->addFlash('success', 'Address saved successfully.');
+
+            // Si jamais je veux le rediriger autre part
+
         }
 
         return $this->render('order/confirm.html.twig', [
-            'form' => $form->createView(),
+            'orderForm' => $orderForm->createView(),
+            'addressForm' => $addressForm->createView(),
+            'user' => $user,
             'items' => $cart,
             'total' => $cartService->getTotal(),
         ]);
     }
+    private function handleAddressSubmission(Adress $address, User $user, EntityManagerInterface $em): void
+    {
+        // Recherche de l'adresse existante du même type (billing ou delivery)
+        $existingAddress = $this->findExistingAddressOfType($user, $address->getType());
+
+        if ($existingAddress) {
+            // Mise à jour de l'adresse existante
+            $existingAddress->updateFromOther($address);
+            $em->persist($existingAddress);
+        } else {
+            // Création d'une nouvelle adresse
+            $address->setUser($user);
+            $em->persist($address);
+        }
+
+        // Mise à jour des adresses par défaut en fonction du type
+        if ($address->getType() === 'billing') {
+            $user->setDefaultBillingAddress($existingAddress ?: $address);
+        } elseif ($address->getType() === 'delivery') {
+            $user->setDefaultShippingAddress($existingAddress ?: $address);
+        }
+
+        $em->flush();
+    }
+
+    // Méthode auxiliaire pour trouver une adresse existante du même type
+    private function findExistingAddressOfType(User $user, string $type): ?Adress
+    {
+        foreach ($user->getAddresses() as $existingAddr) {
+            if ($existingAddr->getType() === $type) {
+                return $existingAddr;
+            }
+        }
+        return null;
+    }
+
     #[Route('/payment', name: 'payment')]
     public function payment(Request $request, EntityManagerInterface $em): Response
     {

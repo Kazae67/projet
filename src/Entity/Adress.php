@@ -176,4 +176,19 @@ class Adress
         return $this;
     }
 
+    /**
+     * Met à jour cette adresse avec les informations d'une autre adresse.
+     *
+     * @param Adress $other L'autre adresse à utiliser pour la mise à jour.
+     */
+    public function updateFromOther(Adress $other): void
+    {
+        // Mettez à jour les champs souhaités
+        $this->street = $other->getStreet();
+        $this->city = $other->getCity();
+        $this->postalCode = $other->getPostalCode();
+        $this->country = $other->getCountry();
+        $this->state = $other->getState();
+    }
+
 }

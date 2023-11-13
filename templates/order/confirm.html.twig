@@ -5,8 +5,45 @@
 
 {% block body %}
 	<h1>Order Confirmation</h1>
-	{{ form_start(form) }}
-	{{ form_end(form) }}
+
+	{# Formulaire pour la confirmation de la commande #}
+	{{ form_start(orderForm) }}
+	{{ form_end(orderForm) }}
+
+	{# Formulaire pour l'adresse de livraison #}
+	<h2>Delivery Address</h2>
+
+	{# Afficher les adresses par défaut si elles existent #}
+	{% if user.defaultBillingAddress %}
+		<div>
+			<input type="radio" id="billing_default" name="selected_address" value="billing_default" onchange="toggleAddressForm()">
+			Use my default billing address:
+			{{ user.defaultBillingAddress.street }}
+			...
+		</div>
+	{% endif %}
+	{% if user.defaultDeliveryAddress %}
+		<div>
+			<input type="radio" id="delivery_default" name="selected_address" value="delivery_default" onchange="toggleAddressForm()">
+			Use my default delivery address:
+			{{ user.defaultDeliveryAddress.street }}
+			...
+		</div>
+	{% endif %}
+
+	{# Bouton radio pour utiliser une nouvelle adresse #}
+	<div>
+		<input type="radio" id="new_address" name="selected_address" value="new_address" onchange="toggleAddressForm()">
+		<label for="new_address">Use a new address</label>
+	</div>
+
+	{# Formulaire d'adresse caché par défaut #}
+	<div id="new_address_form" style="display: none;">
+		{{ form_start(addressForm) }}
+		{{ form_widget(addressForm) }}
+		<button type="submit" class="btn btn-primary">Save Address</button>
+		{{ form_end(addressForm) }}
+	</div>
 
 	<h2>Basket Details</h2>
 	{% for item in items %}
@@ -20,4 +57,13 @@
 	{% endfor %}
 	<p>Order Total:
 		{{ total }}€</p>
+
+	{# Ne pas oublier de mettre ça dans mon js #}
+	<script>
+		function toggleAddressForm() {
+var newAddressRadio = document.getElementById('new_address');
+var formDiv = document.getElementById('new_address_form');
+formDiv.style.display = newAddressRadio.checked ? 'block' : 'none';
+}
+	</script>
 {% endblock %}
