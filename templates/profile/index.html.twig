@@ -6,7 +6,7 @@
 {% block body %}
 	<h1>My Profile</h1>
 
-	<h2>Personal information</h2>
+	<h2>Personal Information</h2>
 	<ul>
 		<li>User name:
 			{{ user.username }}</li>
@@ -15,26 +15,37 @@
 	</ul>
 
 	<h2>Addresses</h2>
-	{% for address in user.addresses %}
-		<ul>
-			<li>
-				{{ address.type }}:
-				{{ address.street }},
-				{{ address.city }},
-				{{ address.postalCode }},
-				{{ address.country }}
-				{% if address.state %},
-					{{ address.state }}
-				{% endif %}
-				{% if address.isDefaultBilling %}
-					(Default Billing Address)
-				{% endif %}
-				{% if address.isDefaultDelivery %}
-					(Default Delivery Address)
-				{% endif %}
-			</li>
-		</ul>
-	{% endfor %}
+	{% if user.addresses|length > 0 %}
+		{% for address in user.addresses %}
+			<div>
+				<ul>
+					<li>
+						{{ address.type }}:
+						{{ address.street }},
+						{{ address.city }},
+						{{ address.postalCode }},
+						{{ address.country }}
+						{% if address.state %},
+							{{ address.state }}
+						{% endif %}
+						{% if address.isDefaultBilling %}
+							(Default Billing Address)
+						{% endif %}
+						{% if address.isDefaultDelivery %}
+							(Default Delivery Address)
+						{% endif %}
+					</li>
+				</ul>
+				<button onclick="location.href='{{ path('edit_address', {'id': address.id}) }}'">Edit</button>
+				<form action="{{ path('delete_address', {'id': address.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this address?');">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ address.id) }}">
+					<button type="submit">Delete</button>
+				</form>
+			</div>
+		{% endfor %}
+	{% else %}
+		<p>You need to order to define a default address.</p>
+	{% endif %}
 
 	<a href="{{ path('app_profile_change_password') }}">Change my password</a>
 {% endblock %}
