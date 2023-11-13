@@ -75,11 +75,28 @@ class PaymentController extends AbstractController
       $payment->setCreatedAt(new \DateTimeImmutable());
 
       $em->persist($payment);
-      $em->flush();
 
       if ($charge->status === 'succeeded') {
         $order->setStatus('confirmed');
-        $em->persist($order);
+
+        foreach ($order->getOrderDetails() as $orderDetail) {
+          $product = $orderDetail->getProduct();
+          $currentStock = $product->getStockQuantity();
+          $quantityOrdered = $orderDetail->getQuantity();
+          $newStock = $currentStock - $quantityOrdered;
+
+          $product->setStockQuantity(max($newStock, 0));
+          $em->persist($product);
+
+          // Débogage: Afficher les valeurs
+          // dd([
+          //   'Product ID' => $product->getId(),
+          //   'Current Stock' => $currentStock,
+          //   'Quantity Ordered' => $quantityOrdered,
+          //   'New Stock' => $newStock
+          // ]);
+        }
+
         $em->flush();
         $cartService->emptyCart(); // Vide le panier après le paiement
       }

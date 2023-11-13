@@ -95,9 +95,30 @@ class OrderController extends AbstractController
         $order = $em->getRepository(Order::class)->find($order_id);
         if ($order) {
             $order->setStatus('confirmed');
+
+            // Parcours chaque détail de la commande pour mettre à jour le stock
+            foreach ($order->getOrderDetails() as $orderDetail) {
+                $product = $orderDetail->getProduct();
+                $currentStock = $product->getStockQuantity();
+                $quantityOrdered = $orderDetail->getQuantity();
+                $newStock = $currentStock - $quantityOrdered;
+
+                // Débogage: Afficher les valeurs
+                dd([
+                    'Product ID' => $product->getId(),
+                    'Current Stock' => $currentStock,
+                    'Quantity Ordered' => $quantityOrdered,
+                    'New Stock' => $newStock
+                ]);
+
+                // S'assurer que le stock ne devient pas négatif
+                $product->setStockQuantity(max($newStock, 0));
+                $em->persist($product);
+            }
+
             $em->flush();
 
-            // Ici, vider le panier
+            // Ici, vider le panier (peut-être à voir)
 
             $this->addFlash('success', 'Your order has been successfully confirmed.');
             return $this->redirectToRoute('order_thank_you');
