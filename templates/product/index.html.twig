@@ -26,6 +26,7 @@
 							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">Show</a>
 							{% if product.user != app.user %}
 								<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-add">Add to cart</a>
+								<a href="{{ path('wishlist_add', {'productId': product.id}) }}" class="btn btn-add">Add to Wishlist</a>
 							{% endif %}
 						</div>
 						<small class="text-muted">{{ product.price }}€</small>

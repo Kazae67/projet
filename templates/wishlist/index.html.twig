@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Wishlist
+{% endblock %}
+
+{% block body %}
+	<h1>My Wishlist</h1>
+	{% for item in wishlistItems %}
+		<div>
+			{{ item.product.name }}
+			-
+			{{ item.product.price }}€
+			<a href="{{ path('wishlist_remove', {'id' : item.id}) }}">Remove</a>
+			{{ item.product.name }}
+			<a href="{{ path('wishlist_move_to_cart', {'id': item.id}) }}">Move to Cart</a>
+		</div>
+	{% else %}
+		<p>Your wishlist is empty.</p>
+	{% endfor %}
+{% endblock %}
