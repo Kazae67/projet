@@ -20,6 +20,7 @@ class WishlistService
         $this->productRepository = $productRepository;
     }
 
+    // Méthode pour ajouter un produit à la liste de souhaits de l'utilisateur
     public function addProductToWishlist($productId, UserInterface $user)
     {
         $product = $this->productRepository->find($productId);
@@ -36,6 +37,7 @@ class WishlistService
         $this->entityManager->flush();
     }
 
+    // Méthode pour supprimer un produit de la liste de souhaits de l'utilisateur
     public function removeProductFromWishlist($wishlistId, UserInterface $user)
     {
         $wishlistItem = $this->wishlistRepository->find($wishlistId);
@@ -48,6 +50,7 @@ class WishlistService
         $this->entityManager->flush();
     }
 
+    // Méthode pour déplacer un produit de la liste de souhaits vers le panier
     public function moveToCart($wishlistId, CartService $cartService, UserInterface $user)
     {
         $wishlistItem = $this->wishlistRepository->find($wishlistId);

@@ -21,38 +21,43 @@ class OrderController extends AbstractController
     #[Route('/order/prepare', name: 'order_prepare')]
     public function prepareOrder(Request $request, CartService $cartService, EntityManagerInterface $em): Response
     {
+        // Vérifier si l'utilisateur est connecté
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->addFlash('error', 'You must be logged in to confirm an order.');
             return $this->redirectToRoute('app_login');
         }
 
+        // Vérifier le rôle de l'utilisateur (doit être un client ou un artisan)
         if (!in_array('ROLE_CUSTOMER', $user->getRoles()) && !in_array('ROLE_CRAFTSMAN', $user->getRoles())) {
             $this->addFlash('error', 'Only customers and craftsmen can confirm orders.');
             return $this->redirectToRoute('product_index');
         }
 
+        // Obtenir le contenu complet du panier
         $cart = $cartService->getFullCart();
         if (empty($cart)) {
             $this->addFlash('error', 'Your cart is empty.');
             return $this->redirectToRoute('cart_index');
         }
 
-        // Création du formulaire de commande
+        // Créer le formulaire de commande
         $orderForm = $this->createForm(OrderConfirmationFormType::class);
         $orderForm->handleRequest($request);
 
-        // Création de l'objet Adresse et du formulaire correspondant
+        // Créer l'objet Adresse et le formulaire correspondant
         $address = new Adress();
         $addressForm = $this->createForm(AdressFormType::class, $address);
         $addressForm->handleRequest($request);
 
         // Traitement du formulaire de commande
         if ($orderForm->isSubmitted() && $orderForm->isValid()) {
+            // Créer une nouvelle commande
             $order = new Order();
             $order->setUser($user);
             $order->setStatus('pending');
 
+            // Calculer le montant total de la commande
             $total = 0;
             foreach ($cart as $item) {
                 $orderDetail = new OrderDetail();
@@ -69,9 +74,10 @@ class OrderController extends AbstractController
             $em->persist($order);
             $em->flush();
 
+            // Stocker l'ID de la commande dans la session
             $cartService->setOrderIdInSession($order->getId());
 
-            // Redirige vers la page de paiement si le formulaire d'adresse n'a pas été soumis
+            // Rediriger vers la page de paiement si le formulaire d'adresse n'a pas été soumis
             if (!$addressForm->isSubmitted()) {
                 return $this->redirectToRoute('payment');
             }
@@ -81,11 +87,11 @@ class OrderController extends AbstractController
         if ($addressForm->isSubmitted() && $addressForm->isValid()) {
             $this->handleAddressSubmission($address, $user, $em);
             $this->addFlash('success', 'Address saved successfully.');
-
-            // Si jamais je veux le rediriger autre part
+            // Redirection éventuelle vers une autre page
 
         }
 
+        // Rendre la vue 'order/confirm.html.twig' avec les données nécessaires
         return $this->render('order/confirm.html.twig', [
             'orderForm' => $orderForm->createView(),
             'addressForm' => $addressForm->createView(),
@@ -94,9 +100,11 @@ class OrderController extends AbstractController
             'total' => $cartService->getTotal(),
         ]);
     }
+
+    // Méthode auxiliaire pour gérer la soumission d'adresse
     private function handleAddressSubmission(Adress $address, User $user, EntityManagerInterface $em): void
     {
-        // Recherche de l'adresse existante du même type (billing ou delivery)
+        // Recherche d'une adresse existante du même type (facturation ou livraison)
         $existingAddress = $this->findExistingAddressOfType($user, $address->getType());
 
         if ($existingAddress) {
@@ -133,14 +141,19 @@ class OrderController extends AbstractController
     #[Route('/payment', name: 'payment')]
     public function payment(Request $request, EntityManagerInterface $em): Response
     {
+        // Récupérer l'ID de la commande à partir de la requête
         $order_id = $request->query->get('order_id');
+        // Rechercher la commande correspondante dans la base de données
         $order = $em->getRepository(Order::class)->find($order_id);
-        dump($order_id, $order); // Débogage
+
+        // Débogage : Afficher les valeurs
+        dump($order_id, $order);
 
         if (!$order) {
-            // Je dois pas oublier de gérer l'erreur, rediriger ou afficher un message d'erreur
+            // Gérer l'erreur ici, par exemple, rediriger ou afficher un message d'erreur
         }
 
+        // Rendre la vue 'payment/index.html.twig' avec les données nécessaires
         return $this->render('payment/index.html.twig', [
             'stripe_public_key' => $this->getParameter('stripe.public_key'),
             'order' => $order
@@ -150,7 +163,7 @@ class OrderController extends AbstractController
     #[Route('/order/confirm/{order_id}', name: 'order_confirm')]
     public function confirmOrder(int $order_id, EntityManagerInterface $em): Response
     {
-        // Confirmer la commande 
+        // Confirmer la commande en mettant à jour son statut
         $order = $em->getRepository(Order::class)->find($order_id);
         if ($order) {
             $order->setStatus('confirmed');
@@ -177,7 +190,7 @@ class OrderController extends AbstractController
 
             $em->flush();
 
-            // Ici, vider le panier (peut-être à voir)
+            // Ici, tu pourrais vider le panier si nécessaire
 
             $this->addFlash('success', 'Your order has been successfully confirmed.');
             return $this->redirectToRoute('order_thank_you');

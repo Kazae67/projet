@@ -18,11 +18,13 @@ class ProfileController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function index(): Response
     {
-        $user = $this->getUser(); // Récupère l'utilisateur actuellement connecté
+        // Récupère l'utilisateur actuellement connecté
+        $user = $this->getUser();
         if (!$user instanceof User) {
             throw new AccessDeniedException('You must be logged in.');
         }
 
+        // Rendre la vue 'profile/index.html.twig' avec les données de l'utilisateur
         return $this->render('profile/index.html.twig', [
             'user' => $user,
         ]);
@@ -31,13 +33,17 @@ class ProfileController extends AbstractController
     #[Route('/profile/change-password', name: 'app_profile_change_password')]
     public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser(); // S'assurer que l'utilisateur est connecté
+        // S'assurer que l'utilisateur est connecté
+        $user = $this->getUser();
         if (!$user instanceof User) {
             return $this->redirectToRoute('app_login');
         }
 
-        $changePasswordModel = new ChangePasswordModel(); // Créer une instance du DTO
-        $form = $this->createForm(ChangePasswordFormType::class, $changePasswordModel); // Passer le DTO au formulaire
+        // Créer une instance du DTO (Data Transfer Object) pour gérer le changement de mot de passe
+        $changePasswordModel = new ChangePasswordModel();
+
+        // Créer un formulaire en utilisant le DTO pour la gestion du changement de mot de passe
+        $form = $this->createForm(ChangePasswordFormType::class, $changePasswordModel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,11 +58,12 @@ class ProfileController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // Rediriger vers la page de profil et afficher un message de succès
             $this->addFlash('success', 'Your password has been changed.');
-
             return $this->redirectToRoute('app_profile');
         }
 
+        // Rendre la vue 'profile/changePassword.html.twig' avec le formulaire de changement de mot de passe
         return $this->render('profile/changePassword.html.twig', [
             'changePasswordForm' => $form->createView(),
         ]);

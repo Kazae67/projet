@@ -27,13 +27,16 @@ class PaymentController extends AbstractController
   #[Route('/payment', name: 'payment')]
   public function index(Request $request): Response
   {
+    // Obtenir l'ID de la commande à partir de la session
     $orderId = $request->getSession()->get('orderId');
 
+    // Si l'ID de la commande n'est pas trouvé, rediriger vers le panier
     if (!$orderId) {
       $this->addFlash('error', 'Order ID not found.');
       return $this->redirectToRoute('cart_index');
     }
 
+    // Rendre la vue 'payment/index.html.twig' avec les données nécessaires
     return $this->render('payment/index.html.twig', [
       'stripe_public_key' => $this->getParameter('stripe.public_key'),
       'order_id' => $orderId
@@ -43,12 +46,17 @@ class PaymentController extends AbstractController
   #[Route('/payment/charge', name: 'payment_charge', methods: ['POST'])]
   public function charge(Request $request, EntityManagerInterface $em, CartService $cartService): Response
   {
+    // Définir la clé secrète Stripe
     Stripe::setApiKey($this->stripeSecretKey);
 
+    // Obtenir le jeton de carte de crédit à partir de la requête
     $token = $request->request->get('stripeToken');
-    $amount = 1000; // En centime 1000 = 10€
+
+    // Montant à payer en centimes (1000 = 10€)
+    $amount = 1000;
 
     try {
+      // Créer une charge Stripe
       $charge = \Stripe\Charge::create([
         'amount' => $amount,
         'currency' => 'eur',
@@ -56,26 +64,34 @@ class PaymentController extends AbstractController
         'source' => $token,
       ]);
 
+      // Créer un nouvel enregistrement de paiement
       $payment = new Payment();
-      $payment->setAmount($amount / 100); // Convertit les centimes en euros
+      $payment->setAmount($amount / 100); // Convertir les centimes en euros
       $orderId = $request->request->get('order_id');
 
+      // Trouver la commande correspondante dans la base de données
       $order = $em->getRepository(Order::class)->find($orderId);
+
+      // Si la commande n'est pas trouvée, générer une exception
       if (!$order) {
         throw new \Exception('Order not found.');
       }
 
+      // Mettre à jour le montant total de la commande en centimes
       $totalAmount = $order->getTotalPrice() * 100;
       $payment->setAmount($totalAmount / 100);
 
+      // Associer le paiement à la commande
       $payment->setOrder($order);
       $payment->setTransactionId($charge->id);
       $payment->setStatus($charge->status);
       $payment->setPaymentMethod("carte de crédit");
       $payment->setCreatedAt(new \DateTimeImmutable());
 
+      // Persiste l'enregistrement de paiement
       $em->persist($payment);
 
+      // Si le paiement réussit, mettre à jour le statut de la commande et gérer les stocks
       if ($charge->status === 'succeeded') {
         $order->setStatus('confirmed');
 
@@ -85,24 +101,22 @@ class PaymentController extends AbstractController
           $quantityOrdered = $orderDetail->getQuantity();
           $newStock = $currentStock - $quantityOrdered;
 
+          // S'assurer que le stock ne devient pas négatif
           $product->setStockQuantity(max($newStock, 0));
           $em->persist($product);
-
-          // Débogage: Afficher les valeurs
-          // dd([
-          //   'Product ID' => $product->getId(),
-          //   'Current Stock' => $currentStock,
-          //   'Quantity Ordered' => $quantityOrdered,
-          //   'New Stock' => $newStock
-          // ]);
         }
 
+        // Appliquer les modifications à la base de données
         $em->flush();
-        $cartService->emptyCart(); // Vide le panier après le paiement
+
+        // Vider le panier après le paiement
+        $cartService->emptyCart();
       }
 
+      // Rediriger vers la page de succès du paiement
       return $this->redirectToRoute('payment_success');
     } catch (\Exception $e) {
+      // En cas d'erreur, enregistrer l'erreur et rediriger vers la page d'échec du paiement
       $this->logger->error('Payment failed: ' . $e->getMessage());
       $this->addFlash('error', 'Payment failed: ' . $e->getMessage());
       return $this->redirectToRoute('payment_failed');

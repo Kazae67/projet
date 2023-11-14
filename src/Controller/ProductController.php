@@ -13,13 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'product')]
     public function index(ProductRepository $productRepository): Response
     {
+        // Récupérer tous les produits depuis le repository
         $products = $productRepository->findAll();
+
+        // Rendre la vue 'product/index.html.twig' avec la liste des produits
         return $this->render('product/index.html.twig', [
             'controller_name' => 'ProductController',
             'products' => $products
@@ -30,12 +32,15 @@ class ProductController extends AbstractController
     #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]
     public function show(int $id, ProductRepository $productRepository): Response
     {
+        // Trouver le produit par son ID
         $product = $productRepository->find($id);
 
+        // Si le produit n'existe pas, générer une exception
         if (!$product) {
             throw $this->createNotFoundException('The requested product does not exist.');
         }
 
+        // Rendre la vue 'product/show.html.twig' avec les détails du produit
         return $this->render('product/show.html.twig', [
             'product' => $product,
         ]);
@@ -45,35 +50,44 @@ class ProductController extends AbstractController
     public function addToCart(int $id, CartService $cartService): Response
     {
         try {
+            // Ajouter le produit au panier
             $cartService->add($id);
             $this->addFlash('success', 'Product added to cart.');
             return $this->redirectToRoute('cart_index');
         } catch (\Exception $e) {
+            // En cas d'erreur, afficher un message d'erreur et rediriger vers la page de connexion
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_login');
         }
     }
+
     #[Route('/cart', name: 'cart_index')]
     public function cartIndex(CartService $cartService): Response
     {
+        // Obtenir le contenu complet du panier et le total
         $cart = $cartService->getFullCart();
         $total = $cartService->getTotal();
 
+        // Rendre la vue 'cart/index.html.twig' avec le contenu du panier et le total
         return $this->render('cart/index.html.twig', [
             'items' => $cart,
             'total' => $total,
         ]);
     }
 
+    // Les méthodes pour gérer l'ajout, l'édition et la suppression de produits par un artisan sont annotées avec IsGranted pour restreindre l'accès aux artisans.
+
     #[IsGranted('ROLE_CRAFTSMAN')]
     #[Route('/product/add', name: 'product_add')]
     public function addProduct(Request $request, EntityManagerInterface $em): Response
     {
+        // Créer un nouveau produit et un formulaire
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Associer le produit à l'utilisateur connecté et le sauvegarder
             $product->setUser($this->getUser());
             $em->persist($product);
             $em->flush();
@@ -82,6 +96,7 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('product');
         }
 
+        // Rendre la vue 'product/add.html.twig' avec le formulaire
         return $this->render('product/add.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -108,16 +123,19 @@ class ProductController extends AbstractController
     #[Route('/product/edit/{id}', name: 'product_edit')]
     public function editProduct(Request $request, EntityManagerInterface $em, Product $product): Response
     {
+        // Créer un formulaire de modification pour le produit
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Enregistrer les modifications apportées au produit
             $em->flush();
             $this->addFlash('success', 'Product successfully updated.');
 
             return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
         }
 
+        // Rendre la vue 'product/edit.html.twig' avec le formulaire de modification
         return $this->render('product/edit.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -128,11 +146,13 @@ class ProductController extends AbstractController
     public function deleteProduct(Request $request, EntityManagerInterface $em, Product $product): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+            // Supprimer le produit en fonction du jeton CSRF valide
             $em->remove($product);
             $em->flush();
             $this->addFlash('success', 'Product successfully deleted.');
         }
 
+        // Rediriger vers la liste des produits de l'artisan
         return $this->redirectToRoute('my_products');
     }
 }

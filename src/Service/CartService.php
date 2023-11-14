@@ -21,34 +21,42 @@ class CartService
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
     }
+
+    // Méthode pour ajouter un produit au panier
     public function add(int $productId)
     {
+        // Récupérer le produit depuis le référentiel
         $product = $this->productRepository->find($productId);
 
         if (!$product) {
             throw new \Exception('Product not found.');
         }
 
+        // Vérifier si l'utilisateur est connecté
         if (!$this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw new \Exception('You must be logged in to add products to the cart.');
         }
 
-        // Vérifie si l'utilisateur actuel est le propriétaire du produit
+        // Vérifier si l'utilisateur est le propriétaire du produit
         if ($product->getUser() === $this->tokenStorage->getToken()->getUser()) {
             throw new \Exception('You cannot add your own product to the cart.');
         }
 
+        // Récupérer le panier de la session
         $cart = $this->session->get('cart', []);
 
+        // Augmenter la quantité du produit ou l'ajouter au panier
         if (!empty($cart[$productId])) {
             $cart[$productId]++;
         } else {
             $cart[$productId] = 1;
         }
 
+        // Mettre à jour le panier dans la session
         $this->session->set('cart', $cart);
     }
 
+    // Méthode pour supprimer un produit du panier
     public function remove(int $productId)
     {
         $cart = $this->session->get('cart', []);
@@ -64,6 +72,7 @@ class CartService
         $this->session->set('cart', $cart);
     }
 
+    // Méthode pour obtenir le panier complet
     public function getFullCart(): array
     {
         $fullCart = [];
@@ -82,6 +91,7 @@ class CartService
         return $fullCart;
     }
 
+    // Méthode pour obtenir le total du panier
     public function getTotal(): float
     {
         $total = 0.0;
@@ -96,16 +106,19 @@ class CartService
         return $total;
     }
 
+    // Méthode pour vider le panier
     public function emptyCart()
     {
         $this->session->set('cart', []);
     }
 
+    // Méthode privée pour obtenir les détails d'un produit par son ID
     private function getProductDetails(int $productId)
     {
         return $this->productRepository->find($productId);
     }
 
+    // Méthode pour définir l'ID de commande dans la session
     public function setOrderIdInSession($orderId)
     {
         $this->session->set('orderId', $orderId);
