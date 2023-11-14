@@ -52,6 +52,13 @@ class OrderController extends AbstractController
 
         // Traitement du formulaire de commande
         if ($orderForm->isSubmitted() && $orderForm->isValid()) {
+            foreach ($cart as $item) {
+                if ($item['product']->getStockQuantity() < $item['quantity']) {
+                    $this->addFlash('error', "Insufficient stock for {$item['product']->getName()}. Only {$item['product']->getStockQuantity()} left.");
+                    return $this->redirectToRoute('cart_index');
+                }
+            }
+
             // Créer une nouvelle commande
             $order = new Order();
             $order->setUser($user);
@@ -60,16 +67,6 @@ class OrderController extends AbstractController
             // Calculer le montant total de la commande
             $total = 0;
             foreach ($cart as $item) {
-                // Vérifier la disponibilité des stocks pour chaque produit dans le panier
-                if ($item['product']->getStockQuantity() < $item['quantity']) {
-                    $this->addFlash('error', "Insufficient stock for the product {$item['product']->getName()}. Only {$item['product']->getStockQuantity()} items left.");
-                    return $this->redirectToRoute('cart_index');
-                }
-                // Rediriger vers la page de paiement si le formulaire d'adresse n'a pas été soumis
-                if (!$addressForm->isSubmitted()) {
-                    return $this->redirectToRoute('payment');
-                }
-
                 $orderDetail = new OrderDetail();
                 $orderDetail->setOrder($order);
                 $orderDetail->setProduct($item['product']);
@@ -79,6 +76,7 @@ class OrderController extends AbstractController
 
                 $total += $item['product']->getPrice() * $item['quantity'];
             }
+
             $order->setTotalPrice((string) $total);
             $em->persist($order);
             $em->flush();
@@ -198,6 +196,8 @@ class OrderController extends AbstractController
             }
 
             $em->flush();
+
+            // Ici, tu pourrais vider le panier si nécessaire
 
             $this->addFlash('success', 'Your order has been successfully confirmed.');
             return $this->redirectToRoute('order_thank_you');
