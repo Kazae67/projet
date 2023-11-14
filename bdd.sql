@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `adress` (
   PRIMARY KEY (`id`),
   KEY `IDX_5CECC7BEA76ED395` (`user_id`),
   CONSTRAINT `FK_5CECC7BEA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.adress : ~67 rows (environ)
+-- Listage des données de la table projet.adress : ~81 rows (environ)
 INSERT INTO `adress` (`id`, `user_id`, `type`, `street`, `city`, `state`, `postal_code`, `country`, `is_default_billing`, `is_default_delivery`) VALUES
 	(1, 17, 'delivery', 'test', 'test', 'azeaze', '67100', 'FR', 0, 0),
 	(2, 18, 'delivery', 'test', 'test', 'azeaze', '67100', 'FR', 0, 0),
@@ -108,7 +108,24 @@ INSERT INTO `adress` (`id`, `user_id`, `type`, `street`, `city`, `state`, `posta
 	(68, 60, 'delivery', 'delivery coché', 'teaze', 'tzaezae', '67100', 'FR', 0, 1),
 	(69, 60, 'delivery', 'delivery pas coché', 'aztgazea', 'azezaea', '67100', 'FR', 0, 0),
 	(70, 60, 'billing', 'billing coché', 'azraerdza', 'ezaezat', '67100', 'FR', 1, 0),
-	(71, 60, 'billing', 'billing pas coché', 'azeazezaeatga', 'ggqszdg', '67100', 'FR', 0, 0);
+	(71, 60, 'billing', 'billing pas coché', 'azeazezaeatga', 'ggqszdg', '67100', 'FR', 0, 0),
+	(72, 63, 'delivery', 'kaz 3 street', 'kaz 3 city', 'kaz 3 province', '67100', 'FR', 0, 1),
+	(73, 66, 'delivery', 'Lareine', 'Lareine', 'Lareine', '67100', 'FR', 0, 1),
+	(74, 61, 'delivery', 'Delivery', 'eazeza', 'eazeza', '67100', 'FR', 1, 1),
+	(75, 61, 'delivery', 'Nouvelle adresse', 'test', 'azeaze', '67100', 'FR', 1, 0),
+	(76, 61, 'delivery', 'Encore une nouvelle', 'City', 'State', '67100', 'FR', 0, 0),
+	(77, 61, 'billing', 'Billing', 'LOL', 'azeaze', '67100', 'FR', 1, 1),
+	(78, 67, 'delivery', 'Delivery', 'Test', 'test', '67100', 'FR', 0, 1),
+	(79, 67, 'billing', 'Billing', 'Test', 'test', '67100', 'FR', 1, 1),
+	(81, 68, 'billing', 'Billing 3', 'LOOL', 'state', '67100', 'FR', 1, 0),
+	(82, 70, 'delivery', 'Delivery 2', 'test', 'azeaze', '67100', 'FR', 0, 1),
+	(83, 71, 'delivery', 'Delivery', 'City', NULL, '67100', 'FR', 0, 1),
+	(84, 71, 'billing', 'Billing 2', 'City', NULL, '67100', 'FR', 1, 0),
+	(86, 72, 'billing', 'billing 2', 'test', 'test', '67100', 'FR', 1, 0),
+	(87, 74, 'delivery', 'delivery', 'test', 'azeaze', '67100', 'FR', 0, 1),
+	(88, 75, 'delivery', 'delivery1', 'azezaeza', 'ezaeaz', '67100', 'FR', 0, 1),
+	(89, 75, 'billing', 'billing', 'test', 'azeaze', '67100', 'FR', 1, 0),
+	(90, 76, 'delivery', 'Delivery1', 'Delivery', 'azeaze', '67100', 'FR', 0, 1);
 
 -- Listage de la structure de table projet. category
 CREATE TABLE IF NOT EXISTS `category` (
@@ -132,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table projet.doctrine_migration_versions : ~4 rows (environ)
+-- Listage des données de la table projet.doctrine_migration_versions : ~6 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20231019031655', '2023-10-19 05:17:08', 62),
 	('DoctrineMigrations\\Version20231019044001', '2023-10-19 06:40:11', 87),
@@ -153,9 +170,9 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`id`),
   KEY `IDX_F5299398A76ED395` (`user_id`),
   CONSTRAINT `FK_F5299398A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.order : ~0 rows (environ)
+-- Listage des données de la table projet.order : ~102 rows (environ)
 INSERT INTO `order` (`id`, `user_id`, `total_price`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 60, 20.00, 'pending', '2023-11-07 20:08:25', '2023-11-07 20:08:25'),
 	(2, 60, 30.00, 'pending', '2023-11-07 20:13:19', '2023-11-07 20:13:19'),
@@ -173,7 +190,97 @@ INSERT INTO `order` (`id`, `user_id`, `total_price`, `status`, `created_at`, `up
 	(14, 61, 10.00, 'pending', '2023-11-07 23:26:17', '2023-11-07 23:26:17'),
 	(15, 61, 30.00, 'pending', '2023-11-07 23:36:41', '2023-11-07 23:36:41'),
 	(16, 61, 30.00, 'pending', '2023-11-07 23:38:49', '2023-11-07 23:38:49'),
-	(17, 61, 20.00, 'pending', '2023-11-07 23:51:22', '2023-11-07 23:51:22');
+	(17, 61, 20.00, 'pending', '2023-11-07 23:51:22', '2023-11-07 23:51:22'),
+	(18, 62, 30.00, 'pending', '2023-11-09 06:45:26', '2023-11-09 06:45:26'),
+	(19, 61, 10.00, 'pending', '2023-11-09 06:47:27', '2023-11-09 06:47:27'),
+	(20, 61, 10.00, 'pending', '2023-11-09 07:56:00', '2023-11-09 07:56:00'),
+	(21, 61, 10.00, 'pending', '2023-11-09 21:13:13', '2023-11-09 21:13:13'),
+	(22, 61, 50.00, 'pending', '2023-11-09 23:36:19', '2023-11-09 23:36:19'),
+	(23, 61, 10.00, 'pending', '2023-11-11 15:30:36', '2023-11-11 15:30:36'),
+	(24, 61, 40.00, 'pending', '2023-11-12 05:58:11', '2023-11-12 05:58:11'),
+	(25, 61, 50.00, 'pending', '2023-11-12 06:09:22', '2023-11-12 06:09:22'),
+	(26, 61, 50.00, 'pending', '2023-11-12 06:10:16', '2023-11-12 06:10:16'),
+	(27, 61, 60.00, 'pending', '2023-11-12 06:23:31', '2023-11-12 06:23:31'),
+	(28, 61, 60.00, 'pending', '2023-11-12 06:31:53', '2023-11-12 06:31:53'),
+	(29, 61, 70.00, 'pending', '2023-11-12 06:47:47', '2023-11-12 06:47:47'),
+	(30, 61, 80.00, 'pending', '2023-11-12 17:22:23', '2023-11-12 17:22:23'),
+	(31, 61, 80.00, 'pending', '2023-11-12 17:22:42', '2023-11-12 17:22:42'),
+	(32, 61, 90.00, 'pending', '2023-11-12 17:31:08', '2023-11-12 17:31:08'),
+	(33, 61, 100.00, 'pending', '2023-11-12 17:41:52', '2023-11-12 17:41:52'),
+	(34, 61, 130.00, 'pending', '2023-11-12 17:47:02', '2023-11-12 17:47:02'),
+	(35, 61, 150.00, 'pending', '2023-11-12 17:55:36', '2023-11-12 17:55:36'),
+	(36, 61, 150.00, 'pending', '2023-11-12 18:08:07', '2023-11-12 18:08:07'),
+	(37, 61, 150.00, 'pending', '2023-11-12 18:11:39', '2023-11-12 18:11:39'),
+	(38, 61, 150.00, 'pending', '2023-11-12 18:12:45', '2023-11-12 18:12:45'),
+	(39, 61, 150.00, 'pending', '2023-11-12 18:18:00', '2023-11-12 18:18:00'),
+	(40, 61, 160.00, 'pending', '2023-11-12 18:20:34', '2023-11-12 18:20:34'),
+	(41, 61, 170.00, 'pending', '2023-11-12 18:29:09', '2023-11-12 18:29:09'),
+	(42, 61, 170.00, 'pending', '2023-11-12 18:31:04', '2023-11-12 18:31:04'),
+	(43, 61, 170.00, 'pending', '2023-11-12 18:36:08', '2023-11-12 18:36:08'),
+	(44, 61, 170.00, 'pending', '2023-11-12 18:36:18', '2023-11-12 18:36:18'),
+	(45, 61, 170.00, 'pending', '2023-11-12 18:36:39', '2023-11-12 18:36:39'),
+	(46, 61, 170.00, 'pending', '2023-11-12 18:37:28', '2023-11-12 18:37:28'),
+	(47, 64, 10.00, 'pending', '2023-11-12 18:39:47', '2023-11-12 18:39:47'),
+	(48, 61, 170.00, 'pending', '2023-11-12 19:00:05', '2023-11-12 19:00:05'),
+	(49, 61, 180.00, 'pending', '2023-11-12 20:54:26', '2023-11-12 20:54:26'),
+	(50, 61, 190.00, 'pending', '2023-11-12 20:57:29', '2023-11-12 20:57:29'),
+	(51, 61, 200.00, 'confirmed', '2023-11-12 21:14:57', '2023-11-12 21:15:17'),
+	(52, 61, 10.00, 'confirmed', '2023-11-12 21:17:01', '2023-11-12 21:17:33'),
+	(53, 61, 30.00, 'confirmed', '2023-11-12 21:23:30', '2023-11-12 21:23:54'),
+	(54, 65, 10.00, 'pending', '2023-11-12 21:37:38', '2023-11-12 21:37:38'),
+	(55, 65, 10.00, 'confirmed', '2023-11-12 21:38:03', '2023-11-12 21:38:27'),
+	(56, 65, 10.00, 'confirmed', '2023-11-12 21:39:41', '2023-11-12 22:48:05'),
+	(57, 65, 10.00, 'confirmed', '2023-11-12 23:05:22', '2023-11-12 23:05:39'),
+	(58, 65, 40.00, 'pending', '2023-11-12 23:38:16', '2023-11-12 23:38:16'),
+	(59, 65, 60.00, 'pending', '2023-11-12 23:38:55', '2023-11-12 23:38:55'),
+	(60, 65, 60.00, 'confirmed', '2023-11-12 23:39:06', '2023-11-12 23:39:29'),
+	(61, 65, 20.00, 'confirmed', '2023-11-12 23:55:18', '2023-11-12 23:55:38'),
+	(62, 65, 10.00, 'confirmed', '2023-11-13 00:15:57', '2023-11-13 00:16:22'),
+	(63, 65, 40.00, 'confirmed', '2023-11-13 00:52:22', '2023-11-13 00:52:46'),
+	(64, 65, 10.00, 'confirmed', '2023-11-13 01:11:16', '2023-11-13 01:11:42'),
+	(65, 65, 10.00, 'pending', '2023-11-13 01:35:50', '2023-11-13 01:35:50'),
+	(66, 65, 20.00, 'pending', '2023-11-13 01:46:55', '2023-11-13 01:46:55'),
+	(67, 65, 30.00, 'confirmed', '2023-11-13 01:51:02', '2023-11-13 01:51:18'),
+	(68, 65, 10.00, 'confirmed', '2023-11-13 01:52:11', '2023-11-13 01:52:31'),
+	(69, 65, 30.00, 'confirmed', '2023-11-13 01:56:12', '2023-11-13 01:56:40'),
+	(70, 61, 10.00, 'confirmed', '2023-11-13 11:14:34', '2023-11-13 11:15:20'),
+	(71, 61, 10.00, 'confirmed', '2023-11-13 11:52:08', '2023-11-13 11:52:40'),
+	(72, 61, 10.00, 'confirmed', '2023-11-13 13:24:41', '2023-11-13 13:25:01'),
+	(73, 61, 10.00, 'confirmed', '2023-11-13 13:26:18', '2023-11-13 13:26:36'),
+	(74, 61, 10.00, 'confirmed', '2023-11-13 14:03:39', '2023-11-13 14:04:04'),
+	(75, 61, 10.00, 'confirmed', '2023-11-13 14:26:55', '2023-11-13 14:27:12'),
+	(76, 61, 10.00, 'pending', '2023-11-13 15:11:35', '2023-11-13 15:11:35'),
+	(77, 61, 10.00, 'pending', '2023-11-13 15:42:59', '2023-11-13 15:42:59'),
+	(78, 61, 10.00, 'confirmed', '2023-11-13 16:03:17', '2023-11-13 16:26:00'),
+	(79, 61, 10.00, 'pending', '2023-11-13 16:25:41', '2023-11-13 16:25:41'),
+	(80, 61, 10.00, 'pending', '2023-11-13 16:29:11', '2023-11-13 16:29:11'),
+	(81, 61, 10.00, 'pending', '2023-11-13 16:33:30', '2023-11-13 16:33:30'),
+	(82, 61, 20.00, 'pending', '2023-11-13 17:39:24', '2023-11-13 17:39:24'),
+	(83, 61, 10.00, 'pending', '2023-11-13 17:40:59', '2023-11-13 17:40:59'),
+	(84, 61, 20.00, 'pending', '2023-11-13 17:43:22', '2023-11-13 17:43:22'),
+	(85, 61, 10.00, 'confirmed', '2023-11-13 17:52:05', '2023-11-13 17:52:22'),
+	(86, 61, 40.00, 'confirmed', '2023-11-13 17:53:18', '2023-11-13 17:53:48'),
+	(87, 61, 20.00, 'confirmed', '2023-11-13 18:15:08', '2023-11-13 18:15:25'),
+	(88, 61, 10.00, 'confirmed', '2023-11-13 18:30:31', '2023-11-13 18:30:48'),
+	(89, 61, 20.00, 'confirmed', '2023-11-13 18:40:56', '2023-11-13 18:41:20'),
+	(90, 68, 10.00, 'confirmed', '2023-11-13 19:10:17', '2023-11-13 19:10:34'),
+	(91, 68, 10.00, 'confirmed', '2023-11-13 20:10:39', '2023-11-13 20:11:01'),
+	(92, 70, 10.00, 'confirmed', '2023-11-14 09:03:54', '2023-11-14 09:04:10'),
+	(93, 70, 120.00, 'confirmed', '2023-11-14 12:32:41', '2023-11-14 12:32:59'),
+	(94, 71, 50.00, 'confirmed', '2023-11-14 13:24:12', '2023-11-14 13:24:51'),
+	(95, 72, 40.00, 'confirmed', '2023-11-14 13:40:14', '2023-11-14 13:41:06'),
+	(96, 72, 10.00, 'confirmed', '2023-11-14 13:43:53', '2023-11-14 13:44:10'),
+	(97, 74, 20.00, 'confirmed', '2023-11-14 18:29:47', '2023-11-14 18:30:08'),
+	(98, 75, 30.00, 'confirmed', '2023-11-14 21:30:20', '2023-11-14 21:30:41'),
+	(99, 75, 20.00, 'confirmed', '2023-11-14 21:31:42', '2023-11-14 21:32:12'),
+	(100, 75, 10.00, 'confirmed', '2023-11-14 21:48:12', '2023-11-14 21:48:32'),
+	(101, 76, 10.00, 'confirmed', '2023-11-14 21:57:09', '2023-11-14 21:59:12'),
+	(102, 76, 20.00, 'confirmed', '2023-11-14 22:00:49', '2023-11-14 22:01:15'),
+	(103, 76, 20.00, 'pending', '2023-11-14 22:17:05', '2023-11-14 22:17:05'),
+	(104, 76, 20.00, 'pending', '2023-11-14 22:17:11', '2023-11-14 22:17:11'),
+	(105, 76, 20.00, 'pending', '2023-11-14 22:17:17', '2023-11-14 22:17:17'),
+	(106, 76, 20.00, 'pending', '2023-11-14 22:17:42', '2023-11-14 22:17:42'),
+	(107, 76, 20.00, 'pending', '2023-11-14 22:18:05', '2023-11-14 22:18:05');
 
 -- Listage de la structure de table projet. order_detail
 CREATE TABLE IF NOT EXISTS `order_detail` (
@@ -188,9 +295,9 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   KEY `IDX_ED896F464584665A` (`product_id`),
   CONSTRAINT `FK_ED896F464584665A` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ED896F468D9F6D38` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.order_detail : ~0 rows (environ)
+-- Listage des données de la table projet.order_detail : ~127 rows (environ)
 INSERT INTO `order_detail` (`id`, `order_id`, `quantity`, `price`, `subtotal`, `product_id`) VALUES
 	(1, 1, 1, 20.00, 20.00, 5),
 	(2, 2, 1, 30.00, 30.00, 2),
@@ -212,7 +319,143 @@ INSERT INTO `order_detail` (`id`, `order_id`, `quantity`, `price`, `subtotal`, `
 	(18, 14, 1, 10.00, 10.00, 1),
 	(19, 15, 1, 30.00, 30.00, 2),
 	(20, 16, 1, 30.00, 30.00, 2),
-	(21, 17, 2, 10.00, 20.00, 1);
+	(21, 17, 2, 10.00, 20.00, 1),
+	(22, 18, 3, 10.00, 30.00, 1),
+	(23, 19, 1, 10.00, 10.00, 1),
+	(24, 20, 1, 10.00, 10.00, 1),
+	(25, 21, 1, 10.00, 10.00, 1),
+	(26, 22, 1, 30.00, 30.00, 2),
+	(27, 22, 2, 10.00, 20.00, 1),
+	(28, 23, 1, 10.00, 10.00, 1),
+	(29, 24, 4, 10.00, 40.00, 1),
+	(30, 25, 5, 10.00, 50.00, 1),
+	(31, 26, 5, 10.00, 50.00, 1),
+	(32, 27, 6, 10.00, 60.00, 1),
+	(33, 28, 6, 10.00, 60.00, 1),
+	(34, 29, 7, 10.00, 70.00, 1),
+	(35, 30, 8, 10.00, 80.00, 1),
+	(36, 31, 8, 10.00, 80.00, 1),
+	(37, 32, 9, 10.00, 90.00, 1),
+	(38, 33, 10, 10.00, 100.00, 1),
+	(39, 34, 1, 30.00, 30.00, 2),
+	(40, 34, 10, 10.00, 100.00, 1),
+	(41, 35, 1, 20.00, 20.00, 9),
+	(42, 35, 1, 30.00, 30.00, 2),
+	(43, 35, 10, 10.00, 100.00, 1),
+	(44, 36, 1, 20.00, 20.00, 9),
+	(45, 36, 1, 30.00, 30.00, 2),
+	(46, 36, 10, 10.00, 100.00, 1),
+	(47, 37, 1, 20.00, 20.00, 9),
+	(48, 37, 1, 30.00, 30.00, 2),
+	(49, 37, 10, 10.00, 100.00, 1),
+	(50, 38, 1, 20.00, 20.00, 9),
+	(51, 38, 1, 30.00, 30.00, 2),
+	(52, 38, 10, 10.00, 100.00, 1),
+	(53, 39, 1, 20.00, 20.00, 9),
+	(54, 39, 1, 30.00, 30.00, 2),
+	(55, 39, 10, 10.00, 100.00, 1),
+	(56, 40, 1, 20.00, 20.00, 9),
+	(57, 40, 1, 30.00, 30.00, 2),
+	(58, 40, 11, 10.00, 110.00, 1),
+	(59, 41, 1, 20.00, 20.00, 9),
+	(60, 41, 1, 30.00, 30.00, 2),
+	(61, 41, 12, 10.00, 120.00, 1),
+	(62, 42, 1, 20.00, 20.00, 9),
+	(63, 42, 1, 30.00, 30.00, 2),
+	(64, 42, 12, 10.00, 120.00, 1),
+	(65, 43, 1, 20.00, 20.00, 9),
+	(66, 43, 1, 30.00, 30.00, 2),
+	(67, 43, 12, 10.00, 120.00, 1),
+	(68, 44, 1, 20.00, 20.00, 9),
+	(69, 44, 1, 30.00, 30.00, 2),
+	(70, 44, 12, 10.00, 120.00, 1),
+	(71, 45, 1, 20.00, 20.00, 9),
+	(72, 45, 1, 30.00, 30.00, 2),
+	(73, 45, 12, 10.00, 120.00, 1),
+	(74, 46, 1, 20.00, 20.00, 9),
+	(75, 46, 1, 30.00, 30.00, 2),
+	(76, 46, 12, 10.00, 120.00, 1),
+	(77, 47, 1, 10.00, 10.00, 1),
+	(78, 48, 1, 20.00, 20.00, 9),
+	(79, 48, 1, 30.00, 30.00, 2),
+	(80, 48, 12, 10.00, 120.00, 1),
+	(81, 49, 1, 20.00, 20.00, 9),
+	(82, 49, 1, 30.00, 30.00, 2),
+	(83, 49, 13, 10.00, 130.00, 1),
+	(84, 50, 1, 20.00, 20.00, 9),
+	(85, 50, 1, 30.00, 30.00, 2),
+	(86, 50, 14, 10.00, 140.00, 1),
+	(87, 51, 1, 20.00, 20.00, 9),
+	(88, 51, 1, 30.00, 30.00, 2),
+	(89, 51, 15, 10.00, 150.00, 1),
+	(90, 52, 1, 10.00, 10.00, 1),
+	(91, 53, 1, 30.00, 30.00, 2),
+	(92, 54, 1, 10.00, 10.00, 20),
+	(93, 55, 1, 10.00, 10.00, 20),
+	(94, 56, 1, 10.00, 10.00, 1),
+	(95, 57, 1, 10.00, 10.00, 1),
+	(96, 58, 1, 20.00, 20.00, 5),
+	(97, 58, 2, 10.00, 20.00, 1),
+	(98, 59, 1, 20.00, 20.00, 6),
+	(99, 59, 1, 20.00, 20.00, 5),
+	(100, 59, 2, 10.00, 20.00, 1),
+	(101, 60, 1, 20.00, 20.00, 6),
+	(102, 60, 1, 20.00, 20.00, 5),
+	(103, 60, 2, 10.00, 20.00, 1),
+	(104, 61, 1, 20.00, 20.00, 9),
+	(105, 62, 1, 10.00, 10.00, 1),
+	(106, 63, 1, 20.00, 20.00, 16),
+	(107, 63, 1, 20.00, 20.00, 4),
+	(108, 64, 1, 10.00, 10.00, 1),
+	(109, 65, 1, 10.00, 10.00, 1),
+	(110, 66, 2, 10.00, 20.00, 1),
+	(111, 67, 3, 10.00, 30.00, 1),
+	(112, 68, 1, 10.00, 10.00, 1),
+	(113, 69, 1, 20.00, 20.00, 3),
+	(114, 69, 1, 10.00, 10.00, 1),
+	(115, 70, 1, 10.00, 10.00, 1),
+	(116, 71, 1, 10.00, 10.00, 1),
+	(117, 72, 1, 10.00, 10.00, 1),
+	(118, 73, 1, 10.00, 10.00, 1),
+	(119, 74, 1, 10.00, 10.00, 1),
+	(120, 75, 1, 10.00, 10.00, 1),
+	(121, 76, 1, 10.00, 10.00, 1),
+	(122, 77, 1, 10.00, 10.00, 1),
+	(123, 78, 1, 10.00, 10.00, 1),
+	(124, 79, 1, 10.00, 10.00, 1),
+	(125, 80, 1, 10.00, 10.00, 1),
+	(126, 81, 1, 10.00, 10.00, 1),
+	(127, 82, 2, 10.00, 20.00, 1),
+	(128, 83, 1, 10.00, 10.00, 1),
+	(129, 84, 2, 10.00, 20.00, 1),
+	(130, 85, 1, 10.00, 10.00, 1),
+	(131, 86, 1, 30.00, 30.00, 2),
+	(132, 86, 1, 10.00, 10.00, 1),
+	(133, 87, 2, 10.00, 20.00, 1),
+	(134, 88, 1, 10.00, 10.00, 1),
+	(135, 89, 2, 10.00, 20.00, 1),
+	(136, 90, 1, 10.00, 10.00, 1),
+	(137, 91, 1, 10.00, 10.00, 1),
+	(138, 92, 1, 10.00, 10.00, 1),
+	(139, 93, 1, 20.00, 20.00, 4),
+	(140, 93, 1, 30.00, 30.00, 2),
+	(141, 93, 7, 10.00, 70.00, 1),
+	(142, 94, 1, 20.00, 20.00, 5),
+	(143, 94, 1, 30.00, 30.00, 2),
+	(144, 95, 1, 20.00, 20.00, 8),
+	(145, 95, 1, 20.00, 20.00, 5),
+	(146, 96, 1, 10.00, 10.00, 1),
+	(147, 97, 1, 20.00, 20.00, 3),
+	(148, 98, 3, 10.00, 30.00, 1),
+	(149, 99, 1, 20.00, 20.00, 3),
+	(150, 100, 1, 10.00, 10.00, 1),
+	(151, 101, 1, 10.00, 10.00, 1),
+	(152, 102, 1, 20.00, 20.00, 3),
+	(153, 103, 1, 20.00, 20.00, 3),
+	(154, 104, 1, 20.00, 20.00, 3),
+	(155, 105, 1, 20.00, 20.00, 3),
+	(156, 106, 1, 20.00, 20.00, 3),
+	(157, 107, 1, 20.00, 20.00, 3);
 
 -- Listage de la structure de table projet. payment
 CREATE TABLE IF NOT EXISTS `payment` (
@@ -226,9 +469,63 @@ CREATE TABLE IF NOT EXISTS `payment` (
   PRIMARY KEY (`id`),
   KEY `IDX_6D28840D8D9F6D38` (`order_id`),
   CONSTRAINT `FK_6D28840D8D9F6D38` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.payment : ~0 rows (environ)
+-- Listage des données de la table projet.payment : ~53 rows (environ)
+INSERT INTO `payment` (`id`, `order_id`, `transaction_id`, `amount`, `payment_method`, `status`, `created_at`) VALUES
+	(1, 48, 'ch_3OBhxMEONNRmxI8s11BYhzxu', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 19:00:26'),
+	(2, 49, 'ch_3OBjk4EONNRmxI8s1VTCt7jC', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 20:54:52'),
+	(3, 50, 'ch_3OBjnjEONNRmxI8s08o6DbG0', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 20:58:37'),
+	(4, 51, 'ch_3OBk3rEONNRmxI8s1jxI3sk6', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 21:15:17'),
+	(5, 52, 'ch_3OBk63EONNRmxI8s0UXi836F', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 21:17:33'),
+	(6, 53, 'ch_3OBkCDEONNRmxI8s0iyJKUwq', 30.00, 'carte de crédit', 'succeeded', '2023-11-12 21:23:54'),
+	(7, 55, 'ch_3OBkQHEONNRmxI8s1UB7eG9I', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 21:38:27'),
+	(8, 56, 'ch_3OBlVfEONNRmxI8s1Ln6pHdj', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 22:48:05'),
+	(9, 56, 'ch_3OBlWkEONNRmxI8s1FVdremk', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 22:49:12'),
+	(10, 56, 'ch_3OBlYGEONNRmxI8s0GI6axlk', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 22:50:46'),
+	(11, 56, 'ch_3OBllEEONNRmxI8s0pPr8oN9', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 23:04:10'),
+	(12, 57, 'ch_3OBlmfEONNRmxI8s1zkoY2cb', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 23:05:39'),
+	(13, 57, 'ch_3OBmECEONNRmxI8s11YjlbnH', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 23:34:06'),
+	(14, 60, 'ch_3OBmJPEONNRmxI8s1IprtSnX', 60.00, 'carte de crédit', 'succeeded', '2023-11-12 23:39:29'),
+	(15, 61, 'ch_3OBmZ2EONNRmxI8s1s19N4d0', 20.00, 'carte de crédit', 'succeeded', '2023-11-12 23:55:38'),
+	(16, 62, 'ch_3OBmt6EONNRmxI8s1Cno4LM7', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 00:16:22'),
+	(17, 63, 'ch_3OBnSLEONNRmxI8s0dFJ6y3p', 40.00, 'carte de crédit', 'succeeded', '2023-11-13 00:52:46'),
+	(18, 64, 'ch_3OBnkfEONNRmxI8s1FLNdhjL', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 01:11:42'),
+	(19, 67, 'ch_3OBoMzEONNRmxI8s18xTAMsq', 30.00, 'carte de crédit', 'succeeded', '2023-11-13 01:51:18'),
+	(20, 68, 'ch_3OBoOAEONNRmxI8s0BBuCBPw', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 01:52:31'),
+	(21, 69, 'ch_3OBoSBEONNRmxI8s1HezSqZw', 30.00, 'carte de crédit', 'succeeded', '2023-11-13 01:56:40'),
+	(22, 70, 'ch_3OBxAoEONNRmxI8s0BYJfT77', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 11:15:20'),
+	(23, 71, 'ch_3OBxkxEONNRmxI8s0FtG3doo', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 11:52:40'),
+	(24, 72, 'ch_3OBzCKEONNRmxI8s1TNJ417u', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 13:25:01'),
+	(25, 73, 'ch_3OBzDrEONNRmxI8s1LFveHo5', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 13:26:36'),
+	(26, 74, 'ch_3OBzo7EONNRmxI8s1wMyYmEe', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 14:04:04'),
+	(27, 75, 'ch_3OC0AVEONNRmxI8s1xgg6grf', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 14:27:12'),
+	(28, 78, 'ch_3OC21SEONNRmxI8s1sfatDif', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 16:26:00'),
+	(29, 78, 'ch_3OC24uEONNRmxI8s16fGkiMD', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 16:29:33'),
+	(30, 78, 'ch_3OC29lEONNRmxI8s0NRGaNjI', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 16:34:34'),
+	(31, 78, 'ch_3OC3B0EONNRmxI8s0iHQ3vsE', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 17:39:55'),
+	(32, 78, 'ch_3OC3CLEONNRmxI8s0mdcLv20', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 17:41:18'),
+	(33, 78, 'ch_3OC3EcEONNRmxI8s1oHycZJg', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 17:43:39'),
+	(34, 85, 'ch_3OC3N2EONNRmxI8s0R9cNxfH', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 17:52:22'),
+	(35, 86, 'ch_3OC3OQEONNRmxI8s159El3wp', 40.00, 'carte de crédit', 'succeeded', '2023-11-13 17:53:48'),
+	(36, 87, 'ch_3OC3jMEONNRmxI8s1yevbQ2V', 20.00, 'carte de crédit', 'succeeded', '2023-11-13 18:15:25'),
+	(37, 87, 'ch_3OC3uVEONNRmxI8s0LLREM1s', 20.00, 'carte de crédit', 'succeeded', '2023-11-13 18:26:56'),
+	(38, 87, 'ch_3OC3x5EONNRmxI8s0HRcpetA', 20.00, 'carte de crédit', 'succeeded', '2023-11-13 18:29:36'),
+	(39, 88, 'ch_3OC3yFEONNRmxI8s1aim7keB', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 18:30:48'),
+	(40, 89, 'ch_3OC48REONNRmxI8s1rs2F2rb', 20.00, 'carte de crédit', 'succeeded', '2023-11-13 18:41:20'),
+	(41, 90, 'ch_3OC4ajEONNRmxI8s1EdR9OeV', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 19:10:34'),
+	(42, 91, 'ch_3OC5XEEONNRmxI8s0UXlVkSt', 10.00, 'carte de crédit', 'succeeded', '2023-11-13 20:11:01'),
+	(43, 92, 'ch_3OCHbREONNRmxI8s0r4A7QjI', 10.00, 'carte de crédit', 'succeeded', '2023-11-14 09:04:10'),
+	(44, 93, 'ch_3OCKrVEONNRmxI8s0PckpwtS', 120.00, 'carte de crédit', 'succeeded', '2023-11-14 12:32:59'),
+	(45, 94, 'ch_3OCLfiEONNRmxI8s1cO1wDh0', 50.00, 'carte de crédit', 'succeeded', '2023-11-14 13:24:51'),
+	(46, 95, 'ch_3OCLvREONNRmxI8s0ifKgXzX', 40.00, 'carte de crédit', 'succeeded', '2023-11-14 13:41:06'),
+	(47, 96, 'ch_3OCLyOEONNRmxI8s0Lda9oge', 10.00, 'carte de crédit', 'succeeded', '2023-11-14 13:44:10'),
+	(48, 97, 'ch_3OCQR9EONNRmxI8s1xcTXIYV', 20.00, 'carte de crédit', 'succeeded', '2023-11-14 18:30:08'),
+	(49, 98, 'ch_3OCTFsEONNRmxI8s088uwiSX', 30.00, 'carte de crédit', 'succeeded', '2023-11-14 21:30:41'),
+	(50, 99, 'ch_3OCTHLEONNRmxI8s0oQLBIz9', 20.00, 'carte de crédit', 'succeeded', '2023-11-14 21:32:12'),
+	(51, 100, 'ch_3OCTX9EONNRmxI8s1yfemmPj', 10.00, 'carte de crédit', 'succeeded', '2023-11-14 21:48:32'),
+	(52, 101, 'ch_3OCThTEONNRmxI8s1dAWidew', 10.00, 'carte de crédit', 'succeeded', '2023-11-14 21:59:12'),
+	(53, 102, 'ch_3OCTjSEONNRmxI8s1WVeGKN8', 20.00, 'carte de crédit', 'succeeded', '2023-11-14 22:01:15');
 
 -- Listage de la structure de table projet. product
 CREATE TABLE IF NOT EXISTS `product` (
@@ -249,20 +546,27 @@ CREATE TABLE IF NOT EXISTS `product` (
   KEY `IDX_D34A04AD12469DE2` (`category_id`),
   CONSTRAINT `FK_D34A04AD12469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FK_D34A04ADA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.product : ~8 rows (environ)
+-- Listage des données de la table projet.product : ~17 rows (environ)
 INSERT INTO `product` (`id`, `user_id`, `category_id`, `name`, `description`, `price`, `stock_quantity`, `is_active`, `image_url`, `created_at`, `updated_at`) VALUES
-	(1, 1, 1, 'name product', 'description product', 10.00, 10, 1, 'default.image.jpg', '2023-10-26 19:53:48', '2023-11-07 23:51:22'),
-	(2, 1, 1, 'lol', 'maaaaa', 30.00, 5, 1, 'default.image.jpg', '2023-10-26 20:19:38', '2023-11-07 23:38:49'),
-	(3, 1, 1, 'am', 'nana', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-07 20:47:34'),
-	(4, 1, 1, 'ta', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-07 21:39:25'),
-	(5, 1, 1, 'tata', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-07 21:40:44'),
-	(6, 1, 1, 'tatata', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-10-26 22:47:06'),
+	(1, 1, 1, 'name product', 'description product', 10.00, 481, 1, 'default.image.jpg', '2023-10-26 19:53:48', '2023-11-14 21:59:12'),
+	(2, 1, 1, 'lol', 'maaaaa', 30.00, 2, 1, 'default.image.jpg', '2023-10-26 20:19:38', '2023-11-14 13:24:51'),
+	(3, 1, 1, 'am', 'nana', 20.00, 1, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-14 22:18:05'),
+	(4, 1, 1, 'ta', 'ze', 20.00, 1, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-14 12:32:59'),
+	(5, 1, 1, 'tata', 'ze', 20.00, 0, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-14 13:41:06'),
+	(6, 1, 1, 'tatata', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-12 23:39:06'),
 	(7, 1, 1, 'tatatata', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-07 21:26:07'),
-	(8, 1, 1, 'ta1', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-10-26 22:47:06'),
-	(9, 1, 1, 'ta12', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-10-26 22:47:06'),
-	(10, 1, 1, 'ta123', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-10-26 22:47:06');
+	(8, 1, 1, 'ta1', 'ze', 20.00, 1, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-14 13:41:06'),
+	(9, 1, 1, 'ta12', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-12 23:55:19'),
+	(10, 1, 1, 'ta123', 'ze', 20.00, 2, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-10-26 22:47:06'),
+	(15, 62, 1, 'my product edit', 'my producct', 1.00, 1, 1, NULL, '2023-11-08 04:40:22', '2023-11-08 05:14:35'),
+	(16, 62, 1, 'mon produit 2', 'produit de luxe 2', 20.00, 2, 1, NULL, '2023-11-08 04:58:50', '2023-11-13 00:52:22'),
+	(17, 62, 1, 'azezaezza', 'ezaeza', 10.00, 1, 1, NULL, '2023-11-08 04:59:22', '2023-11-08 04:59:22'),
+	(20, 61, 1, 'mon produit sécurisée', 'produit sécurisé', 10.00, 1, 1, NULL, '2023-11-09 09:22:28', '2023-11-12 21:38:03'),
+	(21, 61, 1, 'add TEST', 'azoejkoze', 10.00, 1, 1, NULL, '2023-11-09 21:14:10', '2023-11-09 21:14:10'),
+	(22, 71, 1, 'Produit de test', 'Ceci est une description du produit', 299.99, 25, 1, NULL, '2023-11-14 13:18:15', '2023-11-14 13:19:36'),
+	(23, 72, 1, 'test du produit', 'description du produit', 99.99, 50, 1, NULL, '2023-11-14 13:35:05', '2023-11-14 13:35:05');
 
 -- Listage de la structure de table projet. review
 CREATE TABLE IF NOT EXISTS `review` (
@@ -294,9 +598,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `created_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
   `updated_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.user : ~54 rows (environ)
+-- Listage des données de la table projet.user : ~48 rows (environ)
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `role`, `last_login`, `profile_picture`, `created_at`, `updated_at`) VALUES
 	(1, 'test', 'test', 'test@gmail.com', 'artisan', '2023-10-26 19:52:20', NULL, '2023-10-26 19:52:27', '2023-10-26 19:52:28'),
 	(2, 'test2', '$2y$04$KqV8VeUKXpaE0ed1tjstrOAHPy2rE3dbDm.WRBnJV4LxI12oaFigi', 'test2@gmail.com', 'artisan', NULL, NULL, '2023-10-28 00:31:50', '2023-10-28 00:31:50'),
@@ -351,7 +655,22 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `role`, `last_login`,
 	(58, 'leroi', '$2y$04$1T2bVI2hh/aggIEYZAe.2uChYEH74TVi8zraWKsn.Dr3rK7tgJNBC', 'leroi@gmail.com', 'craftsman', NULL, NULL, '2023-11-06 01:52:57', '2023-11-06 01:52:57'),
 	(59, 'lasttest', '$2y$04$ezllgX2WsBfIxUOWo.9UyebyISfpvmk64Xxy/A1a4tBUpzZJu5uvC', 'lasttest@gmail.com', 'craftsman', NULL, NULL, '2023-11-06 01:57:07', '2023-11-06 01:57:07'),
 	(60, 'pet', '$2y$04$fYJCepC0KnLq2muW0Rob1u0dunpEziwijdgUx7V.J9VYHZagU8VMO', 'pet@gmail.com', 'craftsman', NULL, NULL, '2023-11-06 02:00:43', '2023-11-07 18:23:03'),
-	(61, 'Kazae', '$2y$04$990mdMXUrglg6qZ6nHNvH.gtdPuZ7tJ/pJSLqRQ46m7DuShW6gZU2', 'Kazae@gmail.com', 'craftsman', NULL, NULL, '2023-11-07 22:10:28', '2023-11-07 22:10:28');
+	(61, 'Kazae', '$2y$04$iZDrlaCCfsjbMiN2MwvEAOs5Wwb/rUp4imXIFb97xhE7lkPUDkBnW', 'Kazae@gmail.com', 'craftsman', NULL, NULL, '2023-11-07 22:10:28', '2023-11-09 07:23:55'),
+	(62, 'Kazae2', '$2y$04$FZOoxE9F4VcJ4w1ejt.wZeo6xaR7MexEpFbiDJgiiUz4pj9bEU4p.', 'Kazae2@gmail.com', 'craftsman', NULL, NULL, '2023-11-08 04:39:37', '2023-11-08 04:39:37'),
+	(63, 'Kazae3', '$2y$04$6Hy1zwaVAm6NPulGYWPygOy8I15uxxm1nQ2Pgmbv53QZO/heVhQwu', 'Kazae3@gmail.com', 'customer', NULL, NULL, '2023-11-09 08:39:12', '2023-11-09 08:39:12'),
+	(64, 'Kaztest', '$2y$04$MbJqJ4rTUUzV2RvlAiPb8e4gzQsJHbTaavoA4dT8GBpOG760oZTUG', 'Kaztest@gmail.com', 'craftsman', NULL, NULL, '2023-11-12 18:39:05', '2023-11-12 18:39:05'),
+	(65, 'testachat', '$2y$04$v6BvZzMZLUqL2AWmKnWSl.k0gL1PcZ1I/p.5TC/7b4lIWTeNeCYwm', 'testachat@gmail.com', 'craftsman', NULL, NULL, '2023-11-12 21:35:10', '2023-11-12 21:35:10'),
+	(66, 'Lareine', '$2y$04$lk5LN0UdRa3zSaMC5txxaOx.mwtZBNpCDRj2RVRYQfw7.wGUFWzxi', 'Lareine@gmail.com', 'craftsman', NULL, NULL, '2023-11-13 13:29:10', '2023-11-13 13:29:10'),
+	(67, 'adress', '$2y$04$5fYKGF8b9YuiCR9Svkf7JOEoCqlib2HNN4t0HEVFf5ShAkPJ6rn/G', 'adress@gmail.com', 'craftsman', NULL, NULL, '2023-11-13 19:03:27', '2023-11-13 19:03:27'),
+	(68, 'Nouveau', '$2y$04$0CT.Taiue2IcKTPoJ1Lbie.XgNsHxo1fMF/.Php5X.eD.CaZxj1MO', 'Nouveau@gmail.com', 'craftsman', NULL, NULL, '2023-11-13 19:06:54', '2023-11-13 19:25:03'),
+	(69, 'az123', '$2y$04$IV6LZHLMzlzldx0gIslzIumhp1TrFcTdDBoMVIrZ4UpELEm9qXm..', 'az123@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 08:38:47', '2023-11-14 08:38:47'),
+	(70, 'titi1', '$2y$04$kukIKvrbzuB6UMEDXhwUuu1BbY6xMVsZeJBmKfn/m7rP03xtRWywW', 'titi1@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 08:43:34', '2023-11-14 08:43:34'),
+	(71, 'Testfinal', '$2y$04$/TOESQSGvu4dJLlRnlBUweNoj9Zmz2NHgItbbCFYPekWsQDUZzo6S', 'Testfinal@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 13:14:01', '2023-11-14 13:16:59'),
+	(72, 'test500', '$2y$04$hfVxgTGQ3ajTbMmb6MMsPuaBuUsu.g2J9uN0OsiUlpHsOpgqOmXV2', 'test500@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 13:33:44', '2023-11-14 13:33:44'),
+	(73, 'test400', '$2y$04$TI2BPHJqF/6lsOtw2pQZzOHIES8fLK5GllPXTpdQTgfav78o9fxOK', 'test400@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 16:41:59', '2023-11-14 16:41:59'),
+	(74, 'test100', '$2y$04$JkWRjmz7eZSB0ln16K3CUumzZhqtf3651tr/vU681R8SBYnlACcYW', 'test100@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 18:12:31', '2023-11-14 18:12:31'),
+	(75, 'test144', '$2y$04$Fh2ud.evk8kgg.l.9rfzze07tKzPK0jsi6YiRYa6W/uX1tzsO3nMm', 'test144@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 19:58:36', '2023-11-14 19:58:36'),
+	(76, 'Arnu', '$2y$04$NHAxZUQuTm2HWPBfK4xg1OKVwi9uLMsRcdSl3M5y9MeWqls4UGzAS', 'Arnu@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 21:51:43', '2023-11-14 21:51:43');
 
 -- Listage de la structure de table projet. wishlist
 CREATE TABLE IF NOT EXISTS `wishlist` (
@@ -364,9 +683,11 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   KEY `IDX_9CE12A314584665A` (`product_id`),
   CONSTRAINT `FK_9CE12A314584665A` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_9CE12A31A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.wishlist : ~0 rows (environ)
+INSERT INTO `wishlist` (`id`, `user_id`, `product_id`, `added_at`) VALUES
+	(10, 70, 1, '2023-11-14 13:13:01');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
