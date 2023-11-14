@@ -25,6 +25,6 @@
 		<p>
 			<strong>Update date:</strong>
 			{{ product.getUpdatedAt ? product.getUpdatedAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
-		<a href="{{ path('product') }}" class="btn btn-primary">Back to products list</a>
+		<a href="{{ path('product') }}" class="btn btn-back">Back to products list</a>
 	</div>
 {% endblock %}

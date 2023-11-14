@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		{% for flash_message in app.flashes('error') %}
-			<div class="alert alert-danger">
+			<div class="alert alert-flash">
 				{{ flash_message }}
 			</div>
 		{% endfor %}

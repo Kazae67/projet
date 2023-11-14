@@ -14,7 +14,7 @@ class OrderConfirmationFormType extends AbstractType
         $builder
             ->add('confirm', SubmitType::class, [
                 'label' => 'Confirm Order',
-                'attr' => ['class' => 'btn btn-success'],
+                'attr' => ['class' => 'btn btn-confirm'],
             ]);
     }
 

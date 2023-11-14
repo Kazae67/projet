@@ -8,7 +8,7 @@
 
 	<!-- Lien pour ajouter un produit visible uniquement par les artisans -->
 	{% if is_granted('ROLE_CRAFTSMAN') %}
-		<a href="{{ path('product_add') }}" class="btn btn-success">Add New Product</a>
+		<a href="{{ path('product_add') }}" class="btn btn-add">Add New Product</a>
 	{% endif %}
 
 	<div class="products">
@@ -23,9 +23,9 @@
 					<p class="card-text">{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}</p>
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="btn-group">
-							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-primary">Show</a>
+							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">Show</a>
 							{% if product.user != app.user %}
-								<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-secondary">Add to cart</a>
+								<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-add">Add to cart</a>
 							{% endif %}
 						</div>
 						<small class="text-muted">{{ product.price }}€</small>
