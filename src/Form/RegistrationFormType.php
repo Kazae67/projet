@@ -3,13 +3,17 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 
 class RegistrationFormType extends AbstractType
 {
@@ -18,8 +22,36 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('username')
             ->add('email', EmailType::class)
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
                 'mapped' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 11,
+                        'minMessage' => 'Your password must be at least 11 characters long',
+                    ]),
+                    new Regex([
+                        'pattern' => '/[A-Z]/',
+                        'message' => 'Your password must contain at least one uppercase letter',
+                    ]),
+                    new Regex([
+                        'pattern' => '/[a-z]/',
+                        'message' => 'Your password must contain at least one lowercase letter',
+                    ]),
+                    new Regex([
+                        'pattern' => '/\d/',
+                        'message' => 'Your password must contain at least one number',
+                    ]),
+                    new Regex([
+                        'pattern' => '/[@$!%*#?&]/',
+                        'message' => 'Your password must contain at least one special character (@$!%*#?&)',
+                    ]),
+                ]
             ])
             ->add('role', ChoiceType::class, [
                 'choices' => [
@@ -28,7 +60,6 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Role',
             ])
-            // Ajout du champ pour l'entité Adress sous forme d'une collection
             ->add('addresses', CollectionType::class, [
                 'entry_type' => AdressFormType::class,
                 'entry_options' => ['label' => false],
