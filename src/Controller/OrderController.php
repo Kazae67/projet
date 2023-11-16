@@ -124,6 +124,11 @@ class OrderController extends AbstractController
             $em->persist($address);
         }
 
+        // Assurer que l'adresse est complète avant de la persister
+        if (!$address->getStreet() || !$address->getCity() || !$address->getPostalCode() || !$address->getCountry()) {
+            throw new \Exception("Incomplete address details.");
+        }
+
         // Mise à jour des adresses par défaut en fonction du type
         if ($address->getType() === 'billing') {
             $user->setDefaultBillingAddress($existingAddress ?: $address);
@@ -133,7 +138,6 @@ class OrderController extends AbstractController
 
         $em->flush();
     }
-
     // Méthode auxiliaire pour trouver une adresse existante du même type
     private function findExistingAddressOfType(User $user, string $type): ?Adress
     {
@@ -157,7 +161,7 @@ class OrderController extends AbstractController
         dump($order_id, $order);
 
         if (!$order) {
-            // Gérer l'erreur ici, par exemple, rediriger ou afficher un message d'erreur
+            // Je dois pas oublier de gérer l'erreur ici
         }
 
         // Rendre la vue 'payment/index.html.twig' avec les données nécessaires
@@ -197,7 +201,7 @@ class OrderController extends AbstractController
 
             $em->flush();
 
-            // Ici, tu pourrais vider le panier si nécessaire
+            // Ici, je pourrais vider le panier si nécessaire
 
             $this->addFlash('success', 'Your order has been successfully confirmed.');
             return $this->redirectToRoute('order_thank_you');

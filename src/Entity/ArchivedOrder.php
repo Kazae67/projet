@@ -29,6 +29,14 @@ class ArchivedOrder
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private float $total;
 
+    // Status de la commande archivée
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $status;
+
+    // Date de création de la commande archivée
+    #[ORM\Column(type: 'datetime')]
+    private \DateTimeInterface $createdAt;
+
     // Collection des détails de la commande
     #[ORM\OneToMany(mappedBy: 'archivedOrder', targetEntity: ArchivedOrderDetail::class, cascade: ['persist'])]
     private Collection $archivedOrderDetails;
@@ -37,9 +45,8 @@ class ArchivedOrder
     {
         $this->archivedAt = new \DateTime();
         $this->archivedOrderDetails = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
-
-    // Getters et Setters
 
     public function getId(): ?int
     {
@@ -84,6 +91,28 @@ class ArchivedOrder
         return $this;
     }
 
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
     /**
      * @return Collection|ArchivedOrderDetail[]
      */
@@ -111,4 +140,5 @@ class ArchivedOrder
         }
         return $this;
     }
+
 }

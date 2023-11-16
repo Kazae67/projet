@@ -5,6 +5,9 @@ namespace App\Controller;
 use Stripe\Stripe;
 use App\Entity\Order;
 use App\Entity\Payment;
+use App\Entity\ArchivedOrder;
+use App\Entity\Adress;
+use App\Entity\ArchivedOrderDetail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,6 +97,7 @@ class PaymentController extends AbstractController
       // Si le paiement réussit, mettre à jour le statut de la commande et gérer les stocks
       if ($charge->status === 'succeeded') {
         $order->setStatus('confirmed');
+        $this->archiveOrder($order, $em);
 
         foreach ($order->getOrderDetails() as $orderDetail) {
           $product = $orderDetail->getProduct();
@@ -106,21 +110,60 @@ class PaymentController extends AbstractController
           $em->persist($product);
         }
 
-        // Appliquer les modifications à la base de données
         $em->flush();
-
-        // Vider le panier après le paiement
         $cartService->emptyCart();
       }
 
-      // Rediriger vers la page de succès du paiement
       return $this->redirectToRoute('payment_success');
     } catch (\Exception $e) {
-      // En cas d'erreur, enregistrer l'erreur et rediriger vers la page d'échec du paiement
       $this->logger->error('Payment failed: ' . $e->getMessage());
       $this->addFlash('error', 'Payment failed: ' . $e->getMessage());
       return $this->redirectToRoute('payment_failed');
     }
+  }
+
+  private function archiveOrder(Order $order, EntityManagerInterface $em): void
+  {
+    $archivedOrder = new ArchivedOrder();
+    $archivedOrder->setUserName($order->getUser()->getUsername());
+    $archivedOrder->setTotal($order->getTotalPrice());
+    $archivedOrder->setStatus($order->getStatus());
+    $archivedOrder->setCreatedAt($order->getCreatedAt());
+
+    // Récupération des détails de l'adresse
+    $billingAddress = $order->getUser()->getDefaultBillingAddress();
+    $deliveryAddress = $order->getUser()->getDefaultDeliveryAddress();
+    $addressDetails = $this->formatAddress($billingAddress ?: $deliveryAddress);
+    $archivedOrder->setAddressDetails($addressDetails);
+
+    foreach ($order->getOrderDetails() as $detail) {
+      $archivedDetail = new ArchivedOrderDetail();
+      $archivedDetail->setArchivedOrder($archivedOrder);
+      $archivedDetail->setProductName($detail->getProduct()->getName());
+      $archivedDetail->setQuantity($detail->getQuantity());
+      $archivedDetail->setPrice($detail->getPrice());
+
+      $em->persist($archivedDetail);
+    }
+
+    $em->persist($archivedOrder);
+  }
+
+  // Méthode auxiliaire pour formater l'adresse en une chaîne
+  private function formatAddress(?Adress $address): string
+  {
+    if (!$address) {
+      return 'Address not provided';
+    }
+
+    return sprintf(
+      '%s, %s, %s, %s, %s',
+      $address->getStreet(),
+      $address->getCity(),
+      $address->getState(),
+      $address->getPostalCode(),
+      $address->getCountry()
+    );
   }
 
   #[Route('/payment/success', name: 'payment_success')]
