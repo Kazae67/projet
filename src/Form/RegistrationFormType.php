@@ -32,8 +32,8 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Please enter a password',
                     ]),
                     new Length([
-                        'min' => 11,
-                        'minMessage' => 'Your password must be at least 11 characters long',
+                        'min' => 12,
+                        'minMessage' => 'Your password must be at least 12 characters long',
                     ]),
                     new Regex([
                         'pattern' => '/[A-Z]/',

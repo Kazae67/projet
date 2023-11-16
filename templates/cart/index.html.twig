@@ -6,7 +6,6 @@
 {% block body %}
 	<h1>Shopping Cart</h1>
 
-	{# Afficher les messages flash #}
 	{% for message in app.flashes('success') %}
 		<div class="alert alert-success">{{ message }}</div>
 	{% endfor %}
@@ -15,24 +14,38 @@
 	{% endfor %}
 
 	{% if items %}
-		{% for item in items %}
-			<div>
-				{{ item.product.name }}
-				- Quantity:
-				{{ item.quantity }}
-				- Price per unit:
-				{{ item.product.price }}€
-																												                - Subtotal:
-				{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€
-			</div>
-		{% endfor %}
-		<div>Total:
-			{{ total }}€</div>
-
-		{# Bouton pour confirmer la commande #}
-		<form action="{{ path('order_prepare') }}" method="post">
-			<button type="submit" class="btn btn-confirm">Confirm Order</button>
-		</form>
+		<div class="cart-items">
+			{% for item in items %}
+				<div class="cart-item">
+					<div class="item-info">
+						{{ item.product.name }}
+						- 
+						                        Quantity:
+						{{ item.quantity }}
+						- 
+						                        Price per unit:
+						{{ item.product.price }}€ - 
+						                        Subtotal:
+						{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€
+					</div>
+					<div class="cart-actions">
+						<a href="{{ path('cart_increment', {'productId': item.product.id}) }}" class="btn btn-sm btn-secondary">+</a>
+						<a href="{{ path('cart_decrement', {'productId': item.product.id}) }}" class="btn btn-sm btn-secondary">-</a>
+						<a href="{{ path('cart_remove', {'productId': item.product.id}) }}" class="btn btn-sm btn-danger">Remove</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="cart-total">
+			Total:
+			{{ total }}€
+		</div>
+		<div class="cart-footer">
+			<form action="{{ path('order_prepare') }}" method="post" class="confirm-order-form">
+				<button type="submit" class="btn btn-primary">Confirm Order</button>
+			</form>
+			<a href="{{ path('cart_clear') }}" class="btn btn-warning">Clear Cart</a>
+		</div>
 	{% else %}
 		<p>Your cart is empty.</p>
 	{% endif %}

@@ -123,4 +123,50 @@ class CartService
     {
         $this->session->set('orderId', $orderId);
     }
+
+    public function saveCartToCookie()
+    {
+        $cart = $this->session->get('cart', []);
+        $cookieValue = json_encode($cart);
+        // Set cookie with a specific expiration, e.g., 30 days
+        setcookie('cart', $cookieValue, time() + (86400 * 30), "/");
+    }
+
+    // Méthode pour augmenter la quantité d'un produit dans le panier
+    public function increment(int $productId)
+    {
+        $cart = $this->session->get('cart', []);
+
+        if (!empty($cart[$productId])) {
+            $cart[$productId]++;
+        } else {
+            $cart[$productId] = 1; // Si le produit n'est pas déjà dans le panier, l'ajouter
+        }
+
+        $this->session->set('cart', $cart);
+    }
+
+    // Méthode pour diminuer la quantité d'un produit dans le panier
+    public function decrement(int $productId)
+    {
+        $cart = $this->session->get('cart', []);
+
+        if (!empty($cart[$productId])) {
+            if ($cart[$productId] > 1) {
+                $cart[$productId]--;
+            } else {
+                unset($cart[$productId]); // Si la quantité devient 0, supprimer le produit du panier
+            }
+        }
+
+        $this->session->set('cart', $cart);
+    }
+
+    public function loadCartFromCookie()
+    {
+        if (isset($_COOKIE['cart'])) {
+            $cart = json_decode($_COOKIE['cart'], true);
+            $this->session->set('cart', $cart);
+        }
+    }
 }
