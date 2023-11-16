@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `adress` (
   PRIMARY KEY (`id`),
   KEY `IDX_5CECC7BEA76ED395` (`user_id`),
   CONSTRAINT `FK_5CECC7BEA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.adress : ~81 rows (environ)
 INSERT INTO `adress` (`id`, `user_id`, `type`, `street`, `city`, `state`, `postal_code`, `country`, `is_default_billing`, `is_default_delivery`) VALUES
@@ -125,7 +125,85 @@ INSERT INTO `adress` (`id`, `user_id`, `type`, `street`, `city`, `state`, `posta
 	(87, 74, 'delivery', 'delivery', 'test', 'azeaze', '67100', 'FR', 0, 1),
 	(88, 75, 'delivery', 'delivery1', 'azezaeza', 'ezaeaz', '67100', 'FR', 0, 1),
 	(89, 75, 'billing', 'billing', 'test', 'azeaze', '67100', 'FR', 1, 0),
-	(90, 76, 'delivery', 'Delivery1', 'Delivery', 'azeaze', '67100', 'FR', 0, 1);
+	(90, 76, 'delivery', 'Delivery1', 'Delivery', 'azeaze', '67100', 'FR', 0, 1),
+	(91, 77, 'delivery', 'Delivery', 'test', 'azeaze', '67100', 'FR', 0, 1),
+	(92, 77, 'billing', 'test', 'test', 'azeaze', '67100', 'FR', 1, 0),
+	(93, 78, 'delivery', 'Delivery 2', 'test', 'azeaze', '67100', 'FR', 0, 1),
+	(94, 78, 'billing', 'test', 'test', 'azeaze', '67100', 'FR', 1, 0);
+
+-- Listage de la structure de table projet. archived_order
+CREATE TABLE IF NOT EXISTS `archived_order` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `archived_at` datetime NOT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address_details` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total` decimal(10,2) NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table projet.archived_order : ~21 rows (environ)
+INSERT INTO `archived_order` (`id`, `archived_at`, `user_name`, `address_details`, `total`, `status`, `created_at`) VALUES
+	(1, '2023-11-16 18:40:55', 'Kaz15', 'Information d\'adresse ici', 50.00, 'confirmed', '2023-11-16 18:36:33'),
+	(2, '2023-11-16 20:31:13', 'Kaz15', 'test, test, azeaze, 67100, FR', 20.00, 'confirmed', '2023-11-16 20:17:58'),
+	(3, '2023-11-16 20:36:49', 'Kaz15', 'test, test, azeaze, 67100, FR', 329.99, 'confirmed', '2023-11-16 20:36:01'),
+	(4, '2023-11-16 20:40:55', 'Kaz15', 'test, test, azeaze, 67100, FR', 10.00, 'confirmed', '2023-11-16 20:40:35'),
+	(5, '2023-11-16 21:03:18', 'Kaz15', 'test, test, azeaze, 67100, FR', 10.00, 'confirmed', '2023-11-16 21:03:01'),
+	(6, '2023-11-16 22:05:38', 'Kaz15', 'Address not provided', 10.00, 'confirmed', '2023-11-16 22:05:20'),
+	(7, '2023-11-16 22:08:00', 'Kaz15', 'Address not provided', 10.00, 'confirmed', '2023-11-16 22:07:45'),
+	(8, '2023-11-16 22:19:12', 'Kaz15', 'Address not provided', 10.00, 'confirmed', '2023-11-16 22:18:56'),
+	(9, '2023-11-16 22:26:27', 'Kaz15', 'Address not provided', 10.00, 'confirmed', '2023-11-16 22:26:10'),
+	(10, '2023-11-16 22:49:16', 'Kaz15', 'test, test, azeaze, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:48:48'),
+	(11, '2023-11-16 22:51:48', 'Login1', 'Delivery, city, state, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:51:35'),
+	(12, '2023-11-16 22:52:44', 'Login1', 'Delivery, city, state, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:52:29'),
+	(13, '2023-11-16 22:54:05', 'Login1', 'Street, City, State, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:53:50'),
+	(14, '2023-11-16 22:55:54', 'Login1', 'Street Billing, City Billing, State Billing, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:55:41'),
+	(15, '2023-11-16 22:57:15', 'Login1', 'Street Billing, City Billing, State Billing, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:56:58'),
+	(16, '2023-11-16 22:57:58', 'Login1', 'Street Billing, City Billing, State Billing, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:57:44'),
+	(17, '2023-11-16 22:58:52', 'Login1', 'Street Billing, City Billing, State Billing, 67100, FR', 10.00, 'confirmed', '2023-11-16 22:58:38'),
+	(18, '2023-11-16 23:38:50', 'Login1', 'Street Billing, City Billing, State Billing, 67100, FR', 10.00, 'confirmed', '2023-11-16 23:38:31'),
+	(19, '2023-11-17 00:12:35', 'Login1', 'test, test, azeaze, 67100, FR', 10.00, 'confirmed', '2023-11-17 00:12:19'),
+	(20, '2023-11-17 00:36:38', 'Login1', 'Address not provided', 10.00, 'confirmed', '2023-11-17 00:36:23'),
+	(21, '2023-11-17 00:46:04', 'Login1', 'test, test, azeaze, 67100, FR', 10.00, 'confirmed', '2023-11-17 00:45:41');
+
+-- Listage de la structure de table projet. archived_order_detail
+CREATE TABLE IF NOT EXISTS `archived_order_detail` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `archived_order_id` int NOT NULL,
+  `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `quantity` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_4271C0587765132B` (`archived_order_id`),
+  CONSTRAINT `FK_4271C0587765132B` FOREIGN KEY (`archived_order_id`) REFERENCES `archived_order` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table projet.archived_order_detail : ~0 rows (environ)
+INSERT INTO `archived_order_detail` (`id`, `archived_order_id`, `product_name`, `price`, `quantity`) VALUES
+	(1, 1, 'name product', 10.00, 2),
+	(2, 1, 'lol', 30.00, 1),
+	(3, 2, 'name product', 10.00, 2),
+	(4, 3, 'name product', 10.00, 3),
+	(5, 3, 'Produit de test', 299.99, 1),
+	(6, 4, 'name product', 10.00, 1),
+	(7, 5, 'name product', 10.00, 1),
+	(8, 6, 'name product', 10.00, 1),
+	(9, 7, 'name product', 10.00, 1),
+	(10, 8, 'name product', 10.00, 1),
+	(11, 9, 'name product', 10.00, 1),
+	(12, 10, 'name product', 10.00, 1),
+	(13, 11, 'name product', 10.00, 1),
+	(14, 12, 'name product', 10.00, 1),
+	(15, 13, 'name product', 10.00, 1),
+	(16, 14, 'name product', 10.00, 1),
+	(17, 15, 'name product', 10.00, 1),
+	(18, 16, 'name product', 10.00, 1),
+	(19, 17, 'name product', 10.00, 1),
+	(20, 18, 'name product', 10.00, 1),
+	(21, 19, 'name product', 10.00, 1),
+	(22, 20, 'name product', 10.00, 1),
+	(23, 21, 'name product', 10.00, 1);
 
 -- Listage de la structure de table projet. category
 CREATE TABLE IF NOT EXISTS `category` (
@@ -149,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table projet.doctrine_migration_versions : ~6 rows (environ)
+-- Listage des données de la table projet.doctrine_migration_versions : ~9 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20231019031655', '2023-10-19 05:17:08', 62),
 	('DoctrineMigrations\\Version20231019044001', '2023-10-19 06:40:11', 87),
@@ -157,7 +235,12 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 	('DoctrineMigrations\\Version20231105225723', '2023-11-06 00:11:20', 50),
 	('DoctrineMigrations\\Version20231107105329', '2023-11-07 11:53:43', 227),
 	('DoctrineMigrations\\Version20231107120531', '2023-11-07 13:05:40', 33),
-	('DoctrineMigrations\\Version20231107132912', '2023-11-07 14:29:19', 54);
+	('DoctrineMigrations\\Version20231107132912', '2023-11-07 14:29:19', 54),
+	('DoctrineMigrations\\Version20231114222413', '2023-11-14 23:24:44', 202),
+	('DoctrineMigrations\\Version20231114222758', '2023-11-14 23:28:10', 42),
+	('DoctrineMigrations\\Version20231116173926', '2023-11-16 18:39:38', 121),
+	('DoctrineMigrations\\Version20231116183725', '2023-11-16 19:37:36', 23),
+	('DoctrineMigrations\\Version20231116193002', '2023-11-16 20:30:19', 16);
 
 -- Listage de la structure de table projet. order
 CREATE TABLE IF NOT EXISTS `order` (
@@ -170,9 +253,9 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`id`),
   KEY `IDX_F5299398A76ED395` (`user_id`),
   CONSTRAINT `FK_F5299398A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.order : ~102 rows (environ)
+-- Listage des données de la table projet.order : ~107 rows (environ)
 INSERT INTO `order` (`id`, `user_id`, `total_price`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 60, 20.00, 'pending', '2023-11-07 20:08:25', '2023-11-07 20:08:25'),
 	(2, 60, 30.00, 'pending', '2023-11-07 20:13:19', '2023-11-07 20:13:19'),
@@ -280,7 +363,43 @@ INSERT INTO `order` (`id`, `user_id`, `total_price`, `status`, `created_at`, `up
 	(104, 76, 20.00, 'pending', '2023-11-14 22:17:11', '2023-11-14 22:17:11'),
 	(105, 76, 20.00, 'pending', '2023-11-14 22:17:17', '2023-11-14 22:17:17'),
 	(106, 76, 20.00, 'pending', '2023-11-14 22:17:42', '2023-11-14 22:17:42'),
-	(107, 76, 20.00, 'pending', '2023-11-14 22:18:05', '2023-11-14 22:18:05');
+	(107, 76, 20.00, 'pending', '2023-11-14 22:18:05', '2023-11-14 22:18:05'),
+	(108, 77, 40.00, 'confirmed', '2023-11-16 11:48:26', '2023-11-16 11:51:06'),
+	(109, 77, 50.00, 'confirmed', '2023-11-16 18:36:33', '2023-11-16 18:40:55'),
+	(110, 77, 20.00, 'pending', '2023-11-16 19:32:26', '2023-11-16 19:32:26'),
+	(111, 77, 20.00, 'pending', '2023-11-16 19:38:34', '2023-11-16 19:38:34'),
+	(112, 77, 20.00, 'pending', '2023-11-16 19:45:24', '2023-11-16 19:45:24'),
+	(113, 77, 20.00, 'confirmed', '2023-11-16 20:17:58', '2023-11-16 20:31:13'),
+	(114, 77, 329.99, 'confirmed', '2023-11-16 20:36:01', '2023-11-16 20:36:49'),
+	(115, 77, 10.00, 'confirmed', '2023-11-16 20:40:35', '2023-11-16 20:40:55'),
+	(116, 77, 10.00, 'confirmed', '2023-11-16 21:03:01', '2023-11-16 21:03:18'),
+	(117, 77, 10.00, 'confirmed', '2023-11-16 22:05:20', '2023-11-16 22:05:38'),
+	(118, 77, 10.00, 'confirmed', '2023-11-16 22:07:45', '2023-11-16 22:08:00'),
+	(119, 77, 10.00, 'pending', '2023-11-16 22:10:53', '2023-11-16 22:10:53'),
+	(120, 77, 10.00, 'confirmed', '2023-11-16 22:18:56', '2023-11-16 22:19:12'),
+	(121, 77, 10.00, 'confirmed', '2023-11-16 22:26:10', '2023-11-16 22:26:27'),
+	(122, 77, 10.00, 'confirmed', '2023-11-16 22:48:48', '2023-11-16 22:49:16'),
+	(123, 78, 10.00, 'confirmed', '2023-11-16 22:51:35', '2023-11-16 22:51:48'),
+	(124, 78, 10.00, 'confirmed', '2023-11-16 22:52:29', '2023-11-16 22:52:44'),
+	(125, 78, 10.00, 'confirmed', '2023-11-16 22:53:50', '2023-11-16 22:54:05'),
+	(126, 78, 10.00, 'confirmed', '2023-11-16 22:55:41', '2023-11-16 22:55:54'),
+	(127, 78, 10.00, 'confirmed', '2023-11-16 22:56:58', '2023-11-16 22:57:15'),
+	(128, 78, 10.00, 'confirmed', '2023-11-16 22:57:44', '2023-11-16 22:57:58'),
+	(129, 78, 10.00, 'confirmed', '2023-11-16 22:58:38', '2023-11-16 22:58:53'),
+	(130, 78, 10.00, 'pending', '2023-11-16 23:16:22', '2023-11-16 23:16:22'),
+	(131, 78, 10.00, 'pending', '2023-11-16 23:23:38', '2023-11-16 23:23:38'),
+	(132, 78, 10.00, 'pending', '2023-11-16 23:23:48', '2023-11-16 23:23:48'),
+	(133, 78, 10.00, 'pending', '2023-11-16 23:23:55', '2023-11-16 23:23:55'),
+	(134, 78, 10.00, 'pending', '2023-11-16 23:32:48', '2023-11-16 23:32:48'),
+	(135, 78, 10.00, 'confirmed', '2023-11-16 23:38:31', '2023-11-16 23:38:50'),
+	(136, 78, 10.00, 'pending', '2023-11-16 23:52:40', '2023-11-16 23:52:40'),
+	(137, 78, 10.00, 'pending', '2023-11-16 23:59:11', '2023-11-16 23:59:11'),
+	(138, 78, 10.00, 'pending', '2023-11-17 00:08:07', '2023-11-17 00:08:07'),
+	(139, 78, 10.00, 'pending', '2023-11-17 00:08:26', '2023-11-17 00:08:26'),
+	(140, 78, 10.00, 'confirmed', '2023-11-17 00:12:19', '2023-11-17 00:12:35'),
+	(141, 78, 10.00, 'pending', '2023-11-17 00:27:57', '2023-11-17 00:27:57'),
+	(142, 78, 10.00, 'confirmed', '2023-11-17 00:36:23', '2023-11-17 00:36:38'),
+	(143, 78, 10.00, 'confirmed', '2023-11-17 00:45:41', '2023-11-17 00:46:04');
 
 -- Listage de la structure de table projet. order_detail
 CREATE TABLE IF NOT EXISTS `order_detail` (
@@ -295,9 +414,9 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   KEY `IDX_ED896F464584665A` (`product_id`),
   CONSTRAINT `FK_ED896F464584665A` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ED896F468D9F6D38` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.order_detail : ~127 rows (environ)
+-- Listage des données de la table projet.order_detail : ~154 rows (environ)
 INSERT INTO `order_detail` (`id`, `order_id`, `quantity`, `price`, `subtotal`, `product_id`) VALUES
 	(1, 1, 1, 20.00, 20.00, 5),
 	(2, 2, 1, 30.00, 30.00, 2),
@@ -455,7 +574,46 @@ INSERT INTO `order_detail` (`id`, `order_id`, `quantity`, `price`, `subtotal`, `
 	(154, 104, 1, 20.00, 20.00, 3),
 	(155, 105, 1, 20.00, 20.00, 3),
 	(156, 106, 1, 20.00, 20.00, 3),
-	(157, 107, 1, 20.00, 20.00, 3);
+	(157, 107, 1, 20.00, 20.00, 3),
+	(158, 108, 1, 30.00, 30.00, 2),
+	(159, 108, 1, 10.00, 10.00, 1),
+	(160, 109, 1, 30.00, 30.00, 2),
+	(161, 109, 2, 10.00, 20.00, 1),
+	(162, 110, 2, 10.00, 20.00, 1),
+	(163, 111, 2, 10.00, 20.00, 1),
+	(164, 112, 2, 10.00, 20.00, 1),
+	(165, 113, 2, 10.00, 20.00, 1),
+	(166, 114, 1, 299.99, 299.99, 22),
+	(167, 114, 3, 10.00, 30.00, 1),
+	(168, 115, 1, 10.00, 10.00, 1),
+	(169, 116, 1, 10.00, 10.00, 1),
+	(170, 117, 1, 10.00, 10.00, 1),
+	(171, 118, 1, 10.00, 10.00, 1),
+	(172, 119, 1, 10.00, 10.00, 1),
+	(173, 120, 1, 10.00, 10.00, 1),
+	(174, 121, 1, 10.00, 10.00, 1),
+	(175, 122, 1, 10.00, 10.00, 1),
+	(176, 123, 1, 10.00, 10.00, 1),
+	(177, 124, 1, 10.00, 10.00, 1),
+	(178, 125, 1, 10.00, 10.00, 1),
+	(179, 126, 1, 10.00, 10.00, 1),
+	(180, 127, 1, 10.00, 10.00, 1),
+	(181, 128, 1, 10.00, 10.00, 1),
+	(182, 129, 1, 10.00, 10.00, 1),
+	(183, 130, 1, 10.00, 10.00, 1),
+	(184, 131, 1, 10.00, 10.00, 1),
+	(185, 132, 1, 10.00, 10.00, 1),
+	(186, 133, 1, 10.00, 10.00, 1),
+	(187, 134, 1, 10.00, 10.00, 1),
+	(188, 135, 1, 10.00, 10.00, 1),
+	(189, 136, 1, 10.00, 10.00, 1),
+	(190, 137, 1, 10.00, 10.00, 1),
+	(191, 138, 1, 10.00, 10.00, 1),
+	(192, 139, 1, 10.00, 10.00, 1),
+	(193, 140, 1, 10.00, 10.00, 1),
+	(194, 141, 1, 10.00, 10.00, 1),
+	(195, 142, 1, 10.00, 10.00, 1),
+	(196, 143, 1, 10.00, 10.00, 1);
 
 -- Listage de la structure de table projet. payment
 CREATE TABLE IF NOT EXISTS `payment` (
@@ -469,9 +627,9 @@ CREATE TABLE IF NOT EXISTS `payment` (
   PRIMARY KEY (`id`),
   KEY `IDX_6D28840D8D9F6D38` (`order_id`),
   CONSTRAINT `FK_6D28840D8D9F6D38` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.payment : ~53 rows (environ)
+-- Listage des données de la table projet.payment : ~49 rows (environ)
 INSERT INTO `payment` (`id`, `order_id`, `transaction_id`, `amount`, `payment_method`, `status`, `created_at`) VALUES
 	(1, 48, 'ch_3OBhxMEONNRmxI8s11BYhzxu', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 19:00:26'),
 	(2, 49, 'ch_3OBjk4EONNRmxI8s1VTCt7jC', 10.00, 'carte de crédit', 'succeeded', '2023-11-12 20:54:52'),
@@ -525,7 +683,29 @@ INSERT INTO `payment` (`id`, `order_id`, `transaction_id`, `amount`, `payment_me
 	(50, 99, 'ch_3OCTHLEONNRmxI8s0oQLBIz9', 20.00, 'carte de crédit', 'succeeded', '2023-11-14 21:32:12'),
 	(51, 100, 'ch_3OCTX9EONNRmxI8s1yfemmPj', 10.00, 'carte de crédit', 'succeeded', '2023-11-14 21:48:32'),
 	(52, 101, 'ch_3OCThTEONNRmxI8s1dAWidew', 10.00, 'carte de crédit', 'succeeded', '2023-11-14 21:59:12'),
-	(53, 102, 'ch_3OCTjSEONNRmxI8s1WVeGKN8', 20.00, 'carte de crédit', 'succeeded', '2023-11-14 22:01:15');
+	(53, 102, 'ch_3OCTjSEONNRmxI8s1WVeGKN8', 20.00, 'carte de crédit', 'succeeded', '2023-11-14 22:01:15'),
+	(54, 108, 'ch_3OD3A3EONNRmxI8s1BbOb2dL', 40.00, 'carte de crédit', 'succeeded', '2023-11-16 11:51:06'),
+	(55, 109, 'ch_3OD9YfEONNRmxI8s0rPzw7Ow', 50.00, 'carte de crédit', 'succeeded', '2023-11-16 18:40:55'),
+	(62, 113, 'ch_3ODBHQEONNRmxI8s1xXvJHaK', 20.00, 'carte de crédit', 'succeeded', '2023-11-16 20:31:13'),
+	(63, 114, 'ch_3ODBMqEONNRmxI8s1XzxJuk4', 329.99, 'carte de crédit', 'succeeded', '2023-11-16 20:36:48'),
+	(64, 115, 'ch_3ODBQoEONNRmxI8s1m2B2fiG', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 20:40:55'),
+	(65, 116, 'ch_3ODBmTEONNRmxI8s1lynlkgM', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 21:03:18'),
+	(66, 117, 'ch_3ODCknEONNRmxI8s1RRutN4I', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:05:38'),
+	(67, 118, 'ch_3ODCn5EONNRmxI8s0zjAkmmA', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:08:00'),
+	(68, 120, 'ch_3ODCxvEONNRmxI8s0KuKd2TY', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:19:12'),
+	(69, 121, 'ch_3ODD4wEONNRmxI8s12T6vE6g', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:26:27'),
+	(70, 122, 'ch_3ODDR1EONNRmxI8s0AlloSxi', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:49:16'),
+	(71, 123, 'ch_3ODDTUEONNRmxI8s0Iw6QwC1', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:51:48'),
+	(72, 124, 'ch_3ODDUNEONNRmxI8s1xIsJihF', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:52:44'),
+	(73, 125, 'ch_3ODDVgEONNRmxI8s1cOa0zJu', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:54:05'),
+	(74, 126, 'ch_3ODDXREONNRmxI8s1aFQWR1n', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:55:54'),
+	(75, 127, 'ch_3ODDYkEONNRmxI8s0UKaHCBy', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:57:15'),
+	(76, 128, 'ch_3ODDZSEONNRmxI8s0ZwDd0XQ', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:57:58'),
+	(77, 129, 'ch_3ODDaKEONNRmxI8s1OTkEOu9', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 22:58:52'),
+	(78, 135, 'ch_3ODECxEONNRmxI8s1ag0tOrZ', 10.00, 'carte de crédit', 'succeeded', '2023-11-16 23:38:50'),
+	(79, 140, 'ch_3ODEjeEONNRmxI8s1Oz2UC1E', 10.00, 'carte de crédit', 'succeeded', '2023-11-17 00:12:35'),
+	(80, 142, 'ch_3ODF6vEONNRmxI8s0sVx76nH', 10.00, 'carte de crédit', 'succeeded', '2023-11-17 00:36:38'),
+	(81, 143, 'ch_3ODFG2EONNRmxI8s06mgVRQH', 10.00, 'carte de crédit', 'succeeded', '2023-11-17 00:46:04');
 
 -- Listage de la structure de table projet. product
 CREATE TABLE IF NOT EXISTS `product` (
@@ -546,12 +726,12 @@ CREATE TABLE IF NOT EXISTS `product` (
   KEY `IDX_D34A04AD12469DE2` (`category_id`),
   CONSTRAINT `FK_D34A04AD12469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FK_D34A04ADA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.product : ~17 rows (environ)
+-- Listage des données de la table projet.product : ~15 rows (environ)
 INSERT INTO `product` (`id`, `user_id`, `category_id`, `name`, `description`, `price`, `stock_quantity`, `is_active`, `image_url`, `created_at`, `updated_at`) VALUES
-	(1, 1, 1, 'name product', 'description product', 10.00, 481, 1, 'default.image.jpg', '2023-10-26 19:53:48', '2023-11-14 21:59:12'),
-	(2, 1, 1, 'lol', 'maaaaa', 30.00, 2, 1, 'default.image.jpg', '2023-10-26 20:19:38', '2023-11-14 13:24:51'),
+	(1, 1, 1, 'name product', 'description product', 10.00, 455, 1, 'default.image.jpg', '2023-10-26 19:53:48', '2023-11-17 00:46:04'),
+	(2, 1, 1, 'lol', 'maaaaa', 30.00, 0, 1, 'default.image.jpg', '2023-10-26 20:19:38', '2023-11-16 18:40:55'),
 	(3, 1, 1, 'am', 'nana', 20.00, 1, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-14 22:18:05'),
 	(4, 1, 1, 'ta', 'ze', 20.00, 1, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-14 12:32:59'),
 	(5, 1, 1, 'tata', 'ze', 20.00, 0, 1, 'default.image.jpg', '2023-10-26 22:47:04', '2023-11-14 13:41:06'),
@@ -565,8 +745,9 @@ INSERT INTO `product` (`id`, `user_id`, `category_id`, `name`, `description`, `p
 	(17, 62, 1, 'azezaezza', 'ezaeza', 10.00, 1, 1, NULL, '2023-11-08 04:59:22', '2023-11-08 04:59:22'),
 	(20, 61, 1, 'mon produit sécurisée', 'produit sécurisé', 10.00, 1, 1, NULL, '2023-11-09 09:22:28', '2023-11-12 21:38:03'),
 	(21, 61, 1, 'add TEST', 'azoejkoze', 10.00, 1, 1, NULL, '2023-11-09 21:14:10', '2023-11-09 21:14:10'),
-	(22, 71, 1, 'Produit de test', 'Ceci est une description du produit', 299.99, 25, 1, NULL, '2023-11-14 13:18:15', '2023-11-14 13:19:36'),
-	(23, 72, 1, 'test du produit', 'description du produit', 99.99, 50, 1, NULL, '2023-11-14 13:35:05', '2023-11-14 13:35:05');
+	(22, 71, 1, 'Produit de test', 'Ceci est une description du produit', 299.99, 24, 1, NULL, '2023-11-14 13:18:15', '2023-11-16 20:36:49'),
+	(23, 72, 1, 'test du produit', 'description du produit', 99.99, 50, 1, NULL, '2023-11-14 13:35:05', '2023-11-14 13:35:05'),
+	(24, 77, 1, 'ce produit est à moi', 'description', 99.99, 10, 1, NULL, '2023-11-16 11:35:07', '2023-11-16 11:35:07');
 
 -- Listage de la structure de table projet. review
 CREATE TABLE IF NOT EXISTS `review` (
@@ -598,7 +779,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `created_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
   `updated_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.user : ~48 rows (environ)
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `role`, `last_login`, `profile_picture`, `created_at`, `updated_at`) VALUES
@@ -670,7 +851,9 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `role`, `last_login`,
 	(73, 'test400', '$2y$04$TI2BPHJqF/6lsOtw2pQZzOHIES8fLK5GllPXTpdQTgfav78o9fxOK', 'test400@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 16:41:59', '2023-11-14 16:41:59'),
 	(74, 'test100', '$2y$04$JkWRjmz7eZSB0ln16K3CUumzZhqtf3651tr/vU681R8SBYnlACcYW', 'test100@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 18:12:31', '2023-11-14 18:12:31'),
 	(75, 'test144', '$2y$04$Fh2ud.evk8kgg.l.9rfzze07tKzPK0jsi6YiRYa6W/uX1tzsO3nMm', 'test144@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 19:58:36', '2023-11-14 19:58:36'),
-	(76, 'Arnu', '$2y$04$NHAxZUQuTm2HWPBfK4xg1OKVwi9uLMsRcdSl3M5y9MeWqls4UGzAS', 'Arnu@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 21:51:43', '2023-11-14 21:51:43');
+	(76, 'Arnu', '$2y$04$NHAxZUQuTm2HWPBfK4xg1OKVwi9uLMsRcdSl3M5y9MeWqls4UGzAS', 'Arnu@gmail.com', 'craftsman', NULL, NULL, '2023-11-14 21:51:43', '2023-11-14 21:51:43'),
+	(77, 'Kaz15', '$2y$04$LFTxkXAoTEugSdnXHlhVIeomP29KUGqtSfAo3S6tf6AFG8LFrYICm', 'Kaz15@gmail.com', 'craftsman', NULL, NULL, '2023-11-16 11:25:30', '2023-11-16 11:25:30'),
+	(78, 'Login1', '$2y$04$zPM/yYv.MQSuCsfXHhaEYOby1rJLpp7.qDZhJB.kKTt7TU3J6/G/y', 'Login1@gmail.com', 'craftsman', NULL, NULL, '2023-11-16 22:50:31', '2023-11-16 22:50:31');
 
 -- Listage de la structure de table projet. wishlist
 CREATE TABLE IF NOT EXISTS `wishlist` (
@@ -683,11 +866,12 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   KEY `IDX_9CE12A314584665A` (`product_id`),
   CONSTRAINT `FK_9CE12A314584665A` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_9CE12A31A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.wishlist : ~0 rows (environ)
+-- Listage des données de la table projet.wishlist : ~2 rows (environ)
 INSERT INTO `wishlist` (`id`, `user_id`, `product_id`, `added_at`) VALUES
-	(10, 70, 1, '2023-11-14 13:13:01');
+	(10, 70, 1, '2023-11-14 13:13:01'),
+	(17, 77, 1, '2023-11-16 12:34:16');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

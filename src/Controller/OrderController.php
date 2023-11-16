@@ -95,7 +95,6 @@ class OrderController extends AbstractController
             $this->handleAddressSubmission($address, $user, $em);
             $this->addFlash('success', 'Address saved successfully.');
             // Redirection éventuelle vers une autre page
-
         }
 
         // Rendre la vue 'order/confirm.html.twig' avec les données nécessaires
@@ -138,6 +137,7 @@ class OrderController extends AbstractController
 
         $em->flush();
     }
+
     // Méthode auxiliaire pour trouver une adresse existante du même type
     private function findExistingAddressOfType(User $user, string $type): ?Adress
     {
