@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order Tracking
+{% endblock %}
+
+{% block body %}
+	<h1>Order Tracking</h1>
+
+	{% if order %}
+		<h2>Order Details</h2>
+		<p>Order ID:
+			{{ order.id }}</p>
+		<p>Status:
+			{{ order.status }}</p>
+		<p>Total Price:
+			{{ order.totalPrice }}€</p>
+
+		<h2>Product Details</h2>
+		{% if order.orderDetails|length > 0 %}
+			<table>
+				<thead>
+					<tr>
+						<th>Product</th>
+						<th>Quantity</th>
+						<th>Unit Price</th>
+						<th>Seller</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for detail in order.orderDetails %}
+						<tr>
+							<td>{{ detail.product.name }}</td>
+							<td>{{ detail.quantity }}</td>
+							<td>{{ detail.price }}€</td>
+							<td>{{ detail.product.user.username }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No product details available.</p>
+		{% endif %}
+
+		<h2>Tracking Information</h2>
+		{% if trackings|length > 0 %}
+			<table>
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for tracking in trackings %}
+						<tr>
+							<td>{{ tracking.updatedAt|date('Y-m-d H:i') }}</td>
+							<td>{{ tracking.status }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No tracking information available.</p>
+		{% endif %}
+	{% else %}
+		<p>Order not found or access denied.</p>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Orders
+{% endblock %}
+
+{% block body %}
+	<h1>My Orders</h1>
+	{% if orders|length > 0 %}
+		<ul>
+			{% for order in orders %}
+				<li>
+					Order #{{ order.id }}
+					-
+					<a href="{{ path('order_tracking', {'orderId': order.id}) }}">Track this order</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>You have no orders.</p>
+	{% endif %}
+{% endblock %}

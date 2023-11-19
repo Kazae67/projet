@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
-use App\Form\OrderConfirmationFormType;
+use App\Entity\User;
+use App\Entity\Order;
+use App\Entity\Adress;
+use App\Entity\OrderDetail;
 use App\Form\AdressFormType;
 use App\Service\CartService;
-use App\Entity\Order;
-use App\Entity\User;
-use App\Entity\OrderDetail;
-use App\Entity\Adress;
+use App\Entity\OrderTracking;
+use App\Form\OrderConfirmationFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class OrderController extends AbstractController
@@ -178,6 +179,13 @@ class OrderController extends AbstractController
         $order = $em->getRepository(Order::class)->find($order_id);
         if ($order) {
             $order->setStatus('confirmed');
+
+            // Créer un suivi de commande
+            $tracking = new OrderTracking();
+            $tracking->setOrder($order);
+            $tracking->setStatus('Order Placed');
+            $em->persist($tracking);
+            $em->flush();
 
             // Parcours chaque détail de la commande pour mettre à jour le stock
             foreach ($order->getOrderDetails() as $orderDetail) {

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
@@ -29,11 +31,20 @@
 				<a href="{{ path('app_register') }}">Register</a>
 				<a href="{{ path('app_login') }}">Login</a>
 			{% else %}
-				<a href="{{ path('app_logout') }}">Logout</a>
-				<a href="{{ path('app_profile') }}">My profile</a>
 				{% if is_granted('ROLE_CRAFTSMAN') %}
 					<a href="{{ path('my_products') }}">My Products</a>
 				{% endif %}
+
+				<!-- Dropdown Menu pour le profil utilisateur -->
+				<div class="dropdown">
+					<button class="dropbtn">{{ app.user.username }}</button>
+					<div class="dropdown-content">
+						<a href="{{ path('app_profile') }}">My Profile</a>
+						<a href="{{ path('order_tracking_list') }}">Track My Orders</a>
+						<a href="{{ path('app_logout') }}">Logout</a>
+					</div>
+				</div>
+
 			{% endif %}
 		</div>
 		{% block body %}{% endblock %}

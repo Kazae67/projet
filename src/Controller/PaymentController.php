@@ -4,17 +4,18 @@ namespace App\Controller;
 
 use Stripe\Stripe;
 use App\Entity\Order;
-use App\Entity\Payment;
-use App\Entity\ArchivedOrder;
 use App\Entity\Adress;
+use App\Entity\Payment;
+use App\Service\CartService;
+use Psr\Log\LoggerInterface;
+use App\Entity\ArchivedOrder;
+use App\Entity\OrderTracking;
 use App\Entity\ArchivedOrderDetail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Psr\Log\LoggerInterface;
-use App\Service\CartService;
 
 class PaymentController extends AbstractController
 {
@@ -98,6 +99,13 @@ class PaymentController extends AbstractController
       if ($charge->status === 'succeeded') {
         $order->setStatus('confirmed');
         $this->archiveOrder($order, $em);
+
+        // Mettre à jour le suivi de la commande
+        $tracking = new OrderTracking();
+        $tracking->setOrder($order);
+        $tracking->setStatus('Payment Confirmed');
+        $em->persist($tracking);
+        $em->flush();
 
         foreach ($order->getOrderDetails() as $orderDetail) {
           $product = $orderDetail->getProduct();
