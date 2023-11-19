@@ -42,9 +42,9 @@ class OrderTrackingController extends AbstractController
             $this->addFlash('error', 'You must be logged in to view your orders.');
             return $this->redirectToRoute('app_login');
         }
-    
+
         $orders = $orderRepository->findBy(['user' => $user]);
-    
+
         return $this->render('order/trackingList.html.twig', [
             'orders' => $orders,
         ]);
