@@ -19,6 +19,9 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(type: 'string', length: 64, unique: true)]
+    private ?string $trackingToken = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $total_price = null;
 
@@ -53,6 +56,22 @@ class Order
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTrackingToken(): ?string
+    {
+        return $this->trackingToken;
+    }
+
+    public function generateTrackingToken(): void
+    {
+        $this->trackingToken = bin2hex(random_bytes(8));
+    }
+
+    public function setTrackingToken($token): self
+    {
+        $this->trackingToken = $token;
+        return $this;
     }
 
     public function getTotalPrice(): ?string

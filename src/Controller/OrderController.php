@@ -65,6 +65,10 @@ class OrderController extends AbstractController
             $order->setUser($user);
             $order->setStatus('pending');
 
+            // Générer un token unique
+            $token = uniqid() . bin2hex(random_bytes(8));
+            $order->setTrackingToken($token);
+
             // Calculer le montant total de la commande
             $total = 0;
             foreach ($cart as $item) {

@@ -11,16 +11,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderTrackingController extends AbstractController
 {
-    #[Route('/order/tracking/{orderId}', name: 'order_tracking')]
-    public function trackOrder(int $orderId, OrderRepository $orderRepository, OrderTrackingRepository $orderTrackingRepository): Response
+    #[Route('/order/tracking/{token}', name: 'order_tracking')]
+    public function trackOrder(string $token, OrderRepository $orderRepository, OrderTrackingRepository $orderTrackingRepository): Response
     {
-        // Récupérer la commande par son ID
-        $order = $orderRepository->find($orderId);
+        // Récupérer la commande par son token de suivi
+        $order = $orderRepository->findOneBy(['trackingToken' => $token]);
+
+        // Vérifier si la commande existe
+        if (!$order) {
+            $this->addFlash('error', 'Order not found.');
+            return $this->redirectToRoute('home');
+        }
 
         // Vérifier si l'utilisateur a le droit de suivre cette commande
-        if (!$order || $order->getUser() !== $this->getUser()) {
-            // Si la commande n'existe pas ou si l'utilisateur actuel n'est pas le propriétaire de la commande
-            $this->addFlash('error', 'Order not found or access denied.');
+        if ($order->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'Access denied.');
             return $this->redirectToRoute('home');
         }
 
