@@ -1,5 +1,6 @@
 .navbar {
     background-color: #333;
+    overflow:visible;
 }
 
 .navbar a {
@@ -16,7 +17,7 @@
     color: black;
 }
 
-/* Style pour le bouton du menu déroulant */
+/* bouton du menu déroulant */
 .dropbtn {
     background-color: #4CAF50;
     color: white;
@@ -34,7 +35,7 @@
   
   /* Contenu du menu déroulant (liens) */
   .dropdown-content {
-    display: none; /* Assurez-vous que c'est 'none' pour masquer initialement */
+    display: none; 
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
@@ -51,7 +52,7 @@
 }
 
   
-  /* Changer la couleur du lien au survol */
+  /* couleur du lien au survol */
   .dropdown-content a:hover {background-color: #f1f1f1}
   
   /* Afficher le menu déroulant au survol */
