@@ -6,15 +6,33 @@
 {% block body %}
 	<h1>My Orders</h1>
 	{% if orders|length > 0 %}
-		<ul>
-			{% for order in orders %}
-				<li>
-					Order #{{ order.id }}
-					-
-					<a href="{{ path('order_tracking', {'orderId': order.id}) }}">Track this order</a>
-				</li>
-			{% endfor %}
-		</ul>
+		<table>
+			<thead>
+				<tr>
+					<th>Order #</th>
+					<th>Date</th>
+					<th>Status</th>
+					<th>Items</th>
+					<th>Total Price</th>
+					<th>Track</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in orders %}
+					<tr>
+						<td>{{ order.id }}</td>
+						<td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
+						<td>{{ order.status }}</td>
+						<td>{{ order.orderDetails|length }}</td>
+						<td>{{ order.totalPrice }}
+							€</td>
+						<td>
+							<a href="{{ path('order_tracking', {'orderId': order.id}) }}">Track</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	{% else %}
 		<p>You have no orders.</p>
 	{% endif %}
