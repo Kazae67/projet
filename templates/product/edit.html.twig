@@ -7,7 +7,14 @@
 	<h1>Edit Product</h1>
 
 	{{ form_start(form) }}
-	{{ form_widget(form) }}
+	{# Utilisation de form_row pour chaque champ, avec des attributs personnalisés pour la validation côté client #}
+	{{ form_row(form.name, {'attr': {'maxlength': 30, 'minlength': 3}}) }}
+	{{ form_row(form.description, {'attr': {'maxlength': 1000, 'minlength': 10}}) }}
+	{{ form_row(form.price, {'attr': {'min': 0, 'step': '0.01'}}) }}
+	{{ form_row(form.stockQuantity, {'attr': {'min': 0}}) }}
+	{{ form_row(form.imageUrl) }}
+	{{ form_row(form.category) }}
+
 	<button class="btn btn-update">Update Product</button>
 	{{ form_end(form) }}
 
