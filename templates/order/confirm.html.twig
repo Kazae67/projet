@@ -8,8 +8,13 @@
 
 	{{ form_start(orderForm) }}
 
-	<h2>Delivery Address</h2>
+	<h2>Your Information</h2>
+	<div>
+		{{ form_row(orderForm.firstName) }}
+		{{ form_row(orderForm.lastName) }}
+	</div>
 
+	<h2>Delivery Address</h2>
 	{% if user.defaultBillingAddress %}
 		<div>
 			<input type="radio" id="billing_default" name="selected_address" value="billing_default">

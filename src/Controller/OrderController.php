@@ -61,6 +61,10 @@ class OrderController extends AbstractController
                 $order->setStatus('pending');
                 $order->generateTrackingToken();
 
+                // Assignation de firstName et lastName
+                $order->setFirstName($data['firstName']);
+                $order->setLastName($data['lastName']);
+
                 // Gestion des adresses
                 if ($data['selectedAddress'] === 'new_address') {
                     $address = $this->createOrUpdateAddress($user, $data, $em);

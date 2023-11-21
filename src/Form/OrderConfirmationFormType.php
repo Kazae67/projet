@@ -42,6 +42,15 @@ class OrderConfirmationFormType extends AbstractType
                 'label' => 'Address Type',
                 'required' => false
             ])
+            // Champs pour prénom et nom
+            ->add('firstName', TextType::class, [
+                'label' => 'First Name',
+                'required' => true
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Last Name',
+                'required' => true
+            ])
             // Champs pour sélectionner l'adresse
             ->add('selectedAddress', ChoiceType::class, [
                 'label' => 'Select Address',

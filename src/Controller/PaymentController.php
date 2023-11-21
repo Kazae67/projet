@@ -100,9 +100,11 @@ class PaymentController extends AbstractController
         $order->setStatus('confirmed');
         // Récupération de l'adresse sélectionnée pour la commande
         $selectedAddress = $order->getAddress();
+        $firstName = $order->getFirstName();
+        $lastName = $order->getLastName();
 
         // Archiver la commande avec l'adresse sélectionnée
-        $this->archiveOrder($order, $em, $selectedAddress);
+        $this->archiveOrder($order, $em, $selectedAddress, $firstName, $lastName);
         // Mettre à jour le suivi de la commande
         $tracking = new OrderTracking();
         $tracking->setOrder($order);
@@ -127,7 +129,7 @@ class PaymentController extends AbstractController
     }
   }
 
-  private function archiveOrder(Order $order, EntityManagerInterface $em, Adress $selectedAddress): void
+  private function archiveOrder(Order $order, EntityManagerInterface $em, Adress $selectedAddress, string $firstName, string $lastName): void
   {
     $archivedOrder = new ArchivedOrder();
     $archivedOrder->setUserName($order->getUser()->getUsername());
@@ -137,6 +139,10 @@ class PaymentController extends AbstractController
 
     $addressDetails = $this->formatAddress($selectedAddress);
     $archivedOrder->setAddressDetails($addressDetails);
+
+    // Ajout de firstName et lastName à l'ordre archivé
+    $archivedOrder->setFirstName($firstName);
+    $archivedOrder->setLastName($lastName);
 
     foreach ($order->getOrderDetails() as $detail) {
       $archivedDetail = new ArchivedOrderDetail();
