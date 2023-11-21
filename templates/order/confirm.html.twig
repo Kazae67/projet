@@ -15,29 +15,7 @@
 	</div>
 
 	<h2>Delivery Address</h2>
-	{% if user.defaultBillingAddress %}
-		<div>
-			<input type="radio" id="billing_default" name="selected_address" value="billing_default">
-			<label for="billing_default">Use my default billing address:</label>
-			<p>{{ user.defaultBillingAddress.street }},
-				{{ user.defaultBillingAddress.city }},
-				{{ user.defaultBillingAddress.postalCode }}</p>
-		</div>
-	{% endif %}
-	{% if user.defaultDeliveryAddress %}
-		<div>
-			<input type="radio" id="delivery_default" name="selected_address" value="delivery_default">
-			<label for="delivery_default">Use my default delivery address:</label>
-			<p>{{ user.defaultDeliveryAddress.street }},
-				{{ user.defaultDeliveryAddress.city }},
-				{{ user.defaultDeliveryAddress.postalCode }}</p>
-		</div>
-	{% endif %}
-
-	<div>
-		<input type="radio" id="new_address" name="selected_address" value="new_address">
-		<label for="new_address">Use a new address</label>
-	</div>
+	{{ form_row(orderForm.selectedAddress) }}
 
 	<div id="new_address_form" style="display: none;">
 		{{ form_row(orderForm.street) }}
