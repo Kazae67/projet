@@ -27,7 +27,7 @@ class ProductType extends AbstractType
                     new Assert\NotBlank(),
                     new Assert\Length(['min' => 3, 'max' => 30]), // Limite de 30 caractères
                     new Assert\Regex([
-                        'pattern' => '/^(?!https?:\/\/)[a-zA-Z0-9\s\/]+(?!\/\/)$/',
+                        'pattern' => '/^[a-zA-Z0-9\s\/]+(?!\/\/)$/',
                         'message' => 'The title should not contain special characters like @{}|'
                     ]),
                 ]
@@ -36,9 +36,9 @@ class ProductType extends AbstractType
             ->add('description', TextareaType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length(['min' => 10, 'max' => 1000]),
+                    new Assert\Length(['min' => 10, 'max' => 5000]),
                     new Assert\Regex([
-                        'pattern' => '/^(?!https?:\/\/)[^<>]*(?!\/\/)[^<>]*$/u', // Interdit les caractères < et > pour éviter les balises HTML et empêche les doubles slash pour les liens HTTP
+                        'pattern' => '/^[^<>]*(?!\/\/)[^<>]*$/u', // Interdit les caractères < et > pour éviter les balises HTML et empêche les doubles slash pour les liens
                         'message' => 'The description should not contain HTML tags.'
                     ]),
                 ]
@@ -56,7 +56,6 @@ class ProductType extends AbstractType
             ->add('stockQuantity', NumberType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Type(['type' => 'integer', 'message' => 'Stock quantity must be an integer.']),
                     new Assert\PositiveOrZero()
                 ]
             ])

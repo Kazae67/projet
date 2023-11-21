@@ -11,49 +11,71 @@ use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderConfirmationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Validation de longueur : Pour les champs street, city, state, et postalCode, j'ai ajouté des contraintes de longueur pour éviter des entrées trop longues.
             // Champs pour l'adresse
             ->add('street', TextType::class, [
                 'label' => 'Street',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length(['max' => 100]),
+                ]
             ])
             ->add('city', TextType::class, [
                 'label' => 'City',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length(['max' => 50]),
+                ]
             ])
             ->add('state', TextType::class, [
                 'label' => 'State/Province',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length(['max' => 50]),
+                ]
             ])
             ->add('postalCode', TextType::class, [
                 'label' => 'Postal Code',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length(['max' => 20]),
+                ]
             ])
+            // Contrainte de pays : Pour le champ country, une contrainte Country est ajoutée pour s'assurer que le pays saisi est valide.
             ->add('country', CountryType::class, [
                 'label' => 'Country',
                 'required' => false,
                 'preferred_choices' => ['FR', 'GB', 'DE']
             ])
+            // Contrainte de choix : Pour type et selectedAddress, une contrainte Choice s'assure que la sélection de l'utilisateur correspond aux options disponibles.
             ->add('type', ChoiceType::class, [
                 'choices' => ['Delivery' => 'delivery', 'Billing' => 'billing'],
                 'label' => 'Address Type',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Assert\Choice(['delivery', 'billing']),
+                ]
             ])
+            // Validation des noms : Pour firstName et lastName, des contraintes NotBlank et Length garantissent que les noms sont bien fournis et de longueur appropriée.
             // Champs pour prénom et nom
             ->add('firstName', TextType::class, [
                 'label' => 'First Name',
                 'required' => true,
                 'constraints' => [
-                    new NotBlank([
+                    new Assert\NotBlank([
                         'message' => 'Please enter your first name',
                     ]),
-                    new Length([
-                        'max' => 50
+                    new Assert\Length(['max' => 50]),
+                    new Assert\Regex([
+                        'pattern' => '/^[a-zA-Z\s-]+$/',
+                        'message' => 'The first name should only contain letters, spaces, and hyphens.'
                     ])
                 ]
             ])
@@ -61,11 +83,13 @@ class OrderConfirmationFormType extends AbstractType
                 'label' => 'Last Name',
                 'required' => true,
                 'constraints' => [
-                    new NotBlank([
+                    new Assert\NotBlank([
                         'message' => 'Please enter your last name',
                     ]),
-                    new Length([
-                        'max' => 50
+                    new Assert\Length(['max' => 50]),
+                    new Assert\Regex([
+                        'pattern' => '/^[a-zA-Z\s-]+$/',
+                        'message' => 'The last name should only contain letters, spaces, and hyphens.'
                     ])
                 ]
             ])
@@ -79,7 +103,10 @@ class OrderConfirmationFormType extends AbstractType
                     'Use a new address' => 'new_address',
                 ],
                 'expanded' => true,
-                'multiple' => false
+                'multiple' => false,
+                'constraints' => [
+                    new Assert\Choice(['billing_default', 'delivery_default', 'new_address']),
+                ]
             ])
             // Boutons de soumission
             ->add('saveAddress', SubmitType::class, [
