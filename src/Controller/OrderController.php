@@ -46,8 +46,22 @@ class OrderController extends AbstractController
         $orderForm = $this->createForm(OrderConfirmationFormType::class);
         $orderForm->handleRequest($request);
 
-        if ($orderForm->isSubmitted()) {
+        if ($orderForm->isSubmitted() && $orderForm->isValid()) {
             $data = $orderForm->getData();
+
+            // Vérifier le stock pour chaque produit dans le panier
+            foreach ($cartService->getFullCart() as $item) {
+                if ($item['quantity'] > $item['product']->getStockQuantity()) {
+                    $this->addFlash('error', 'Sorry, but there\'s not enough stock left for ' . $item['product']->getName() . '.');
+                    return $this->redirectToRoute('order_prepare');
+                }
+            }
+
+            // Vérifier si une adresse est sélectionnée ou saisie
+            if (empty($data['selectedAddress']) || ($data['selectedAddress'] === 'new_address' && !$this->isAddressFilled($data))) {
+                $this->addFlash('error', 'Please select or fill in an address.');
+                return $this->redirectToRoute('order_prepare');
+            }
 
             if ($orderForm->get('saveAddress')->isClicked()) {
                 // Logique pour enregistrer l'adresse
@@ -106,12 +120,18 @@ class OrderController extends AbstractController
             }
         }
 
+
         return $this->render('order/confirm.html.twig', [
             'orderForm' => $orderForm->createView(),
             'user' => $user,
             'items' => $cart,
             'total' => $cartService->getTotal(),
         ]);
+    }
+    // La méthode isAddressFilled vérifie si les champs de l'adresse sont tous remplis lorsque l'option "Use a new address" est sélectionnée.
+    private function isAddressFilled($data): bool
+    {
+        return !empty($data['street']) && !empty($data['city']) && !empty($data['postalCode']) && !empty($data['country']);
     }
 
     // Méthode auxiliaire pour créer ou mettre à jour l'adresse
