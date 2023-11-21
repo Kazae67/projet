@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OrderConfirmationFormType extends AbstractType
@@ -45,12 +47,29 @@ class OrderConfirmationFormType extends AbstractType
             // Champs pour prénom et nom
             ->add('firstName', TextType::class, [
                 'label' => 'First Name',
-                'required' => true
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter your first name',
+                    ]),
+                    new Length([
+                        'max' => 50
+                    ])
+                ]
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Last Name',
-                'required' => true
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter your last name',
+                    ]),
+                    new Length([
+                        'max' => 50
+                    ])
+                ]
             ])
+
             // Champs pour sélectionner l'adresse
             ->add('selectedAddress', ChoiceType::class, [
                 'label' => 'Select Address',
