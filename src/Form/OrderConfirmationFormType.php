@@ -60,8 +60,7 @@ class OrderConfirmationFormType extends AbstractType
                     'Use a new address' => 'new_address',
                 ],
                 'expanded' => true,
-                'multiple' => false,
-                'required' => false
+                'multiple' => false
             ])
             // Boutons de soumission
             ->add('saveAddress', SubmitType::class, [
