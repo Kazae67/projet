@@ -13,7 +13,9 @@
 			<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 			<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
 		{% endblock %}
-		{% block javascripts %}{% endblock %}
+		{% block javascripts %}
+			<script src="{{ asset('js/form.js') }}"></script>
+		{% endblock %}
 	</head>
 	<body>
 		{% for flash_message in app.flashes('error') %}
@@ -48,5 +50,6 @@
 			{% endif %}
 		</div>
 		{% block body %}{% endblock %}
+
 	</body>
 </html>

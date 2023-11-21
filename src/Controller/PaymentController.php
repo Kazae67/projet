@@ -98,23 +98,20 @@ class PaymentController extends AbstractController
       // Si le paiement réussit, mettre à jour le statut de la commande et gérer les stocks
       if ($charge->status === 'succeeded') {
         $order->setStatus('confirmed');
-        $this->archiveOrder($order, $em);
+        // Récupération de l'adresse sélectionnée pour la commande
+        $selectedAddress = $order->getAddress();
 
+        // Archiver la commande avec l'adresse sélectionnée
+        $this->archiveOrder($order, $em, $selectedAddress);
         // Mettre à jour le suivi de la commande
         $tracking = new OrderTracking();
         $tracking->setOrder($order);
         $tracking->setStatus('Payment Confirmed');
         $em->persist($tracking);
-        $em->flush();
 
         foreach ($order->getOrderDetails() as $orderDetail) {
           $product = $orderDetail->getProduct();
-          $currentStock = $product->getStockQuantity();
-          $quantityOrdered = $orderDetail->getQuantity();
-          $newStock = $currentStock - $quantityOrdered;
-
-          // S'assurer que le stock ne devient pas négatif
-          $product->setStockQuantity(max($newStock, 0));
+          $product->setStockQuantity(max(0, $product->getStockQuantity() - $orderDetail->getQuantity()));
           $em->persist($product);
         }
 
@@ -130,7 +127,7 @@ class PaymentController extends AbstractController
     }
   }
 
-  private function archiveOrder(Order $order, EntityManagerInterface $em): void
+  private function archiveOrder(Order $order, EntityManagerInterface $em, Adress $selectedAddress): void
   {
     $archivedOrder = new ArchivedOrder();
     $archivedOrder->setUserName($order->getUser()->getUsername());
@@ -138,10 +135,7 @@ class PaymentController extends AbstractController
     $archivedOrder->setStatus($order->getStatus());
     $archivedOrder->setCreatedAt($order->getCreatedAt());
 
-    // Récupération des détails de l'adresse
-    $billingAddress = $order->getUser()->getDefaultBillingAddress();
-    $deliveryAddress = $order->getUser()->getDefaultDeliveryAddress();
-    $addressDetails = $this->formatAddress($billingAddress ?: $deliveryAddress);
+    $addressDetails = $this->formatAddress($selectedAddress);
     $archivedOrder->setAddressDetails($addressDetails);
 
     foreach ($order->getOrderDetails() as $detail) {
@@ -155,8 +149,8 @@ class PaymentController extends AbstractController
     }
 
     $em->persist($archivedOrder);
+    $em->flush();
   }
-
   // Méthode auxiliaire pour formater l'adresse en une chaîne
   private function formatAddress(?Adress $address): string
   {

@@ -22,137 +22,135 @@ class OrderController extends AbstractController
     #[Route('/order/prepare', name: 'order_prepare')]
     public function prepareOrder(Request $request, CartService $cartService, EntityManagerInterface $em): Response
     {
-        // Vérifier si l'utilisateur est connecté
+        // Vérification si l'utilisateur est connecté
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->addFlash('error', 'You must be logged in to confirm an order.');
             return $this->redirectToRoute('app_login');
         }
 
-        // Vérifier le rôle de l'utilisateur (doit être un client ou un artisan)
+        // Vérification du rôle de l'utilisateur
         if (!in_array('ROLE_CUSTOMER', $user->getRoles()) && !in_array('ROLE_CRAFTSMAN', $user->getRoles())) {
             $this->addFlash('error', 'Only customers and craftsmen can confirm orders.');
             return $this->redirectToRoute('product_index');
         }
 
-        // Obtenir le contenu complet du panier
+        // Obtention du contenu du panier
         $cart = $cartService->getFullCart();
         if (empty($cart)) {
             $this->addFlash('error', 'Your cart is empty.');
             return $this->redirectToRoute('cart_index');
         }
 
-        // Créer le formulaire de commande
+        // Création du formulaire de commande
         $orderForm = $this->createForm(OrderConfirmationFormType::class);
         $orderForm->handleRequest($request);
 
-        // Créer l'objet Adresse et le formulaire correspondant
-        $address = new Adress();
-        $addressForm = $this->createForm(AdressFormType::class, $address);
-        $addressForm->handleRequest($request);
+        if ($orderForm->isSubmitted()) {
+            $data = $orderForm->getData();
 
-        // Traitement du formulaire de commande
-        if ($orderForm->isSubmitted() && $orderForm->isValid()) {
-            foreach ($cart as $item) {
-                if ($item['product']->getStockQuantity() < $item['quantity']) {
-                    $this->addFlash('error', "Insufficient stock for {$item['product']->getName()}. Only {$item['product']->getStockQuantity()} left.");
-                    return $this->redirectToRoute('cart_index');
+            if ($orderForm->get('saveAddress')->isClicked()) {
+                // Logique pour enregistrer l'adresse
+                $this->createOrUpdateAddress($user, $data, $em);
+                $this->addFlash('success', 'Address saved successfully.');
+                return $this->redirectToRoute('order_prepare');
+            } elseif ($orderForm->isValid()) {
+                // Logique pour confirmer la commande
+                $order = new Order();
+                $order->setUser($user);
+                $order->setStatus('pending');
+                $order->generateTrackingToken();
+
+                // Gestion des adresses
+                if ($data['selectedAddress'] === 'new_address') {
+                    $address = $this->createOrUpdateAddress($user, $data, $em);
+                } elseif ($data['selectedAddress'] === 'billing_default') {
+                    $address = $user->getDefaultBillingAddress();
+                } elseif ($data['selectedAddress'] === 'delivery_default') {
+                    $address = $user->getDefaultDeliveryAddress();
+                } else {
+                    $address = null;
                 }
-            }
 
-            // Créer une nouvelle commande
-            $order = new Order();
-            $order->setUser($user);
-            $order->setStatus('pending');
+                if ($address) {
+                    $order->setAddress($address);
+                } else {
+                    $this->addFlash('error', 'No address selected.');
+                    return $this->redirectToRoute('order_prepare');
+                }
+                // Calcul du montant total de la commande
+                $total = 0;
+                foreach ($cart as $item) {
+                    $orderDetail = new OrderDetail();
+                    $orderDetail->setOrder($order);
+                    $orderDetail->setProduct($item['product']);
+                    $orderDetail->setQuantity($item['quantity']);
+                    $orderDetail->setPrice($item['product']->getPrice());
+                    $em->persist($orderDetail);
 
-            // Générer un token unique
-            $token = uniqid() . bin2hex(random_bytes(8));
-            $order->setTrackingToken($token);
+                    $total += $item['product']->getPrice() * $item['quantity'];
+                }
 
-            // Calculer le montant total de la commande
-            $total = 0;
-            foreach ($cart as $item) {
-                $orderDetail = new OrderDetail();
-                $orderDetail->setOrder($order);
-                $orderDetail->setProduct($item['product']);
-                $orderDetail->setQuantity($item['quantity']);
-                $orderDetail->setPrice($item['product']->getPrice());
-                $em->persist($orderDetail);
+                $order->setTotalPrice((string) $total);
+                $em->persist($order);
+                $em->flush();
 
-                $total += $item['product']->getPrice() * $item['quantity'];
-            }
+                // Stockage de l'ID de la commande dans la session
+                $cartService->setOrderIdInSession($order->getId());
 
-            $order->setTotalPrice((string) $total);
-            $em->persist($order);
-            $em->flush();
-
-            // Stocker l'ID de la commande dans la session
-            $cartService->setOrderIdInSession($order->getId());
-
-            // Rediriger vers la page de paiement si le formulaire d'adresse n'a pas été soumis
-            if (!$addressForm->isSubmitted()) {
                 return $this->redirectToRoute('payment');
             }
         }
 
-        // Traitement du formulaire d'adresse
-        if ($addressForm->isSubmitted() && $addressForm->isValid()) {
-            $this->handleAddressSubmission($address, $user, $em);
-            $this->addFlash('success', 'Address saved successfully.');
-            // Redirection éventuelle vers une autre page
-        }
-
-        // Rendre la vue 'order/confirm.html.twig' avec les données nécessaires
         return $this->render('order/confirm.html.twig', [
             'orderForm' => $orderForm->createView(),
-            'addressForm' => $addressForm->createView(),
             'user' => $user,
             'items' => $cart,
             'total' => $cartService->getTotal(),
         ]);
     }
 
-    // Méthode auxiliaire pour gérer la soumission d'adresse
-    private function handleAddressSubmission(Adress $address, User $user, EntityManagerInterface $em): void
+    // Méthode auxiliaire pour créer ou mettre à jour l'adresse
+    private function createOrUpdateAddress(User $user, array $data, EntityManagerInterface $em): Adress
     {
-        // Recherche d'une adresse existante du même type (facturation ou livraison)
-        $existingAddress = $this->findExistingAddressOfType($user, $address->getType());
+        $existingAddress = null;
+        foreach ($user->getAddresses() as $address) {
+            if ($address->getType() === $data['type']) {
+                $existingAddress = $address;
+                break;
+            }
+        }
 
         if ($existingAddress) {
             // Mise à jour de l'adresse existante
-            $existingAddress->updateFromOther($address);
-            $em->persist($existingAddress);
+            $address = $existingAddress;
         } else {
             // Création d'une nouvelle adresse
+            $address = new Adress();
             $address->setUser($user);
-            $em->persist($address);
         }
 
-        // Assurer que l'adresse est complète avant de la persister
-        if (!$address->getStreet() || !$address->getCity() || !$address->getPostalCode() || !$address->getCountry()) {
-            throw new \Exception("Incomplete address details.");
+        // Mise à jour des données de l'adresse
+        $address->setStreet($data['street']);
+        $address->setCity($data['city']);
+        $address->setState($data['state']);
+        $address->setPostalCode($data['postalCode']);
+        $address->setCountry($data['country']);
+        $address->setType($data['type']);
+
+        // Définition comme adresse par défaut (à voir si je change ou laisse)
+        if ($data['type'] === 'billing') {
+            $user->setDefaultBillingAddress($address);
+        } elseif ($data['type'] === 'delivery') {
+            $user->setDefaultDeliveryAddress($address);
         }
 
-        // Mise à jour des adresses par défaut en fonction du type
-        if ($address->getType() === 'billing') {
-            $user->setDefaultBillingAddress($existingAddress ?: $address);
-        } elseif ($address->getType() === 'delivery') {
-            $user->setDefaultShippingAddress($existingAddress ?: $address);
-        }
-
+        $em->persist($address);
         $em->flush();
+
+        return $address;
     }
 
-    // Méthode auxiliaire pour trouver une adresse existante du même type
-    private function findExistingAddressOfType(User $user, string $type): ?Adress
-    {
-        foreach ($user->getAddresses() as $existingAddr) {
-            if ($existingAddr->getType() === $type) {
-                return $existingAddr;
-            }
-        }
-        return null;
-    }
 
     #[Route('/payment', name: 'payment')]
     public function payment(Request $request, EntityManagerInterface $em): Response

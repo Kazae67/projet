@@ -66,7 +66,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: "user", cascade: ['persist', 'remove'])]
     private Collection $addresses;
+    #[ORM\ManyToOne(targetEntity: Adress::class)]
+    #[ORM\JoinColumn(name: "default_billing_address_id", referencedColumnName: "id", nullable: true)]
+    private ?Adress $defaultBillingAddress = null;
 
+    #[ORM\ManyToOne(targetEntity: Adress::class)]
+    #[ORM\JoinColumn(name: "default_delivery_address_id", referencedColumnName: "id", nullable: true)]
+    private ?Adress $defaultDeliveryAddress = null;
     /**
      * @Assert\NotBlank(message="Please enter a password.")
      * @Assert\Length(
@@ -311,6 +317,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->addresses;
     }
 
+    /**
+     * @return Collection<int, Adress>
+     */
+    public function setAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
     public function addAddress(Adress $address): self
     {
         if (!$this->addresses->contains($address)) {
@@ -370,54 +384,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+    public function setDefaultBillingAddress(?Adress $address): self
+    {
+        $this->defaultBillingAddress = $address;
+        return $this;
+    }
+
     public function getDefaultBillingAddress(): ?Adress
     {
-        foreach ($this->addresses as $address) {
-            if ($address->getIsDefaultBilling()) {
-                return $address;
-            }
-        }
+        return $this->defaultBillingAddress;
+    }
 
-        return null;
+    public function setDefaultDeliveryAddress(?Adress $address): self
+    {
+        $this->defaultDeliveryAddress = $address;
+        return $this;
     }
 
     public function getDefaultDeliveryAddress(): ?Adress
     {
-        foreach ($this->addresses as $address) {
-            if ($address->getIsDefaultDelivery()) {
-                return $address;
-            }
-        }
-
-        return null;
+        return $this->defaultDeliveryAddress;
     }
+
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function setUpdatedAtValue(): void
     {
         $this->updated_at = new \DateTimeImmutable();
-    }
-    public function setDefaultBillingAddress(Adress $defaultBillingAddress): void
-    {
-        foreach ($this->addresses as $address) {
-            if ($address->getType() === 'billing') {
-                $address->setIsDefaultBilling(false);
-            }
-        }
-        $defaultBillingAddress->setIsDefaultBilling(true);
-        $this->addAddress($defaultBillingAddress);
-    }
-
-    public function setDefaultShippingAddress(Adress $defaultShippingAddress): void
-    {
-        foreach ($this->addresses as $address) {
-            if ($address->getType() === 'delivery') {
-                $address->setIsDefaultDelivery(false);
-            }
-        }
-        $defaultShippingAddress->setIsDefaultDelivery(true);
-        // La méthode addAddress devrait ajouter l'adresse à la collection, si ce n'est pas déjà fait
-        $this->addAddress($defaultShippingAddress);
     }
 }
