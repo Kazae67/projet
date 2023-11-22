@@ -150,7 +150,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->last_login;
     }
 
-    public function setLastLogin(?\DateTimeInterface $last_login): self
+    public function setLastLogin(\DateTimeInterface $last_login): self
     {
         $this->last_login = $last_login;
 
