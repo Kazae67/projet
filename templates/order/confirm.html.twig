@@ -27,6 +27,22 @@
 		{{ form_row(orderForm.saveAddress) }}
 	</div>
 
+	{% if orderForm.hasDefaultDeliveryAddress is defined and orderForm.hasDefaultBillingAddress is defined %}
+		<div>
+			<label for="{{ orderForm.useDefaultDeliveryAddress.vars.id }}">
+				{{ form_widget(orderForm.useDefaultDeliveryAddress) }}
+				Use default delivery address
+			</label>
+		</div>
+
+		<div>
+			<label for="{{ orderForm.useDefaultBillingAddress.vars.id }}">
+				{{ form_widget(orderForm.useDefaultBillingAddress) }}
+				Use default billing address
+			</label>
+		</div>
+	{% endif %}
+
 	{{ form_row(orderForm.confirmOrder) }}
 
 	{{ form_end(orderForm) }}

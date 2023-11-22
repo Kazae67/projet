@@ -76,10 +76,9 @@ class ProductController extends AbstractController
     }
 
     // Les méthodes pour gérer l'ajout, l'édition et la suppression de produits par un artisan sont annotées avec IsGranted pour restreindre l'accès aux artisans.
-
     #[IsGranted('ROLE_CRAFTSMAN')]
     #[Route('/product/add', name: 'product_add')]
-    public function addProduct(Request $request, EntityManagerInterface $em): Response
+    public function addProduct(Request $request, EntityManagerInterface $em, ProductRepository $productRepository): Response
     {
         // Créer un nouveau produit et un formulaire
         $product = new Product();
@@ -87,6 +86,16 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Vérifier si un produit avec le même nom existe déjà
+            $existingProduct = $productRepository->findOneBy(['name' => $product->getName()]);
+            if ($existingProduct) {
+                // Afficher un message d'erreur si le produit existe déjà
+                $this->addFlash('error', 'A product with this name already exists.');
+                return $this->render('product/add.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
+
             // Associer le produit à l'utilisateur connecté et le sauvegarder
             $product->setUser($this->getUser());
             $em->persist($product);

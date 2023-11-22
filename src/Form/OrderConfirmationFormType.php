@@ -59,6 +59,7 @@ class OrderConfirmationFormType extends AbstractType
                 'choices' => ['Delivery' => 'delivery', 'Billing' => 'billing'],
                 'label' => 'Address Type',
                 'required' => false,
+                'placeholder' => false,
                 'constraints' => [
                     new Assert\Choice(['delivery', 'billing']),
                 ]
