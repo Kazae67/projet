@@ -8,15 +8,9 @@
 
 	{{ form_start(orderForm) }}
 
-	<h2>Your Information</h2>
-	<div>
-		{{ form_row(orderForm.firstName) }}
-		{{ form_row(orderForm.lastName) }}
-	</div>
-
 	<h2>Delivery Address</h2>
-	{{ form_row(orderForm.selectedAddress) }}
 
+	{{ form_row(orderForm.selectedAddress) }}
 	<div id="new_address_form" style="display: none;">
 		{{ form_row(orderForm.street) }}
 		{{ form_row(orderForm.city) }}
@@ -27,24 +21,8 @@
 		{{ form_row(orderForm.saveAddress) }}
 	</div>
 
-	{% if orderForm.hasDefaultDeliveryAddress is defined and orderForm.hasDefaultBillingAddress is defined %}
-		<div>
-			<label for="{{ orderForm.useDefaultDeliveryAddress.vars.id }}">
-				{{ form_widget(orderForm.useDefaultDeliveryAddress) }}
-				Use default delivery address
-			</label>
-		</div>
-
-		<div>
-			<label for="{{ orderForm.useDefaultBillingAddress.vars.id }}">
-				{{ form_widget(orderForm.useDefaultBillingAddress) }}
-				Use default billing address
-			</label>
-		</div>
-	{% endif %}
 
 	{{ form_row(orderForm.confirmOrder) }}
-
 	{{ form_end(orderForm) }}
 
 	<h2>Basket Details</h2>
