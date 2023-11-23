@@ -46,11 +46,20 @@
 	{% else %}
 		<p>You have no active addresses. Addresses will be saved when placing an order.</p>
 	{% endif %}
-	<!-- Bouton pour l'anonymisation du compte -->
-	<form action="{{ path('user_anonymize') }}" method="post" onsubmit="return confirm('Are you sure you want to anonymize your account? This action cannot be undone.');">
-		<input type="hidden" name="_token" value="{{ csrf_token('anonymize_user') }}">
-		<button class="btn btn-danger" type="submit">Anonymize My Account</button>
-	</form>
+	<!-- Bouton pour déclencher le modal/formulaire de confirmation -->
+	<button id="anonymizeButton" class="btn btn-danger">Anonymize My Account</button>
 
+	<!-- Modal ou Div caché pour la confirmation du mot de passe -->
+	<div id="passwordConfirmModal" style="display: none;" data-confirm-password-url="{{ path('user_confirm_password') }}" data-csrf-token="{{ csrf_token('confirm_password') }}">
+		<form id="confirmPasswordForm">
+			<input type="password" name="password" placeholder="Enter your password">
+			<button type="submit">Confirm</button>
+		</form>
+	</div>
 	<a href="{{ path('app_profile_change_password') }}">Change my password</a>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/anonymizeAccount.js') }}"></script>
 {% endblock %}
