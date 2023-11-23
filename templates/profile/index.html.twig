@@ -15,8 +15,8 @@
 	</ul>
 
 	<h2>Addresses</h2>
-	{% if user.addresses|length > 0 %}
-		{% for address in user.addresses %}
+	{% if adresses|length > 0 %}
+		{% for address in adresses %}
 			<div>
 				<ul>
 					<li>
@@ -44,7 +44,7 @@
 			</div>
 		{% endfor %}
 	{% else %}
-		<p>You need to order to define a default address.</p>
+		<p>You have no active addresses. Addresses will be saved when placing an order.</p>
 	{% endif %}
 
 	<a href="{{ path('app_profile_change_password') }}">Change my password</a>

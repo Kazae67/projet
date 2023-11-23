@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Adress;
 use App\Form\AdressFormType;
+use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,22 +44,36 @@ class AdressController extends AbstractController
     #[Route('/profile/delete-address/{id}', name: 'delete_address', methods: ['POST'])]
     public function deleteAddress(Request $request, EntityManagerInterface $em, Adress $address): Response
     {
-        // Vérifier que l'adresse appartient à l'utilisateur connecté
-        if ($address->getUser() !== $this->getUser()) {
+        $user = $this->getUser();
+        if ($address->getUser() !== $user) {
             throw $this->createAccessDeniedException('You cannot delete this address.');
         }
 
-        // Vérifier la validité du jeton CSRF pour la sécurité
         if ($this->isCsrfTokenValid('delete' . $address->getId(), $request->request->get('_token'))) {
+            // Vérifier et mettre à jour les adresses par défaut dans 'user'
+            if ($user->getDefaultBillingAddress() === $address) {
+                $user->setDefaultBillingAddress(null);
+            }
+            if ($user->getDefaultDeliveryAddress() === $address) {
+                $user->setDefaultDeliveryAddress(null);
+            }
+
+            // Dissocier l'adresse des commandes existantes
+            $orders = $em->getRepository(Order::class)->findBy(['address' => $address]);
+            foreach ($orders as $order) {
+                $order->setAddress(null);
+                $em->persist($order);
+            }
+
             // Supprimer l'adresse de la base de données
             $em->remove($address);
             $em->flush();
 
-            // Ajouter un message flash pour indiquer la suppression réussie
             $this->addFlash('success', 'Address deleted successfully.');
+        } else {
+            dd('CSRF check failed'); // Vérifier si la validation CSRF échoue
         }
 
-        // Rediriger l'utilisateur vers la route 'app_profile'
         return $this->redirectToRoute('app_profile');
     }
 }

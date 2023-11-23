@@ -14,7 +14,8 @@ class Adress
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    #[ORM\Column(type: 'boolean')]
+    private bool $isActive = true;
     /**
      * @Assert\Choice(choices={"livraison", "facturation"}, message="Invalid address type.")
      */
@@ -157,6 +158,17 @@ class Adress
     public function getIsDefaultBilling(): bool
     {
         return $this->isDefaultBilling;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
     }
 
     public function setIsDefaultBilling(bool $isDefaultBilling): self

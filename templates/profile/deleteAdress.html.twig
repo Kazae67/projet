@@ -2,11 +2,22 @@
 
 {% block title %}Delete Address
 {% endblock %}
+{% for message in app.flashes('success') %}
+	<div class="alert alert-success">
+		{{ message }}
+	</div>
+{% endfor %}
 
+{% for message in app.flashes('error') %}
+	<div class="alert alert-danger">
+		{{ message }}
+	</div>
+{% endfor %}
 {% block body %}
 	<h1>Delete Address</h1>
 	<p>Are you sure you want to delete this address?</p>
 	<form action="{{ path('delete_address', {'id': address.id}) }}" method="post">
+		{{ csrf_token('delete' ~ address.id) }}
 		<input type="submit" class="btn btn-delete" value="Yes, delete it">
 		<a href="{{ path('app_profile') }}" class="btn btn-cancel">Cancel</a>
 	</form>

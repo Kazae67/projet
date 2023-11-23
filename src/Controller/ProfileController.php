@@ -3,20 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\ChangePasswordFormType;
+use App\Entity\Adress;
 use App\DTO\ChangePasswordModel;
+use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
         // Récupère l'utilisateur actuellement connecté
         $user = $this->getUser();
@@ -24,9 +25,16 @@ class ProfileController extends AbstractController
             throw new AccessDeniedException('You must be logged in.');
         }
 
-        // Rendre la vue 'profile/index.html.twig' avec les données de l'utilisateur
+        // Récupérer uniquement les adresses actives de l'utilisateur
+        $activeAdresses = $entityManager->getRepository(Adress::class)->findBy([
+            'user' => $user,
+            'isActive' => true
+        ]);
+
+        // Rendre la vue 'profile/index.html.twig' avec les données de l'utilisateur et ses adresses actives
         return $this->render('profile/index.html.twig', [
             'user' => $user,
+            'adresses' => $activeAdresses, // Passer les adresses actives à la vue
         ]);
     }
 

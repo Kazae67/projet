@@ -94,8 +94,16 @@ class OrderController extends AbstractController
                     $address = $this->createOrUpdateAddress($user, $data, $em);
                 } elseif ($data['selectedAddress'] === 'billing_default') {
                     $address = $user->getDefaultBillingAddress();
+                    // Vérifier si l'adresse par défaut de facturation est active
+                    if (!$address || !$address->getIsActive()) {
+                        $address = null;
+                    }
                 } elseif ($data['selectedAddress'] === 'delivery_default') {
                     $address = $user->getDefaultDeliveryAddress();
+                    // Vérifier si l'adresse par défaut de livraison est active
+                    if (!$address || !$address->getIsActive()) {
+                        $address = null;
+                    }
                 } else {
                     $address = null;
                 }
@@ -184,6 +192,9 @@ class OrderController extends AbstractController
             $address = new Adress();
             $address->setUser($user);
         }
+
+        // Marquer l'adresse comme active
+        $address->setIsActive(true);
 
         /* Assurer la validation des données d'adresse avant de les enregistrer dans la base de données */
         // Mise à jour des données de l'adresse (1)
