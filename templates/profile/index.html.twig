@@ -46,6 +46,11 @@
 	{% else %}
 		<p>You have no active addresses. Addresses will be saved when placing an order.</p>
 	{% endif %}
+	<!-- Bouton pour l'anonymisation du compte -->
+	<form action="{{ path('user_anonymize') }}" method="post" onsubmit="return confirm('Are you sure you want to anonymize your account? This action cannot be undone.');">
+		<input type="hidden" name="_token" value="{{ csrf_token('anonymize_user') }}">
+		<button class="btn btn-danger" type="submit">Anonymize My Account</button>
+	</form>
 
 	<a href="{{ path('app_profile_change_password') }}">Change my password</a>
 {% endblock %}
