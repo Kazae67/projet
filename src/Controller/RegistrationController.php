@@ -28,37 +28,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
-            $defaultBillingSet = false;
-            $defaultDeliverySet = false;
-
-            // Parcourir chaque adresse soumise
-            foreach ($user->getAddresses() as $address) {
-                // Si l'utilisateur a sélectionné cette adresse comme facturation par défaut
-                if (!$defaultBillingSet && $address->getIsDefaultBilling()) {
-                    $defaultBillingSet = true;
-                } else {
-                    // Si une autre adresse a déjà été définie comme facturation par défaut
-                    $address->setIsDefaultBilling(false);
-                }
-
-                // Si l'utilisateur a sélectionné cette adresse comme livraison par défaut
-                if (!$defaultDeliverySet && $address->getIsDefaultDelivery()) {
-                    $defaultDeliverySet = true;
-                } else {
-                    // Si une autre adresse a déjà été définie comme livraison par défaut
-                    $address->setIsDefaultDelivery(false);
-                }
-            }
-
-            // S'assurer qu'au moins une adresse est définie comme par défaut si l'utilisateur en a saisi
-            if (!$defaultBillingSet && !$defaultDeliverySet && !$user->getAddresses()->isEmpty()) {
-                $firstAddress = $user->getAddresses()->first();
-                $firstAddress->setIsDefaultBilling(true);
-                $firstAddress->setIsDefaultDelivery(true);
-            }
-
-            // Persister seulement l'utilisateur. Les adresses seront persistées en cascade
+            // Persister l'utilisateur
             $entityManager->persist($user);
             $entityManager->flush();
 
