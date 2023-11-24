@@ -4,24 +4,51 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Email;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('email', EmailType::class)
+            ->add('username', null, [
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a username',
+                    ]),
+                    new Length([
+                        'min' => 4,
+                        'max' => 20,
+                        'minMessage' => 'Your username must be at least {{ limit }} characters long',
+                        'maxMessage' => 'Your username cannot be longer than {{ limit }} characters',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9]+$/',
+                        'message' => 'Your username can only contain letters and numbers',
+                    ]),
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Email([
+                        'message' => 'Please enter a valid email address.',
+                    ]),
+                    new NotBlank([
+                        'message' => 'Please enter an email address.',
+                    ]),
+                ]
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Password'],
@@ -33,7 +60,9 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new Length([
                         'min' => 12,
-                        'minMessage' => 'Your password must be at least 12 characters long',
+                        'max' => 64,
+                        'minMessage' => 'Your password must be at least {{ limit }} characters long',
+                        'maxMessage' => 'Your password must not be longer than {{ limit }} characters',
                     ]),
                     new Regex([
                         'pattern' => '/[A-Z]/',
@@ -48,8 +77,8 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Your password must contain at least one number',
                     ]),
                     new Regex([
-                        'pattern' => '/[@$!%*#?&]/',
-                        'message' => 'Your password must contain at least one special character (@$!%*#?&)',
+                        'pattern' => '/[!@#$%^&*(),.?":{}|<>]/',
+                        'message' => 'Your password must contain at least one special character (!@#$%^&*(),.?":{}|<>)',
                     ]),
                 ]
             ])
@@ -59,14 +88,8 @@ class RegistrationFormType extends AbstractType
                     'Customer' => 'customer',
                 ],
                 'label' => 'Role',
-            ])
-            ->add('addresses', CollectionType::class, [
-                'entry_type' => AdressFormType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'mapped' => true,
+                'multiple' => false,
+                'expanded' => false,
             ]);
     }
 
