@@ -9,6 +9,7 @@
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>⚫️</text></svg>">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 			<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
@@ -22,30 +23,76 @@
 			</div>
 		{% endfor %}
 
-		<div class="navbar">
-			<a href="{{ path('home') }}">Home</a>
-			<a href="{{ path('product') }}">Products</a>
-			<a href="{{ path('cart_index') }}">Cart</a>
-			<a href="{{ path('wishlist_index') }}">Wishlist</a>
-			{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-				<a href="{{ path('app_register') }}">Register</a>
-				<a href="{{ path('app_login') }}">Login</a>
-			{% else %}
-				{% if is_granted('ROLE_CRAFTSMAN') %}
-					<a href="{{ path('my_products') }}">My Products</a>
-				{% endif %}
-
-				<!-- Dropdown Menu pour le profil utilisateur -->
-				<div class="dropdown">
+		<div
+			class="navbar">
+			<!-- Section gauche avec Logo et Home -->
+			<div class="nav-left">
+				<a href="{{ path('home') }}" class="nav-logo">
+					<img src="path_to_logo" alt="Logo">
+				</a>
+				<a href="{{ path('home') }}" class="nav-item">
+					<span class="material-symbols-outlined">cottage</span>
+					Home
+				</a>
+			</div>
+			<!-- Section centrale pour le nom de l'utilisateur -->
+			<div class="nav-center">
+				<div class="nav-item dropdown">
 					<button class="dropbtn">{{ app.user.username }}</button>
+					<span class="material-symbols-outlined">settings_accessibility</span>
 					<div class="dropdown-content">
-						<a href="{{ path('app_profile') }}">My Profile</a>
-						<a href="{{ path('order_tracking_list') }}">Track My Orders</a>
-						<a href="{{ path('app_logout') }}">Logout</a>
+						<div class="dropdown-item">
+							<a href="{{ path('app_profile') }}">
+								<span class="material-symbols-outlined">user_attributes</span>
+							</a>
+						</div>
+						{% if is_granted('ROLE_CRAFTSMAN') %}
+							<div class="dropdown-item">
+								<a href="{{ path('my_products') }}">
+									<span class="material-symbols-outlined">precision_manufacturing</span>
+								</a>
+							</div>
+						{% endif %}
+						<div class="dropdown-item">
+							<a href="{{ path('order_tracking_list') }}">
+								<span class="material-symbols-outlined">data_exploration</span>
+							</a>
+						</div>
+						<div class="dropdown-item">
+							<a href="{{ path('app_logout') }}">
+								<span class="material-symbols-outlined">logout</span>
+							</a>
+						</div>
 					</div>
 				</div>
+			</div>
 
-			{% endif %}
+			<!-- Section droite pour les autres liens -->
+			<div class="nav-right">
+				<a href="{{ path('product') }}" class="nav-item">
+					<span class="material-symbols-outlined">
+						inventory_2
+					</span>Products</a>
+				<a href="{{ path('cart_index') }}" class="nav-item">
+					<span class="material-symbols-outlined">
+						shopping_cart
+					</span>Cart</a>
+				<a href="{{ path('wishlist_index') }}" class="nav-item">
+					<span class="material-symbols-outlined">
+						receipt_long
+					</span>Wishlist</a>
+
+				{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+					<a href="{{ path('app_register') }}" class="nav-item">
+						<span class="material-symbols-outlined">
+							app_registration
+						</span>Register</a>
+					<a href="{{ path('app_login') }}" class="nav-item">
+						<span class="material-symbols-outlined">
+							login
+						</span>Login</a>
+				{% endif %}
+			</div>
 		</div>
 		{% block body %}{% endblock %}
 
