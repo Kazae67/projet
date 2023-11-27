@@ -3,8 +3,9 @@
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;;
 }
 
 /* Section gauche avec logo et Home */
@@ -25,21 +26,37 @@
   flex-grow: 1;
 }
 
+
 .dropdown {
   position: relative;
   display: inline-block;
+  margin-bottom: 20px; 
+}
+/* Extension de la zone de survol vers le bas avec un pseudo-élément */
+.dropdown::after {
+  content: "";
+  position: absolute;
+  bottom: -200px; /* Positionne le pseudo-élément sous l'icône */
+  left: 0;
+  right: 0;
+  height: 200px; /* Hauteur de l'extension de la zone de survol */
+  pointer-events: none; /* S'assure que le pseudo-élément ne bloque pas les interactions avec d'autres éléments */
 }
 
+
+.dropdown:hover .dropdown-content, .dropdown:hover::after {
+  display: flex;
+  pointer-events: auto; /* Active les interactions pour le menu déroulant */
+}
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 100%; 
+  top: 70px; /*Pour repositionner l'icone de l'user */
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
   z-index: 1;
 }
-
 .dropdown-content .dropdown-item {
   display: inline-block;
   padding: 5px;
@@ -102,4 +119,21 @@
     width: 100%;
     box-shadow: none;
   }
+}
+
+.nav-center .material-symbols-outlined.profil {
+  position: absolute;
+  bottom: -45px; /* Ajustez pour aligner avec le bas de la navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ombre pour correspondre à celle de la navbar */
+  z-index: 2;
+}
+
+.material-symbols-outlined.logout{
+  color:red;
 }

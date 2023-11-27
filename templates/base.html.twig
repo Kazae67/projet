@@ -28,7 +28,9 @@
 			<!-- Section gauche avec Logo et Home -->
 			<div class="nav-left">
 				<a href="{{ path('home') }}" class="nav-logo">
-					<img src="path_to_logo" alt="Logo">
+					<span class="material-symbols-outlined">
+						flutter_dash
+					</span>
 				</a>
 				<a href="{{ path('home') }}" class="nav-item">
 					<span class="material-symbols-outlined">cottage</span>
@@ -36,35 +38,39 @@
 				</a>
 			</div>
 			<!-- Section centrale pour le nom de l'utilisateur -->
-			<div class="nav-center">
-				<div class="nav-item dropdown">
-					<button class="dropbtn">{{ app.user.username }}</button>
-					<span class="material-symbols-outlined">settings_accessibility</span>
-					<div class="dropdown-content">
-						<div class="dropdown-item">
-							<a href="{{ path('app_profile') }}">
-								<span class="material-symbols-outlined">user_attributes</span>
-							</a>
-						</div>
-						{% if is_granted('ROLE_CRAFTSMAN') %}
+			<div
+				class="nav-center">
+				<!-- Afficher seulement si l'utilisateur est connecté -->
+				{% if app.user %}
+					<div class="nav-item dropdown">
+						<button class="dropbtn">{{ app.user.username }}</button>
+						<span class="material-symbols-outlined profil">settings_accessibility</span>
+						<div class="dropdown-content">
 							<div class="dropdown-item">
-								<a href="{{ path('my_products') }}">
-									<span class="material-symbols-outlined">precision_manufacturing</span>
+								<a href="{{ path('app_profile') }}">
+									<span class="material-symbols-outlined">user_attributes</span>
 								</a>
 							</div>
-						{% endif %}
-						<div class="dropdown-item">
-							<a href="{{ path('order_tracking_list') }}">
-								<span class="material-symbols-outlined">data_exploration</span>
-							</a>
-						</div>
-						<div class="dropdown-item">
-							<a href="{{ path('app_logout') }}">
-								<span class="material-symbols-outlined">logout</span>
-							</a>
+							{% if is_granted('ROLE_CRAFTSMAN') %}
+								<div class="dropdown-item">
+									<a href="{{ path('my_products') }}">
+										<span class="material-symbols-outlined">precision_manufacturing</span>
+									</a>
+								</div>
+							{% endif %}
+							<div class="dropdown-item">
+								<a href="{{ path('order_tracking_list') }}">
+									<span class="material-symbols-outlined">data_exploration</span>
+								</a>
+							</div>
+							<div class="dropdown-item">
+								<a href="{{ path('app_logout') }}">
+									<span class="material-symbols-outlined logout">logout</span>
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
+				{% endif %}
 			</div>
 
 			<!-- Section droite pour les autres liens -->
