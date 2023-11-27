@@ -6,31 +6,39 @@
 {% block body %}
 	<h1>List of products</h1>
 
-	<!-- Lien pour ajouter un produit visible uniquement par les artisans -->
-	{% if is_granted('ROLE_CRAFTSMAN') %}
-		<a href="{{ path('product_add') }}" class="btn btn-add">Add New Product</a>
-	{% endif %}
-
 	<div class="products">
 		{% for product in products %}
-			<div
-				class="card">
-				<!-- Intégration de l'image par défaut -->
-				<img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+			<div class="card">
+				<div class="card-img-container">
+					<img
+					src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+
+					<!-- Conteneur pour la description au survol -->
+					<div class="card-hover-description">
+						{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
+					</div>
+
+					<div class="card-price">{{ product.price }}€</div>
+
+					<div class="icon-group">
+						<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
+							<span class="material-symbols-outlined show">visibility</span>
+						</a>
+						{% if product.user != app.user %}
+							<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-add">
+								<span class="material-symbols-outlined cart">add_shopping_cart</span>
+							</a>
+							<a href="{{ path('wishlist_add', {'productId': product.id}) }}" class="btn btn-add">
+								<span class="material-symbols-outlined wishlist">receipt_long</span>
+							</a>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="card-user">{{ product.user.username }}</div>
 
 				<div class="card-body">
 					<h5 class="card-title">{{ product.name }}</h5>
-					<p class="card-text">{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}</p>
-					<div class="d-flex justify-content-between align-items-center">
-						<div class="btn-group">
-							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">Show</a>
-							{% if product.user != app.user %}
-								<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-add">Add to cart</a>
-								<a href="{{ path('wishlist_add', {'productId': product.id}) }}" class="btn btn-add">Add to Wishlist</a>
-							{% endif %}
-						</div>
-						<small class="text-muted">{{ product.price }}€</small>
-					</div>
 				</div>
 			</div>
 		{% endfor %}
