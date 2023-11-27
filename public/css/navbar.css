@@ -4,6 +4,7 @@
   align-items: center;
   background-color: #fff;
   padding: 10px 20px;
+  border:solid 1px black;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;;
 }
@@ -102,38 +103,33 @@
   color: #007bff;
 }
 
-/* Responsive Styles */
-@media screen and (max-width: 768px) {
-  .nav-left, .nav-center, .nav-right {
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
-  }
-
-  .nav-item, .dropbtn {
-    width: 100%;
-    padding: 10px 0;
-  }
-
-  .dropdown-content {
-    width: 100%;
-    box-shadow: none;
-  }
-}
-
 .nav-center .material-symbols-outlined.profil {
   position: absolute;
   bottom: -45px; /* Ajustez pour aligner avec le bas de la navbar */
   left: 50%;
   transform: translateX(-50%);
-  border: 1px solid black;
-  border-radius: 50%;
   padding: 10px;
+  border: 1px solid transparent !important;
+  border-radius: 50%;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ombre pour correspondre à celle de la navbar */
   z-index: 2;
 }
 
+.nav-center .material-symbols-outlined.profil::before {
+  content: '';
+  position: absolute;
+  top: 50%; /* Commence au milieu de l'icône */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px; /* Diamètre du cercle */
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid black !important;
+  border-radius: 50%;
+  z-index: -1; /* Mettre en arrière-plan */
+
+  clip-path: inset(20px 0 0 0); /* Masquer la moitié supérieure du cercle */
+}
 .material-symbols-outlined.logout{
   color:red;
 }
