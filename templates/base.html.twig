@@ -48,24 +48,28 @@
 						<div class="dropdown-content">
 							<div class="dropdown-item">
 								<a href="{{ path('app_profile') }}">
-									<span class="material-symbols-outlined">user_attributes</span>
+									<span class="material-symbols-outlined my-profil">user_attributes</span>
+									<span class="icon-text">My Profil</span>
 								</a>
 							</div>
 							{% if is_granted('ROLE_CRAFTSMAN') %}
 								<div class="dropdown-item">
 									<a href="{{ path('my_products') }}">
-										<span class="material-symbols-outlined">precision_manufacturing</span>
+										<span class="material-symbols-outlined my-products">precision_manufacturing</span>
+										<span class="icon-text">My Products</span>
 									</a>
 								</div>
 							{% endif %}
 							<div class="dropdown-item">
 								<a href="{{ path('order_tracking_list') }}">
-									<span class="material-symbols-outlined">data_exploration</span>
+									<span class="material-symbols-outlined tracking-list">data_exploration</span>
+									<span class="icon-text">My Order Tracking List</span>
 								</a>
 							</div>
 							<div class="dropdown-item">
 								<a href="{{ path('app_logout') }}">
 									<span class="material-symbols-outlined logout">logout</span>
+									<span class="icon-text">Logout</span>
 								</a>
 							</div>
 						</div>
