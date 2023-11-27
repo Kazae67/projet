@@ -27,7 +27,6 @@
   flex-grow: 1;
 }
 
-
 .dropdown {
   position: relative;
   display: inline-block;
@@ -156,4 +155,15 @@
 }
 .material-symbols-outlined.logout{
   color:red;
+}
+
+@media screen and (max-width: 480px) {
+  /* Réduire la taille du logo et des éléments de navigation */
+  .nav-logo img {
+      height: 30px;
+  }
+  .nav-item {
+      margin: 0 10px;
+      font-size: 14px;
+  }
 }
