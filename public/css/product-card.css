@@ -200,8 +200,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px; /* Exemple de taille, ajustez selon vos besoins */
-    height: 30px; /* Même taille que la largeur pour un cercle parfait */
+    width: 30px; 
+    height: 30px; 
     border-radius: 50%;
     box-shadow: 0 0 0 2px white;
     margin-right: 5px;
