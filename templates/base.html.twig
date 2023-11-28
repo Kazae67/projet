@@ -30,15 +30,14 @@
 			class="navbar">
 			<!-- Section gauche avec Logo et Home -->
 			<div class="nav-left">
-				<a href="{{ path('home') }}" class="nav-logo">
-					<span class="material-symbols-outlined">
-						flutter_dash
-					</span>
-				</a>
 				<a href="{{ path('home') }}" class="nav-item">
 					<span class="material-symbols-outlined">cottage</span>
 					Home
 				</a>
+				<a href="{{ path('product') }}" class="nav-item">
+					<span class="material-symbols-outlined">
+						inventory_2
+					</span>Products</a>
 			</div>
 			<!-- Section centrale pour le nom de l'utilisateur -->
 			<div
@@ -82,10 +81,6 @@
 
 			<!-- Section droite pour les autres liens -->
 			<div class="nav-right">
-				<a href="{{ path('product') }}" class="nav-item">
-					<span class="material-symbols-outlined">
-						inventory_2
-					</span>Products</a>
 				<a href="{{ path('cart_index') }}" class="nav-item">
 					<span class="material-symbols-outlined">
 						shopping_cart
