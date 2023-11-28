@@ -18,12 +18,45 @@
       flex-direction: column;
       background-color: #fff;
       border-radius: 10px;
-      overflow: hidden;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       position: relative;
-      transition: transform 0.3s ease-in-out;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+      background-color: white;
 }
 
+.card:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: transparent; /* Fond transparent en état normal */
+    border-radius: 50%;
+    z-index: 0;
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+.card:hover {
+
+}
+
+.card:hover:before {
+    background: linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.2)); /* Applique l'effet de halo au survol */
+    animation: rotateHalo 6s linear infinite;
+}
+
+@keyframes rotateHalo {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 .card-hover-description {
     position: absolute;
     top: 0;
@@ -45,9 +78,6 @@
 }
 .card-img-container:hover .card-hover-description {
     opacity: 1;
-}
-.card:hover {
-    transform: translateY(-2px);
 }
 
 .card-img-top {
