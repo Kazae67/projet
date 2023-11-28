@@ -8,21 +8,41 @@
 	<div class="products">
 		{% for product in products %}
 			<div class="card">
-				<img src="{{ product.imageUrl|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+				<div class="card-img-container">
+					<img
+					src="{{ product.imageUrl|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+
+					<!-- Description au survol (similaire à index.html.twig) -->
+					<div class="card-hover-description">
+						{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
+					</div>
+
+					<!-- Prix du produit -->
+					<div class="card-price">{{ product.price }}€</div>
+
+					<!-- Groupe d'icônes pour les actions -->
+					<div class="icon-group">
+						<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
+							<span class="material-symbols-outlined show">visibility</span>
+						</a>
+						<a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-edit">
+							<span class="material-symbols-outlined edit">edit</span>
+						</a>
+						<form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this product?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+							<button type="submit" class="btn btn-delete">
+								<span class="material-symbols-outlined delete">delete</span>
+							</button>
+						</form>
+					</div>
+				</div>
+
+				<!-- Utilisateur qui a posté le produit -->
+				<div class="card-user">{{ product.user.username }}</div>
+
+				<!-- Corps de la carte -->
 				<div class="card-body">
 					<h5 class="card-title">{{ product.name }}</h5>
-					<p class="card-text">{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}</p>
-					<div class="d-flex justify-content-between align-items-center">
-						<div class="btn-group">
-							<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-view">View</a>
-							<a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-edit">Edit</a>
-							<form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this product?');">
-								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-								<button type="submit" class="btn btn-delete">Delete</button>
-							</form>
-						</div>
-						<small class="text-muted">{{ product.price }}€</small>
-					</div>
 				</div>
 			</div>
 		{% else %}

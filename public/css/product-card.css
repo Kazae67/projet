@@ -137,22 +137,39 @@
     position: absolute;
     bottom: 10px;
     left: 10px;
+    display: flex;
 }
 
-.icon-group a {
+.icon-group a, .icon-group form button {
     margin-right: 5px;
     background-color: rgba(253, 253, 253, 0.7);
     border-radius: 50%;
-    padding: 5px;
-    display: inline-block;
+    padding: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    text-decoration: none;
+    padding: 0;
 }
 
-
-.icon-group a:hover {
-    background-color: black; /* Change la couleur de fond en noir */
+.icon-group a:hover,
+.icon-group form button:hover {
+    background-color: black;
+}
+.material-symbols-outlined {
+    color: black;
+    font-size: 24px; /* Assurez-vous que cette taille est cohérente pour toutes les icônes */
 }
 
-.material-symbols-outlined.wishlist {
+.material-symbols-outlined.wishlist,
+.material-symbols-outlined.cart,
+.material-symbols-outlined.show,
+.material-symbols-outlined.cart,
+.material-symbols-outlined.edit,
+.material-symbols-outlined.delete {
     color: rgb(0, 0, 0);
     display: flex;
     align-items: center;
@@ -161,31 +178,14 @@
     padding: 0;
     font-size: 24px;
     line-height: normal;
-    padding-right:2px;
-}
-.material-symbols-outlined.cart {
-    color: rgb(0, 0, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
-    line-height: normal;
-}
-.material-symbols-outlined.show {
-    color: rgb(0, 0, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
-    line-height: normal;
 }
 
-.icon-group a:hover .material-symbols-outlined {
-    color: white; /* Change la couleur de l'icône en blanc */
+.material-symbols-outlined.delete {
+    color: rgb(202, 5, 5);
+}
+
+.icon-group a:hover .material-symbols-outlined, .icon-group button:hover .material-symbols-outlined {
+    color: white;
 }
 
 /* Styles existants */
@@ -232,27 +232,7 @@
         background-position: -100%;
     }
 }
-.btn:hover {
-    background-color: #0056b3;
-}
-
-.btn-show {
-    background-color: #28a745; /* Couleur différente pour le bouton Show */
-}
-
-.btn-show:hover {
-    background-color: #218838;
-}
-
-.btn-add {
-    background-color: #ffc107; /* Couleur différente pour les boutons Add */
-}
-
-.btn-add:hover {
-    background-color: #e0a800;
-}
 
 .text-muted {
     color: #999;
 }
-

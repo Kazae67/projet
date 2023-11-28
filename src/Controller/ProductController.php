@@ -102,7 +102,7 @@ class ProductController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Product successfully added.');
-            return $this->redirectToRoute('product');
+            return $this->redirectToRoute('my_products');
         }
 
         // Rendre la vue 'product/add.html.twig' avec le formulaire

@@ -14,8 +14,17 @@
 
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/standard.css') }}">
+			<link
+			rel="stylesheet" href="{{ asset('css/standard.css') }}">
+			<!-- Pour la liste des produits -->
+			{% if app.request.attributes.get('_route') == 'product' %}
+				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
+			{% endif %}
+
+			{% if app.request.attributes.get('_route') == 'my_products' %}
+				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/my-products.css') }}">
+			{% endif %}
 		{% endblock %}
 		{% block javascripts %}{% endblock %}
 	</head>
