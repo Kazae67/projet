@@ -25,6 +25,11 @@
     font-size: 48px; /* Taille de l'icône '+' */
 }
 
+@media (max-width: 1655px) {
+    .add-product-slot {
+        min-height: 200px; 
+    }
+}
 @media (max-width: 1385px) {
     .add-product-slot {
         min-height: 200px; 
