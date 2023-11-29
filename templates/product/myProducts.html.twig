@@ -48,6 +48,11 @@
 		{% else %}
 			<p>You have not added any products yet.</p>
 		{% endfor %}
+		<!-- Slot pour ajouter un nouveau produit -->
+		<div class="add-product-slot">
+			<a href="{{ path('product_add') }}" class="add-product-link">
+				<span class="material-symbols-outlined plus">add</span>
+			</a>
+		</div>
 	</div>
-	<a href="{{ path('product_add') }}" class="btn btn-add">Add New Product</a>
 {% endblock %}

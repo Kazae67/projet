@@ -1,0 +1,52 @@
+/* Styles pour le slot d'ajout de produit */
+.add-product-slot {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(1.07);
+    transform-origin: center;
+    height: auto;
+}
+
+.add-product-link {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    color: #333; 
+    text-decoration: none;
+}
+
+.material-symbols-outlined.plus {
+    font-size: 48px; /* Taille de l'icône '+' */
+}
+
+@media (max-width: 1385px) {
+    .add-product-slot {
+        min-height: 200px; 
+    }
+}
+@media (max-width: 847px) {
+    .add-product-slot {
+        min-height:  200px; 
+    }
+}
+
+@media (max-width: 575px) {
+    .add-product-slot {
+        min-height: 200px;
+        width: auto;
+        max-width: 95%;
+        transform: scale(1.05);
+
+}
+}
+@media (max-width: 480px) {
+    .add-product-slot {
+        min-height:  200px; 
+    }
+}
