@@ -15,6 +15,7 @@
 					<th>Items</th>
 					<th>Total Price</th>
 					<th>Track</th>
+					<th>Download</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -24,14 +25,17 @@
 						<td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
 						<td>{{ order.status }}</td>
 						<td>{{ order.orderDetails|length }}</td>
-						<td>{{ order.totalPrice }}
-							€</td>
+						<td>{{ order.totalPrice }}€</td>
 						<td>
 							{% if order.trackingToken %}
 								<a href="{{ path('order_tracking', {'token': order.trackingToken}) }}">Track</a>
 							{% else %}
 								<span>Not available</span>
 							{% endif %}
+						</td>
+						<td>
+							<!-- Lien de téléchargement du PDF -->
+							<a href="{{ path('download_invoice', {'orderId': order.id}) }}">Download Invoice</a>
 						</td>
 					</tr>
 				{% endfor %}

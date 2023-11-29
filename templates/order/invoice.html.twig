@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Order Invoice</title>
+		<style>
+			body {
+				font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+				margin: 0;
+				padding: 20px;
+				background-color: #ffffff;
+				color: #333;
+				position: relative;
+				border: solid 1px black;
+			}
+			.header {
+				text-align: center;
+				margin-bottom: 40px;
+				border: solid 1px black;
+			}
+			.header h1 {
+				color: #2a9d8f;
+				margin: 0;
+				border: solid 1px black;
+			}
+			.footer {
+				text-align: center;
+				margin-top: 40px;
+				font-size: 0.9em;
+				color: #264653;
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 20px;
+				border: solid 1px black;
+			}
+			th,
+			td {
+				border: 1px solid #ddd;
+				padding: 10px;
+				text-align: left;
+				border: solid 1px black;
+			}
+			th {
+				background-color: #264653;
+				color: white;
+			}
+			.total-price {
+				text-align: right;
+				margin-top: 20px;
+				font-size: 1.2em;
+			}
+			.total-price h2 {
+				color: #e76f51;
+			}
+			.customer-details,
+			.payment-details {
+				background-color: #e9c46a;
+				padding: 10px;
+				border-radius: 5px;
+				margin-bottom: 20px;
+				border: solid 1px black;
+			}
+
+
+			.artistic-element {
+				position: absolute;
+				top: -10px;
+				left: -10px;
+				width: 100px;
+				z-index: 99;
+				height: 100px;
+				background-color: #f4a261;
+				border-radius: 50%;
+				border: solid 1px black;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="artistic-background"></div>
+		<div class="artistic-element"></div>
+		<div class="artistic-element2"></div>
+		<div class="header">
+			<h1>Order Invoice</h1>
+		</div>
+
+		<div class="customer-details">
+			<h2>Customer Details</h2>
+			<p>
+				<strong>Name:</strong>
+				{{ order.firstName }}
+				{{ order.lastName }}</p>
+			<p>
+				<strong>Address:</strong>
+				{{ order.address.street }},
+				{{ order.address.city }},
+				{{ order.address.postalCode }},
+				{{ order.address.country }}</p>
+			<p>
+				<strong>Order Number:</strong>
+				{{ order.trackingToken }}</p>
+			<p>
+				<strong>Date:</strong>
+				{{ order.createdAt|date('Y-m-d H:i') }}</p>
+		</div>
+
+		<div class="payment-details">
+			<h2>Payment Method</h2>
+			{% if order.payments is not empty %}
+				{% set lastPayment = order.payments|last %}
+				<p>{{ lastPayment.paymentMethod }}</p>
+			{% else %}
+				<p>No payment information available.</p>
+			{% endif %}
+		</div>
+
+
+		<table>
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th>Quantity</th>
+					<th>Unit Price</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for detail in order.orderDetails %}
+					<tr>
+						<td>{{ detail.product.name }}</td>
+						<td>{{ detail.quantity }}</td>
+						<td>{{ detail.price }}
+							€</td>
+						<td>{{ detail.quantity * detail.price }}
+							€</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<div class="total-price">
+			<h2>Total Order Price:
+				{{ order.totalPrice }}
+				€</h2>
+		</div>
+
+		<div class="footer">
+			<p>Thank you for your business!</p>
+		</div>
+	</body>
+</html></body></html>

@@ -12,6 +12,7 @@ use App\Entity\ArchivedOrder;
 use App\Entity\OrderTracking;
 use App\Entity\ArchivedOrderDetail;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\PdfGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +22,14 @@ class PaymentController extends AbstractController
 {
   private $stripeSecretKey;
   private $logger;
+  private $pdfGenerator;
 
-  public function __construct(string $stripeSecretKey, LoggerInterface $logger)
+
+  public function __construct(string $stripeSecretKey, LoggerInterface $logger, PdfGenerator $pdfGenerator)
   {
     $this->stripeSecretKey = $stripeSecretKey;
     $this->logger = $logger;
+    $this->pdfGenerator = $pdfGenerator;
   }
 
   #[Route('/payment', name: 'payment')]
@@ -117,6 +121,15 @@ class PaymentController extends AbstractController
           $em->persist($product);
         }
 
+        // Génération du PDF de la facture
+        $pdfContent = $this->pdfGenerator->generatePdfFromTemplate('order/invoice.html.twig', [
+          'order' => $order
+        ]);
+
+        // Sauvegarde du PDF dans un répertoire (pour nous)
+        $pdfPath = $this->getParameter('kernel.project_dir') . '/public/invoices/invoice-' . $order->getId() . '.pdf';
+        file_put_contents($pdfPath, $pdfContent);
+
         $em->flush();
         $cartService->emptyCart();
       }
@@ -184,5 +197,25 @@ class PaymentController extends AbstractController
   public function paymentFailed(): Response
   {
     return $this->render('payment/failed.html.twig');
+  }
+
+  #[Route('/download-invoice/{orderId}', name: 'download_invoice')]
+  public function downloadInvoice(int $orderId, EntityManagerInterface $em): Response
+  {
+    $order = $em->getRepository(Order::class)->find($orderId);
+
+    if (!$order) {
+      throw $this->createNotFoundException('Order not found.');
+    }
+
+    $pdfContent = $this->pdfGenerator->generatePdfFromTemplate('order/invoice.html.twig', [
+      'order' => $order
+    ]);
+
+    $response = new Response($pdfContent);
+    $response->headers->set('Content-Type', 'application/pdf');
+    $response->headers->set('Content-Disposition', 'attachment; filename="invoice-' . $orderId . '.pdf"');
+
+    return $response;
   }
 }
