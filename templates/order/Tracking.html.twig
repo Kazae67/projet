@@ -62,7 +62,7 @@
 		{% endif %}
 
 		<!-- Bouton de téléchargement du PDF -->
-		<a href="{{ path('download_invoice', {'orderId': order.id}) }}" class="btn btn-primary">Télécharger la Facture</a>
+		<a href="{{ path('download_invoice', {'orderId': order.id}) }}" class="btn btn-primary">Download invoice</a>
 
 	{% else %}
 		<p>Order not found or access denied.</p>
