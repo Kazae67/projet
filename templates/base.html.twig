@@ -57,7 +57,7 @@
 				class="nav-center">
 				<!-- Afficher seulement si l'utilisateur est connecté -->
 				{% if app.user %}
-					<div class="nav-item dropdown">
+					<div class="nav-item dropdown {% if is_granted('ROLE_CRAFTSMAN') %}is-craftsman{% else %}is-customer{% endif %}">
 						<button class="dropbtn">{{ app.user.username }}</button>
 						<span class="material-symbols-outlined profil">settings_accessibility</span>
 						<div class="dropdown-content">

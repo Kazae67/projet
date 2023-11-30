@@ -63,29 +63,47 @@
   transform: translateY(50%); /* Décale légèrement vers le bas */
 }
 
+/******** CRAFTMEN ********/
 /* my profil */
-.dropdown-content .dropdown-item:nth-child(1) {
+.is-craftsman .dropdown-content .dropdown-item:nth-child(1) {
   left: calc(50% - 71px); /* Décale légèrement vers la gauche */
   bottom: -20px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my products */
-.dropdown-content .dropdown-item:nth-child(2) { 
+.is-craftsman .dropdown-content .dropdown-item:nth-child(2) { 
   left: calc(50% + -34px); /* Décale légèrement vers la droite */
   bottom: -66px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my tracking list */
-.dropdown-content .dropdown-item:nth-child(3) { 
+.is-craftsman .dropdown-content .dropdown-item:nth-child(3) { 
   left: calc(50% + 22px); /* Décale vers la droite */
   bottom: -66px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* logout */
-.dropdown-content .dropdown-item:nth-child(4) {
+.is-craftsman .dropdown-content .dropdown-item:nth-child(4) {
+  left: calc(50% + 59px); /* Décale vers la droite */
+  bottom: -20px; /* Descendre l'icône */
+  transform: translate(-50%, 0) rotate(0deg);
+}
+
+/******** CUSTOMER ********/
+.is-customer .dropdown-content .dropdown-item:nth-child(1) {
+  left: calc(50% - 71px); /* Décale légèrement vers la gauche */
+  bottom: -20px; /* Descendre l'icône */
+  transform: translate(-50%, 0) rotate(0deg);
+}
+.is-customer .dropdown-content .dropdown-item:nth-child(2) {
+  left: calc(50% + -6px); /* Décale légèrement vers la droite */
+  bottom: -71.5px; /* Descendre l'icône */
+  transform: translate(-50%, 0) rotate(0deg);
+}
+.is-customer .dropdown-content .dropdown-item:nth-child(3) {
   left: calc(50% + 59px); /* Décale vers la droite */
   bottom: -20px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
