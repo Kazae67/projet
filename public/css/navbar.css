@@ -36,13 +36,13 @@
 .dropdown::after {
   content: "";
   position: absolute;
-  bottom: -200px; /* Positionne le pseudo-élément sous l'icône */
-  left: 0;
+  bottom: -140px; /* Positionne le pseudo-élément sous l'icône */
+  left: -150%;
   right: 0;
-  height: 200px; /* Hauteur de l'extension de la zone de survol */
+  width: 260px; /* Largeur suffisante pour couvrir les éléments du menu */
+  height: 130px; /* Hauteur de l'extension de la zone de survol */
   pointer-events: none; /* S'assure que le pseudo-élément ne bloque pas les interactions avec d'autres éléments */
 }
-
 
 .dropdown:hover .dropdown-content, .dropdown:hover::after {
   display: flex;
@@ -58,8 +58,37 @@
   z-index: 100;
 }
 .dropdown-content .dropdown-item {
-  display: inline-block;
-  padding: 5px;
+  position: absolute;
+  bottom: 0; /* Position au bas du cercle du profil */
+  transform: translateY(50%); /* Décale légèrement vers le bas */
+}
+
+/* my profil */
+.dropdown-content .dropdown-item:nth-child(1) { /* Supposons que c'est le premier enfant */
+  left: calc(50% - 75px); /* Décale légèrement vers la gauche */
+  bottom: -20px; /* Descendre l'icône */
+  transform: translate(-50%, 0) rotate(0deg);
+}
+
+/* my products */
+.dropdown-content .dropdown-item:nth-child(2) { /* Supposons que c'est le deuxième enfant */
+  left: calc(50% + -35px); /* Décale légèrement vers la droite */
+  bottom: -66px; /* Descendre l'icône */
+  transform: translate(-50%, 0) rotate(0deg);
+}
+
+/* my tracking list */
+.dropdown-content .dropdown-item:nth-child(3) { /* Modifier pour le 3ème élément */
+  left: calc(50% + 22px); /* Décale vers la droite */
+  bottom: -66px; /* Descendre l'icône */
+  transform: translate(-50%, 0) rotate(0deg);
+}
+
+/* logout */
+.dropdown-content .dropdown-item:nth-child(4) { /* Modifier pour le 4ème élément */
+  left: calc(50% + 61px); /* Décale vers la droite */
+  bottom: -20px; /* Descendre l'icône */
+  transform: translate(-50%, 0) rotate(0deg);
 }
 
 .dropdown-content .dropdown-item a {
