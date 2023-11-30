@@ -55,7 +55,7 @@
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  z-index: 1;
+  z-index: 100;
 }
 .dropdown-content .dropdown-item {
   display: inline-block;
@@ -105,6 +105,9 @@
   border: none;
   cursor: pointer;
   font-size: 16px; 
+  z-index: 9999;
+  margin-bottom:20px;
+  margin-left:-10px;
 }
 
 /* Section droite pour les autres liens */
@@ -120,6 +123,7 @@
   display: flex;
   flex-direction: column; 
   align-items: center;
+  z-index: 100;
 }
 
 .nav-item:hover {
@@ -127,31 +131,32 @@
 }
 
 .nav-center .material-symbols-outlined.profil {
-  position: absolute;
-  bottom: -45px; /* Ajustez pour aligner avec le bas de la navbar */
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px;
-  border: 1px solid transparent !important;
-  border-radius: 50%;
-  background-color: #fff;
-  z-index: 2;
+    position: absolute;
+    bottom: -60px; /* valeur pour abaisser l'icône */
+    left: calc(50% - 6px); /* déplacer le 6% pour changer de gauche à droite */
+    cursor: pointer;
+    transform: translateX(-50%);
+    padding: 15px; /* Taille agrandie du padding */
+    border: 1px solid transparent !important;
+    border-radius: 50%;
+    background-color: #fff;
+    z-index: 100;
+    font-size: 60px; /* Taille agrandie de l'icône */
 }
 
 .nav-center .material-symbols-outlined.profil::before {
-  content: '';
-  position: absolute;
-  top: 50%; /* Commence au milieu de l'icône */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px; /* Diamètre du cercle */
-  height: 40px;
-  background-color: transparent;
-  border: 1px solid black !important;
-  border-radius: 50%;
-  z-index: -1; /* Mettre en arrière-plan */
-
-  clip-path: inset(20px 0 0 0); /* Masquer la moitié supérieure du cercle */
+    content: '';
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px; /* Diamètre du cercle */
+    height: 90px;
+    background-color: transparent;
+    border: 1px solid black !important;
+    border-radius: 50%;
+    z-index: -1;
+    clip-path: inset(44px 0 0 0); /* Ajustement de la coupure */
 }
 .material-symbols-outlined.logout{
   color:red;
@@ -160,7 +165,7 @@
 .material-symbols-outlined.my-products, 
 .material-symbols-outlined.tracking-list {
 color:black;
-z-index:0;
+z-index:100;
 }
 
 @media screen and (max-width: 480px) {

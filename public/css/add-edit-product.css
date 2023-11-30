@@ -6,13 +6,54 @@ h1 {
 
 .form-container {
     max-width: 600px;
-    margin: auto;
+    margin: 10px auto;
     padding: 20px;
     background-color: #f7f7f7;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 20;
+    border-left: solid 1px black;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
 }
 
+.form-container::before,
+.form-container::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    top: 0;
+    width: calc(50% - 55px); /* Ajuste la largeur pour qu'elle s'arrête avant le circle */
+    border-top: solid 1px black;
+    z-index: 30;
+}
+
+.form-container::before {
+    left: 0;
+    border-right: none;
+    border-top-left-radius: 15px;
+}
+
+.form-container::after {
+    right: 0;
+    border-left: none;
+    border-top-right-radius: 15px;
+}
+
+.form-circle {
+    content: '';
+    position: absolute;
+    top: -70px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 115px;
+    background-color: #ffffff; 
+    border-radius: 50%; 
+    border: solid black 1px;
+    z-index: 10; 
+}
 .form-group {
     margin-bottom: 15px;
 }
@@ -64,7 +105,7 @@ input:hover, textarea:hover, select:hover {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #007BFF; /* Couleur bleue pour le lien */
+    color: #007BFF;
     text-decoration: none;
     transition: color 0.3s;
 }
