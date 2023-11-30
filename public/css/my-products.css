@@ -12,7 +12,15 @@
     transform-origin: center;
     height: auto;
 }
-
+.card-stock {
+    position: absolute;
+    top: 10px; /* Ajustez la position pour qu'elle soit au-dessus du prix */
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
 .add-product-link {
     display: inline-flex; 
     align-items: center; 
@@ -22,10 +30,10 @@
 }
 
 .material-symbols-outlined.plus {
-    font-size: 48px; /* Taille de l'icône '+' */
+    font-size: 150px; 
 }
 
-@media (max-width: 1655px) {
+@media (max-width: 1925px) {
     .add-product-slot {
         min-height: 200px; 
     }

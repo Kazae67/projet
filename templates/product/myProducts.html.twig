@@ -20,6 +20,11 @@
 					<!-- Prix du produit -->
 					<div class="card-price">{{ product.price }}€</div>
 
+					<!-- Ajout de la quantité restante -->
+					<div class="card-stock">Stock :
+						{{ product.stockQuantity }}</div>
+
+
 					<!-- Groupe d'icônes pour les actions -->
 					<div class="icon-group">
 						<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
