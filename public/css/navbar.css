@@ -114,12 +114,13 @@
   line-height: 1.5; /* valeur pour déplacer le texte vers le bas */
 }
 
+/* Cercle */
 .dropdown-content .dropdown-item span:not(.icon-text) {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white; /* Ajout d'un arrière-plan blanc */
-  border: 1px solid black; /* Bordure noire pour le cercle */
+  background-color: white; 
+  border: 1px solid black; 
   border-radius: 50%; 
   width: 40px; /* Taille du cercle */
   height: 40px; /* Taille du cercle */
@@ -131,7 +132,7 @@
   font-size: 12px;
   text-align: center;
   position: absolute;
-  bottom: -20px; /* valeur pour positionner le texte en dessous de l'icône */
+  bottom: -18px; /* valeur pour positionner le texte en dessous de l'icône */
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -208,6 +209,7 @@
 .material-symbols-outlined.logout{
   color:red;
   font-size:30px;
+  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
 }
 .material-symbols-outlined.my-profil, 
 .material-symbols-outlined.my-products, 
@@ -215,6 +217,7 @@
 color:black;
 z-index:100;
 font-size:30px;
+box-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
 }
 
 @media screen and (max-width: 480px) {
