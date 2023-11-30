@@ -64,29 +64,29 @@
 }
 
 /* my profil */
-.dropdown-content .dropdown-item:nth-child(1) { /* Supposons que c'est le premier enfant */
-  left: calc(50% - 75px); /* Décale légèrement vers la gauche */
+.dropdown-content .dropdown-item:nth-child(1) {
+  left: calc(50% - 71px); /* Décale légèrement vers la gauche */
   bottom: -20px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my products */
-.dropdown-content .dropdown-item:nth-child(2) { /* Supposons que c'est le deuxième enfant */
-  left: calc(50% + -35px); /* Décale légèrement vers la droite */
+.dropdown-content .dropdown-item:nth-child(2) { 
+  left: calc(50% + -34px); /* Décale légèrement vers la droite */
   bottom: -66px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my tracking list */
-.dropdown-content .dropdown-item:nth-child(3) { /* Modifier pour le 3ème élément */
+.dropdown-content .dropdown-item:nth-child(3) { 
   left: calc(50% + 22px); /* Décale vers la droite */
   bottom: -66px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* logout */
-.dropdown-content .dropdown-item:nth-child(4) { /* Modifier pour le 4ème élément */
-  left: calc(50% + 61px); /* Décale vers la droite */
+.dropdown-content .dropdown-item:nth-child(4) {
+  left: calc(50% + 59px); /* Décale vers la droite */
   bottom: -20px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
@@ -97,16 +97,16 @@
 }
 
 .dropdown-content .dropdown-item span:not(.icon-text) {
-  display: block;
-  border: 1px solid black;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  line-height: 30px; /* Ajustez la valeur pour centrer le texte verticalement */
-  text-align: center;
-  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white; /* Ajout d'un arrière-plan blanc */
+  border: 1px solid black; /* Bordure noire pour le cercle */
+  border-radius: 50%; 
+  width: 40px; /* Taille du cercle */
+  height: 40px; /* Taille du cercle */
+  z-index: 101;
 }
-
 /* Styles pour le texte en survol */
 .dropdown-content .dropdown-item .icon-text {
   display: none;
@@ -189,12 +189,14 @@
 }
 .material-symbols-outlined.logout{
   color:red;
+  font-size:30px;
 }
 .material-symbols-outlined.my-profil, 
 .material-symbols-outlined.my-products, 
 .material-symbols-outlined.tracking-list {
 color:black;
 z-index:100;
+font-size:30px;
 }
 
 @media screen and (max-width: 480px) {
