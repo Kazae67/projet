@@ -156,6 +156,12 @@
 .material-symbols-outlined.logout{
   color:red;
 }
+.material-symbols-outlined.my-profil, 
+.material-symbols-outlined.my-products, 
+.material-symbols-outlined.tracking-list {
+color:black;
+z-index:0;
+}
 
 @media screen and (max-width: 480px) {
   /* Réduire la taille du logo et des éléments de navigation */

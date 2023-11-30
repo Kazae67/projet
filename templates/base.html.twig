@@ -25,6 +25,10 @@
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/my-products.css') }}">
 			{% endif %}
+			{% if app.request.attributes.get('_route') == 'product_add' or app.request.attributes.get('_route') == 'product_edit' %}
+				<link rel="stylesheet" href="{{ asset('css/add-edit-product.css') }}">
+			{% endif %}
+
 		{% endblock %}
 		{% block javascripts %}{% endblock %}
 	</head>

@@ -11,6 +11,7 @@
     transform: scale(1.07);
     transform-origin: center;
     height: auto;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 .card-stock {
     position: absolute;
@@ -29,11 +30,31 @@
     text-decoration: none;
 }
 
-.material-symbols-outlined.plus {
-    font-size: 150px; 
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-@media (max-width: 1925px) {
+.material-symbols-outlined.plus {
+    font-size: 150px; 
+
+}
+
+.material-symbols-outlined.plus:hover{
+    animation: pulse 2s infinite ease-in-out; /* Appliquez l'animation */
+}
+
+@media (max-width: 3000px) {
     .add-product-slot {
         min-height: 200px; 
     }
