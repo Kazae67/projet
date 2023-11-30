@@ -22,7 +22,7 @@
 				{% for order in orders %}
 					<tr>
 						<td>{{ order.trackingToken }}</td>
-						<td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
+						<td>{{ order.updatedAt|date('Y-m-d H:i') }}</td>
 						<td>{{ order.status }}</td>
 						<td>{{ order.orderDetails|length }}</td>
 						<td>{{ order.totalPrice }}€</td>
