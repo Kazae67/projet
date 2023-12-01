@@ -48,14 +48,18 @@
   display: flex;
   pointer-events: auto; /* Active les interactions pour le menu déroulant */
 }
+
+/* MENU DÉROULANT */
 .dropdown-content {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   position: absolute;
-  top: 70px; /*Pour repositionner l'icone de l'user */
+  top: 70px;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
   z-index: 100;
+  transition: opacity 0.5s, visibility 0.5s;
 }
 .dropdown-content .dropdown-item {
   position: absolute;
@@ -67,20 +71,20 @@
 /* my profil */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(1) {
   left: calc(50% - 75px); /* Décale légèrement vers la gauche */
-  bottom: -20px; /* Descendre l'icône */
+  bottom: -15px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my products */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(2) { 
-  left: calc(50% + -36px); /* Décale légèrement vers la droite */
+  left: calc(50% + -48px); /* Décale légèrement vers la droite */
   bottom: -70px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my tracking list */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(3) { 
-  left: calc(50% + 24px); /* Décale vers la droite */
+  left: calc(50% + 36px); /* Décale vers la droite */
   bottom: -70px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
@@ -88,7 +92,7 @@
 /* logout */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(4) {
   left: calc(50% + 63px); /* Décale vers la droite */
-  bottom: -20px; /* Descendre l'icône */
+  bottom: -15px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
@@ -145,16 +149,16 @@
   display: block;
 }
 .dropdown:hover .dropdown-content {
-  display: flex; 
+  visibility: visible;
+  opacity: 1;
 }
-
 .dropbtn {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 16px; 
   z-index: 9999;
-  margin-bottom:20px;
+  margin-bottom:30px;
   margin-left:-10px;
 }
 
@@ -190,6 +194,7 @@
     background-color: #fff;
     z-index: 100;
     font-size: 60px; /* Taille agrandie de l'icône */
+    color:black;
 }
 
 .nav-center .material-symbols-outlined.profil::before {
@@ -206,18 +211,35 @@
     z-index: -1;
     clip-path: inset(44px 0 0 0); /* Ajustement de la coupure */
 }
-.material-symbols-outlined.logout{
-  color:red;
-  font-size:30px;
-  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
+/* Keyframes pour l'effet de lumière interne */
+@keyframes innerGlowEffect {
+  0%, 100% { box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); }
+  50% { box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.9); }
 }
-.material-symbols-outlined.my-profil, 
-.material-symbols-outlined.my-products, 
+
+/* Styles initiaux pour les icônes avec box-shadow de base et transition */
+.material-symbols-outlined.logout,
+.material-symbols-outlined.my-profil,
+.material-symbols-outlined.my-products,
 .material-symbols-outlined.tracking-list {
-color:black;
-z-index:100;
-font-size:30px;
-box-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
+  color: black; /* Couleur par défaut pour les icônes */
+  font-size: 30px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); /* Shadow de base */
+  transition: box-shadow 1s ease-in-out; /* Transition pour box-shadow */
+}
+
+.material-symbols-outlined.logout {
+  color: red;
+}
+
+/* Modifier la box-shadow lors du survol */
+.dropdown:hover .material-symbols-outlined {
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.9); /* Shadow plus intense lors du survol */
+}
+/* Déclencher l'animation lors du survol et permettre une transition douce lors de la sortie du survol */
+.dropdown:hover .material-symbols-outlined.profil {
+  animation: innerGlowEffect 2s linear infinite;
+  transition: box-shadow 1s ease-in-out; /* Assure une transition douce à la sortie du survol */
 }
 
 @media screen and (max-width: 480px) {
