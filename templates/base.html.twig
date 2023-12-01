@@ -20,15 +20,20 @@
 			{% if app.request.attributes.get('_route') == 'product' %}
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
 			{% endif %}
-
+			<!-- Pour la liste de mes produits -->
 			{% if app.request.attributes.get('_route') == 'my_products' %}
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/my-products.css') }}">
 			{% endif %}
+			<!-- Pour les formulaires add/edit produit -->
 			{% if app.request.attributes.get('_route') == 'product_add' or app.request.attributes.get('_route') == 'product_edit' %}
 				<link rel="stylesheet" href="{{ asset('css/add-edit-product.css') }}">
 			{% endif %}
-
+			<!-- Pour la wishlist/cart des produits -->
+			{% if app.request.attributes.get('_route') == 'cart_index' or app.request.attributes.get('_route') == 'wishlist_index' %}
+				<link rel="stylesheet" href="{{ asset('css/add-edit-product.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/cart-wishlist.css') }}">
+			{% endif %}
 		{% endblock %}
 		{% block javascripts %}{% endblock %}
 	</head>

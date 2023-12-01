@@ -25,9 +25,10 @@ h1 {
     position: absolute;
     height: 100%;
     top: 0;
-    width: calc(50% - 55px); /* Ajuste la largeur pour qu'elle s'arrête avant le circle */
+    width: calc(50% - 55px);
     border-top: solid 1px black;
-    z-index: 30;
+    z-index: 1; /* Modification du z-index pour qu'il soit derrière les éléments interactifs */
+    pointer-events: none; /* Permet aux clics de la souris de passer à travers */
 }
 
 .form-container::before {
@@ -40,6 +41,10 @@ h1 {
     right: 0;
     border-left: none;
     border-top-right-radius: 15px;
+}
+
+.form-container {
+    z-index: 2; /* S'assurer que le container est au-dessus des éléments ::before et ::after */
 }
 
 .form-circle {
