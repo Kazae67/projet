@@ -18,7 +18,14 @@
 		{% if wishlistItems %}
 			<div class="cart-items">
 				{% for item in wishlistItems %}
-					<div class="cart-item">
+					<div
+						class="cart-item">
+						<!-- Lien vers la page du produit -->
+						<a href="{{ path('product_show', {'id': item.product.id}) }}">
+							<div class="product-image-container">
+								<img src="{{ item.product.image_url|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
+							</div>
+						</a>
 						<div class="product-name">{{ item.product.name }}</div>
 						<div class="product-details">
 							<span class="product-price">{{ item.product.price }}€</span>
@@ -32,22 +39,19 @@
 					</div>
 				{% endfor %}
 			</div>
-			<div class="clear-cart-container">
-				<a href="{{ path('wishlist_clear') }}" class="clear-cart-link">
-					<span class="material-symbols-outlined clear">
-						delete
-					</span>
-					<span class="button-text">Clear Wishlist</span>
-				</a>
+			<div class="action-container">
+				<div class="clear-cart-container">
+					<a href="{{ path('wishlist_clear') }}" class="clear-cart-link">
+						<span class="material-symbols-outlined clear">delete</span>
+						<span class="button-text">Clear Wishlist</span>
+					</a>
+				</div>
 				<div class="move-all-to-cart-container">
 					<a href="{{ path('wishlist_move_all_to_cart') }}" class="btn btn-move-all">
-						<span class="material-symbols-outlined move-all-to-cart">
-							trolley
-						</span>
-						delete
-					</span>
-					<span class="button-text">Move All to Cart</span>
-				</a>
+						<span class="material-symbols-outlined move-all-to-cart">trolley</span>
+						<span class="button-text">Move All to Cart</span>
+					</a>
+				</div>
 			</div>
 		{% else %}
 			<p>Your wishlist is empty.</p>
