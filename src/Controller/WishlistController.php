@@ -94,4 +94,33 @@ class WishlistController extends AbstractController
         $this->addFlash('success', 'Product moved to cart.');
         return $this->redirectToRoute('cart_index');
     }
+
+    #[Route('/wishlist/clear', name: 'wishlist_clear')]
+    public function clear(WishlistService $wishlistService): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $wishlistService->clearWishlist($user);
+
+        $this->addFlash('success', 'Your wishlist has been cleared.');
+        return $this->redirectToRoute('wishlist_index');
+    }
+
+    #[Route('/wishlist/move-all-to-cart', name: 'wishlist_move_all_to_cart')]
+    public function moveAllToCart(WishlistService $wishlistService, CartService $cartService): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $wishlistService->moveAllToCart($cartService, $user);
+
+        $this->addFlash('success', 'All products moved to cart.');
+        return $this->redirectToRoute('cart_index');
+    }
+
 }

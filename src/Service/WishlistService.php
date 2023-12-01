@@ -64,4 +64,28 @@ class WishlistService
             throw new \Exception('Wishlist item not found or access denied.');
         }
     }
+    public function clearWishlist(UserInterface $user)
+    {
+        $wishlistItems = $this->wishlistRepository->findBy(['user' => $user]);
+
+        foreach ($wishlistItems as $item) {
+            $this->entityManager->remove($item);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function moveAllToCart(CartService $cartService, UserInterface $user)
+    {
+        $wishlistItems = $this->wishlistRepository->findBy(['user' => $user]);
+
+        foreach ($wishlistItems as $item) {
+            $cartService->add($item->getProduct()->getId());
+            $this->entityManager->remove($item);
+        }
+
+        $this->entityManager->flush();
+    }
+
+
 }

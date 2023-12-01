@@ -27,12 +27,16 @@
 			{% endif %}
 			<!-- Pour les formulaires add/edit produit -->
 			{% if app.request.attributes.get('_route') == 'product_add' or app.request.attributes.get('_route') == 'product_edit' %}
-				<link rel="stylesheet" href="{{ asset('css/add-edit-product.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 			{% endif %}
 			<!-- Pour la wishlist/cart des produits -->
-			{% if app.request.attributes.get('_route') == 'cart_index' or app.request.attributes.get('_route') == 'wishlist_index' %}
-				<link rel="stylesheet" href="{{ asset('css/add-edit-product.css') }}">
-				<link rel="stylesheet" href="{{ asset('css/cart-wishlist.css') }}">
+			{% if app.request.attributes.get('_route') == 'cart_index' %}
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+			{% endif %}
+			{% if app.request.attributes.get('_route') == 'wishlist_index' %}
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/wishlist.css') }}">
 			{% endif %}
 		{% endblock %}
 		{% block javascripts %}{% endblock %}

@@ -1,0 +1,13 @@
+.product-image-container {
+    width: 60px; /* Largeur réduite */
+    height: 60px; /* Hauteur réduite */
+    overflow: hidden;
+    border-radius: 50%; /* Rend l'image circulaire */
+    margin-right: 10px;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
