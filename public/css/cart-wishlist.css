@@ -5,10 +5,9 @@
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     max-width: 650px;
-    border: 2px solid #d3c1b8;
+    border: 1px solid #000000;
     position: relative;
 }
-
 .cart-items::before, .wishlist-items::before {
     content: '';
     position: absolute;
@@ -16,14 +15,17 @@
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background: linear-gradient(60deg, #333, #4CAF50);
+    background: linear-gradient(60deg, #555, #eee);
     z-index: -1;
     border-radius: 15px;
-    transition: transform 0.3s;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .cart-items:hover::before, .wishlist-items:hover::before {
-    transform: rotate(3deg);
+    background: linear-gradient(60deg, #333, #fff);
+    transform: scale(1.01);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
 }
 
 .cart-item, .wishlist-item {
