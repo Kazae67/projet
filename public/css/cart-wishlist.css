@@ -125,10 +125,57 @@
     transition: background-color 0.3s;
 }
 
-.btn.btn-clear{
-    color: red;
-}
-
 .cart-footer button:hover, .wishlist-footer button:hover {
     background-color: #45a049;
+}
+
+.clear-cart-link {
+    display: inline-block;
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style pour l'icône Clear Cart */
+.material-symbols-outlined.clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Taille de l'icône */
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px black; /* Bordure blanche, puis noire */
+    margin: 0 auto 10px;
+    color: white;
+    background-color: #ff7b72;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    cursor: pointer; 
+}
+
+.button-text {
+    display: block; /* Place le texte sur sa propre ligne */
+}
+
+.clear-cart-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+.material-symbols-outlined.clear:hover {
+    background-image: linear-gradient(to right, rgba(221, 18, 18, 0.4) 0%, rgb(255, 255, 255) 50%, rgba(221, 35, 35, 0.103) 100%);
+    background-size: 200%;
+    animation: shine 1s linear infinite;
+    -webkit-animation: shine 1s linear infinite;
+}
+
+@keyframes shine {
+    from {
+        background-position: 100%;
+    }
+    to {
+        background-position: -100%;
+    }
 }
