@@ -32,7 +32,7 @@
   display: inline-block;
   margin-bottom: 20px; 
 }
-/* Extension de la zone de survol vers le bas avec un pseudo-élément */
+/* Extension de la zone de hover vers le bas avec un pseudo-élément */
 .dropdown::after {
   content: "";
   position: absolute;
@@ -40,8 +40,8 @@
   left: -150%;
   right: 0;
   width: 260px; /* Largeur suffisante pour couvrir les éléments du menu */
-  height: 130px; /* Hauteur de l'extension de la zone de survol */
-  pointer-events: none; /* S'assure que le pseudo-élément ne bloque pas les interactions avec d'autres éléments */
+  height: 130px; /* Hauteur de l'extension de la zone de hover */
+  pointer-events: none; /* Pour pseudo-élément ne bloque pas les interactions avec d'autres éléments */
 }
 
 .dropdown:hover .dropdown-content, .dropdown:hover::after {
@@ -130,7 +130,7 @@
   height: 40px; /* Taille du cercle */
   z-index: 101;
 }
-/* Styles pour le texte en survol */
+/* Styles pour le texte en hover */
 .dropdown-content .dropdown-item .icon-text {
   display: none;
   font-size: 12px;
@@ -160,6 +160,7 @@
   z-index: 9999;
   margin-bottom:30px;
   margin-left:-10px;
+  font-weight:bold;
 }
 
 /* Section droite pour les autres liens */
@@ -225,21 +226,21 @@
   color: black; /* Couleur par défaut pour les icônes */
   font-size: 30px;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); /* Shadow de base */
-  transition: box-shadow 1s ease-in-out; /* Transition pour box-shadow */
+  transition: box-shadow 1s ease-in-out; 
 }
 
 .material-symbols-outlined.logout {
   color: red;
 }
 
-/* Modifier la box-shadow lors du survol */
+/* Modifier la box-shadow lors du hover */
 .dropdown:hover .material-symbols-outlined {
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.9); /* Shadow plus intense lors du survol */
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.9); /* Shadow plus intense lors du hover */
 }
-/* Déclencher l'animation lors du survol et permettre une transition douce lors de la sortie du survol */
+/* Déclencher l'animation lors du hover et permettre une transition douce lors de la sortie du hover */
 .dropdown:hover .material-symbols-outlined.profil {
   animation: innerGlowEffect 2s linear infinite;
-  transition: box-shadow 1s ease-in-out; /* Assure une transition douce à la sortie du survol */
+  transition: box-shadow 1s ease-in-out; /* Assure une transition douce à la sortie du hover */
 }
 
 @media screen and (max-width: 480px) {

@@ -1,3 +1,21 @@
 body {
     font-family: 'Acme', serif;
 }
+
+.logo {
+    border: solid 1px black;
+    border-radius: 50%;
+    width: 62px; 
+    height: 62px; 
+    overflow: hidden; /* Masque les parties de l'image qui débordent */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
+    width: 170%; /* Agrandir l'image */
+    height: auto;
+    border-radius: 50%;
+    filter: invert(100%);
+}

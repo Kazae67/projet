@@ -161,7 +161,7 @@
 }
 .material-symbols-outlined {
     color: black;
-    font-size: 24px; /* Assurez-vous que cette taille est cohérente pour toutes les icônes */
+    font-size: 24px; 
 }
 
 .material-symbols-outlined.wishlist,

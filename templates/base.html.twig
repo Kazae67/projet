@@ -59,7 +59,9 @@
 				{% if app.user %}
 					<div class="nav-item dropdown {% if is_granted('ROLE_CRAFTSMAN') %}is-craftsman{% else %}is-customer{% endif %}">
 						<button class="dropbtn">{{ app.user.username }}</button>
-						<span class="material-symbols-outlined profil">settings_accessibility</span>
+						<div class="logo material-symbols-outlined profil">
+							<img src="{{ asset('images/logo2.png') }}" alt="Logo" class="profil-logo">
+						</div>
 						<div class="dropdown-content">
 							<div class="dropdown-item">
 								<a href="{{ path('app_profile') }}">
