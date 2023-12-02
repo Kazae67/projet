@@ -8,6 +8,7 @@
 		<div class="form-circle"></div>
 		<h1>Shopping Cart</h1>
 
+		{# Messages flash #}
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success">{{ message }}</div>
 		{% endfor %}
@@ -18,27 +19,33 @@
 		{% if items %}
 			<div class="cart-items">
 				{% for item in items %}
-					<!-- PRODUCT NAME -->
-					<div class="cart-item">
-						<div class="product-name">{{ item.product.name }}</div>
-						<div
-							class="product-details">
-							<!-- PRICE UNIT -->
-							<span class="product-price">Price per unit:
-								{{ item.product.price }}€</span>
-							<!-- SUBTOTAL -->
-							<span class="product-subtotal">Subtotal:
-								{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€</span>
-						</div>
-						<!-- INCREMENT DECREMENT REMOVE -->
-						<div class="product-quantity-actions">
-							<div class="cart-actions">
-								<a href="{{ path('cart_decrement', {'productId': item.product.id}) }}" class="btn btn-decrement">-</a>
-								<a href="{{ path('cart_increment', {'productId': item.product.id}) }}" class="btn btn-increment">+</a>
-								<a href="{{ path('cart_remove', {'productId': item.product.id}) }}" class="btn btn-remove">Remove</a>
+					<div
+						class="cart-item">
+						<!-- Image du produit -->
+						<a href="{{ path('product_show', {'id': item.product.id}) }}">
+							<div class="product-image-container">
+								<img src="{{ item.product.image_url|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
 							</div>
-							<span class="product-quantity">Quantity:
-								{{ item.quantity }}</span>
+						</a>
+						<!-- Nom et détails du produit -->
+						<div class="product-info">
+							<div class="product-name">{{ item.product.name }}</div>
+							<div class="product-details">
+								<span class="product-price">Price per unit:
+									{{ item.product.price }}€</span>
+								<span class="product-subtotal">Subtotal:
+									{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€</span>
+							</div>
+							<!-- Actions -->
+							<div class="product-quantity-actions">
+								<div class="cart-actions">
+									<a href="{{ path('cart_decrement', {'productId': item.product.id}) }}" class="btn btn-decrement">-</a>
+									<a href="{{ path('cart_increment', {'productId': item.product.id}) }}" class="btn btn-increment">+</a>
+									<a href="{{ path('cart_remove', {'productId': item.product.id}) }}" class="btn btn-remove">Remove</a>
+								</div>
+								<span class="product-quantity">Quantity:
+									{{ item.quantity }}</span>
+							</div>
 						</div>
 					</div>
 				{% endfor %}

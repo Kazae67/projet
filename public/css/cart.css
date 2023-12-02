@@ -1,3 +1,32 @@
+.product-image-container {
+    width: 100%; /* La largeur du conteneur de l'image prend toute la largeur du cart-item */
+    height: 150px; /* Hauteur fixe mais réduite pour le conteneur de l'image */
+    overflow: hidden;
+    border-radius: 5px; /* Bordures légèrement arrondies */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    border:solid 1px black;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%; /* Hauteur ajustée pour remplir le conteneur */
+    object-fit: cover; /* Assure que l'image couvre tout le conteneur sans déformer le ratio */
+}
+
+.cart-item {
+    display: flex;
+    flex-direction: column; /* Organise les éléments verticalement */
+    align-items: center; /* Centre les éléments horizontalement */
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+/* Styles supplémentaires pour le reste des éléments dans cart-item */
+
+
 .cart-items, .wishlist-items {
     margin: 40px auto;
     padding: 20px;
@@ -39,6 +68,7 @@
 .cart-item:hover, .wishlist-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border:solid 1px black;
 }
 
 .product-name {
@@ -95,9 +125,11 @@
     background-color: #4CAF50;
     color: white;
     padding: 5px 10px;
+    border:solid 1px black;
 }
 
 .cart-actions a.btn-remove, .wishlist-actions a.btn-remove {
+    border:solid 1px black;
     background-color: #ff7b72;
 }
 
@@ -179,5 +211,18 @@
     }
     to {
         background-position: -100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .cart-item {
+        flex-direction: column; /* Organise les éléments verticalement sur les petits écrans */
+    }
+    .product-image-container {
+        margin-bottom: 10px; /* Ajoute de l'espace entre l'image et le reste du contenu */
+    }
+    .product-details, .product-quantity-actions {
+        width: 100%; /* Assure que ces éléments prennent toute la largeur disponible */
+        text-align: center;
     }
 }
