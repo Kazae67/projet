@@ -48,8 +48,9 @@
 
 .cart-actions {
     display: flex;
+    justify-content: space-between; /* Espacement entre les boutons */
+    width: 100%; /* Prendre toute la largeur disponible */
     gap: 10px;
-    flex-wrap: wrap; /* Ajout de flex-wrap pour la responsivité */
 }
 
 .clear-cart-container,
