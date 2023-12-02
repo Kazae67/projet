@@ -38,6 +38,10 @@
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/wishlist.css') }}">
 			{% endif %}
+			{% if app.request.attributes.get('_route') == 'app_profile' %}
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
+			{% endif %}
 		{% endblock %}
 		{% block javascripts %}{% endblock %}
 	</head>

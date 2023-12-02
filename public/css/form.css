@@ -27,7 +27,7 @@ h1 {
     top: 0;
     width: calc(50% - 55px);
     border-top: solid 1px black;
-    z-index: 1; /* Modification du z-index pour qu'il soit derrière les éléments interactifs */
+    z-index: 1; 
     pointer-events: none; /* Permet aux clics de la souris de passer à travers */
 }
 
@@ -44,7 +44,7 @@ h1 {
 }
 
 .form-container {
-    z-index: 2; /* S'assurer que le container est au-dessus des éléments ::before et ::after */
+    z-index: 2; 
 }
 
 .form-circle {
@@ -118,4 +118,14 @@ input:hover, textarea:hover, select:hover {
 
 .back-link:hover {
     color: #0056b3;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(50px); -webkit-transform: translateY(50px); -moz-transform: translateY(50px); -ms-transform: translateY(50px); -o-transform: translateY(50px); } /* Départ avec transparence et un léger déplacement vers le haut */
+    50% {opacity: 0.5; transform: translateY(-5px);} 
+    100% {opacity: 1; transform: translateY(0);} 
+}
+
+.form-container, .form-container::before, .form-container::after,.btn {
+    animation: fadeIn 1.5s ease-out; 
 }

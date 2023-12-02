@@ -1,0 +1,100 @@
+.profile-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Deux colonnes de largeur égale */
+    gap: 20px; /* Espace entre les colonnes */
+    max-width: 1200px; 
+    margin: 40px auto; 
+    position: relative;
+}
+/* Ligne de séparation */
+.profile-layout::after {
+    content: '';
+    position: absolute;
+    left: 50%; /* Position au milieu du conteneur */
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid #ccc; /* Couleur et épaisseur de la ligne */
+    transform: translateX(-50%); /* pour ligne au milieu */
+}
+
+/* Informations personnelle / à gauche */
+.personal-info {
+    grid-column: 1 / 2;
+}
+
+/* Section pour les adresses / à droite */
+.addresses {
+    grid-column: 2 / 3; 
+}
+
+.personal-info h2, .addresses h2 {
+    text-align: center;
+}
+
+/* pour aligner les boutons Edit et Delete côte à côte */
+.address-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.inline-form {
+    display: inline; 
+}
+
+.address-item {
+    /* Styles existants pour address-item... */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Alignement central */
+}
+
+/* changer le mot de passe */
+.change-password {
+    grid-column: 1 / 2; /* Dans la première colonne */
+    grid-row: 2; /* Seconde rangée */
+    text-align: center;
+}
+
+/* Anonymiser le compte */
+.anonymize-account {
+    grid-column: 2 / 3; /* Dans la seconde colonne */
+    grid-row: 2; /* Seconde rangée */
+    text-align: center; 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-layout {
+        grid-template-columns: 1fr; /* Passage à une seule colonne */
+    }
+
+    .profile-layout::after {
+        display: none; /* Masquage de la ligne verticale */
+    }
+
+    .personal-info, .addresses, .change-password, .anonymize-account {
+        grid-column: 1; /* Alignement dans une seule colonne */
+    }
+
+    /* ligne de séparation horizontale entre les sections */
+    .personal-info::after {
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: #ccc;
+        margin-top: 20px; /* Espace au-dessus de la ligne */
+    }
+
+    /* Centrage du contenu des informations personnelles */
+    .personal-info ul {
+        text-align: center;
+    }
+
+    /* pour que les éléments de liste soient centrés */
+    .personal-info ul li {
+        display: inline-block;
+        text-align: left; 
+        margin-right: 10px; /* Espace entre les éléments de liste */
+    }
+}
