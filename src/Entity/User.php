@@ -16,9 +16,12 @@ use App\Entity\Adress;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`', uniqueConstraints: [
-    new ORM\UniqueConstraint(name: "email_unique", columns: ["email"])
+    new ORM\UniqueConstraint(name: "email_unique", columns: ["email"]),
+    new ORM\UniqueConstraint(name: "username_unique", columns: ["username"])
 ])]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email address or username')]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this email address or username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

@@ -47,13 +47,13 @@ class RegistrationController extends AbstractController
             $email = (new Email())
                 ->from('noreply@yourdomain.com')
                 ->to($user->getEmail())
-                ->subject('Confirmation de votre inscription')
-                ->text('Veuillez confirmer votre inscription en cliquant sur ce lien: ' . $confirmationUrl);
+                ->subject('Confirmation of your registration.')
+                ->text('Please confirm your registration by clicking on this link: ' . $confirmationUrl);
 
             $mailer->send($email);
 
             // Ajouter un message flash
-            $this->addFlash('notice', 'Un e-mail de confirmation a été envoyé. Vous avez 1 minute pour activer votre compte.');
+            $this->addFlash('notice', 'A confirmation email has been sent. You have 1 minute to activate your account.');
 
             // Redirect sur login après l'enregistrement
             return $this->redirectToRoute('app_login');
@@ -73,8 +73,8 @@ class RegistrationController extends AbstractController
             $now = new \DateTimeImmutable();
             if ($user->getConfirmationTokenExpiresAt() <= $now) {
                 // Token expiré
-                $this->addFlash('error', 'Le lien de confirmation a expiré.');
-                return $this->redirectToRoute('app_register');
+                $this->addFlash('error', 'The confirmation link has expired.');
+                return $this->redirectToRoute('app_login');
             }
 
             if (!$user->getIsActivated()) {
@@ -83,12 +83,45 @@ class RegistrationController extends AbstractController
                 $user->setConfirmationTokenExpiresAt(null);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Votre compte a été activé avec succès.');
+                $this->addFlash('success', 'Your account has been successfully activated.');
                 return $this->redirectToRoute('app_login');
             }
         }
 
-        $this->addFlash('error', 'Le lien de confirmation est invalide ou déjà utilisé.');
+        $this->addFlash('error', 'The confirmation link is invalid or already used.');
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/resend-confirmation', name: 'app_resend_confirmation', methods: ['POST'])]
+    public function resendConfirmation(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, UrlGeneratorInterface $urlGenerator): Response
+    {
+        $email = $request->request->get('email');
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        if ($user && !$user->getIsActivated()) {
+            // Générer un nouveau jeton de confirmation et sa date d'expiration
+            $confirmationToken = bin2hex(random_bytes(32));
+            $user->setConfirmationToken($confirmationToken);
+            $expirationDate = new \DateTimeImmutable('+1 minute');
+            $user->setConfirmationTokenExpiresAt($expirationDate);
+
+            $entityManager->flush();
+
+            // Renvoyer l'e-mail de confirmation
+            $confirmationUrl = $urlGenerator->generate('app_confirm', ['token' => $confirmationToken], UrlGeneratorInterface::ABSOLUTE_URL);
+            $email = (new Email())
+                ->from('noreply@yourdomain.com')
+                ->to($user->getEmail())
+                ->subject('Confirmation of your registration.')
+                ->text('Please confirm your registration by clicking on this link: ' . $confirmationUrl);
+
+            $mailer->send($email);
+
+            $this->addFlash('notice', 'A new confirmation email has been sent.');
+        } else {
+            $this->addFlash('error', 'Account already activated or email not found.');
+        }
+
+        return $this->redirectToRoute('app_login');
     }
 }

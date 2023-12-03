@@ -4,7 +4,7 @@ namespace App\Security;
 use App\Entity\User as AppUser;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class AppUserChecker implements UserCheckerInterface
 {
@@ -16,7 +16,7 @@ class AppUserChecker implements UserCheckerInterface
 
         // Vérifier si le compte est activé avant l'authentification
         if (!$user->getIsActivated()) {
-            throw new CustomUserMessageAccountStatusException('Votre compte n\'est pas encore activé. Veuillez vérifier votre e-mail.');
+            throw new CustomUserMessageAuthenticationException('Your account is not yet activated. Please check your email.');
         }
     }
 
