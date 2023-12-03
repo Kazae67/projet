@@ -42,12 +42,17 @@
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
 			{% endif %}
+			<!-- Registration -->
+			{% if app.request.attributes.get('_route') == 'app_register' %}
+				<link rel="stylesheet" href="{{ asset('css/terms-modal.css') }}">
+			{% endif %}
 
 			<!-- Tarte au Citron -->
 			<link
 			rel="stylesheet" href="{{ asset('tarteAuCitron/tarteaucitron.css') }}">
 			<!-- Footer -->
 			<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+
 		{% endblock %}
 		{% block javascripts %}{% endblock %}
 	</head>
@@ -155,6 +160,5 @@
 });
 /* Configuration des services, par exemple Google Analytics, ici(plus tard) */
 		</script>
-
 	</body>
-</html>
+</html></head></html>

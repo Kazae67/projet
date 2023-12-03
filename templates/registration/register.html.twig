@@ -17,8 +17,32 @@
 	{{ form_row(registrationForm.email) }}
 	{{ form_row(registrationForm.plainPassword, { label: 'Password' }) }}
 	{{ form_row(registrationForm.role) }}
+
+	<div
+		id="termsModal" class="modal">
+		<!-- Contenu Modal -->
+		<div class="modal-content">
+			<h2>Terms and Conditions</h2>
+			<div class="terms-content">
+				{% include 'accept_terms/accept_terms_of_service.html.twig' %}
+			</div>
+			<button id="acceptTermsBtn" disabled>I have read and accept the terms
+				<span class="material-symbols-outlined">
+					thumb_up
+				</span>
+			</button>
+			<button id="declineTermsBtn">I do not accept the terms
+				<span class="material-symbols-outlined">
+					thumb_down
+				</span>
+			</button>
+		</div>
+	</div>
+
 	{{ form_row(registrationForm.agreeTerms) }}
 
 	<button type="submit">Register</button>
 	{{ form_end(registrationForm) }}
+
+	<script src="{{ asset('js/terms-modal.js') }}"></script>
 {% endblock %}
