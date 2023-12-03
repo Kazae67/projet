@@ -46,12 +46,6 @@
 		{% block javascripts %}{% endblock %}
 	</head>
 	<body>
-		{% for flash_message in app.flashes('error') %}
-			<div class="alert alert-flash">
-				{{ flash_message }}
-			</div>
-		{% endfor %}
-
 		<div
 			class="navbar">
 			<!-- Section gauche avec Logo et Home -->
@@ -130,7 +124,16 @@
 				{% endif %}
 			</div>
 		</div>
+
+		<!-- MESSAGES FLASH -->
+		{% for flash_message in app.flashes('error') %}
+			<div class="alert alert-flash">
+				{{ flash_message }}
+			</div>
+		{% endfor %}
+
 		{% block body %}{% endblock %}
+
 
 	</body>
 </html>

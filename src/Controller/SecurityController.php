@@ -5,6 +5,10 @@ namespace App\Controller;
 use App\Entity\Adress;
 use App\Entity\Order;
 use App\Entity\Review;
+use App\Repository\ProductRepository;
+use App\Repository\OrderRepository;
+use App\Repository\ReviewRepository;
+use App\Repository\AdressRepository;
 use App\Form\PasswordConfirmationFormType;
 use App\DTO\PasswordConfirmationModel;
 use App\Entity\User;
@@ -91,7 +95,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/user/confirm-password', name: 'user_confirm_password', methods: ['POST'])]
-    public function confirmPassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): JsonResponse
+    public function confirmPassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, ProductRepository $productRepository, AdressRepository $addressRepository, OrderRepository $orderRepository, ReviewRepository $reviewRepository): JsonResponse
     {
         $user = $this->getUser();
         if (!$user || !$user instanceof User) {
@@ -104,8 +108,14 @@ class SecurityController extends AbstractController
             return new JsonResponse(['success' => false, 'message' => 'Incorrect password.']);
         }
 
+        // Supprimer tous les produits associés à l'utilisateur
+        $products = $productRepository->findBy(['user' => $user]);
+        foreach ($products as $product) {
+            $em->remove($product);
+        }
+
         // Anonymiser les adresses liées à l'utilisateur
-        $addresses = $em->getRepository(Adress::class)->findBy(['user' => $user]);
+        $addresses = $addressRepository->findBy(['user' => $user]);
         foreach ($addresses as $address) {
             $address->setStreet('Anonymized');
             $address->setCity('Anonymized');
@@ -116,7 +126,7 @@ class SecurityController extends AbstractController
         }
 
         // Anonymiser les commandes liées à l'utilisateur
-        $orders = $em->getRepository(Order::class)->findBy(['user' => $user]);
+        $orders = $orderRepository->findBy(['user' => $user]);
         foreach ($orders as $order) {
             $order->setFirstName('Anonymized');
             $order->setLastName('Anonymized');
@@ -124,7 +134,7 @@ class SecurityController extends AbstractController
         }
 
         // Anonymiser les avis laissés par l'utilisateur
-        $reviews = $em->getRepository(Review::class)->findBy(['user' => $user]);
+        $reviews = $reviewRepository->findBy(['user' => $user]);
         foreach ($reviews as $review) {
             $review->setTitle('Anonymized Review');
             $review->setComment('This review has been anonymized.');
@@ -143,5 +153,3 @@ class SecurityController extends AbstractController
         return new JsonResponse(['success' => true, 'redirectUrl' => $this->generateUrl('app_logout')]);
     }
 }
-
-
