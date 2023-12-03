@@ -16,6 +16,7 @@ security:
             security: false
         main:
             provider: app_user_provider
+            user_checker: App\Security\AppUserChecker # pour la confirmation de mail
             form_login:
                 login_path: app_login
                 check_path: app_login
