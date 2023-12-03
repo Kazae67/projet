@@ -6,9 +6,19 @@
 {% block body %}
 	<h1>Login</h1>
 
-	{# Afficher les messages #}
+	{# Afficher les messages de type 'success' #}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">{{ message }}</div>
+	{% endfor %}
+
+	{# Afficher les messages de type 'error' #}
 	{% for message in app.flashes('error') %}
 		<div class="alert alert-danger">{{ message }}</div>
+	{% endfor %}
+
+	{# Afficher les messages de type 'notice' #}
+	{% for message in app.flashes('notice') %}
+		<div class="alert alert-info">{{ message }}</div>
 	{% endfor %}
 
 	<form method="post">

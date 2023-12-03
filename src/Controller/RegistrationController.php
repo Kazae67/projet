@@ -32,9 +32,11 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            // Générer un jeton de confirmation
+            // Générer un jeton de confirmation et sa date d'expiration
             $confirmationToken = bin2hex(random_bytes(32));
             $user->setConfirmationToken($confirmationToken);
+            $expirationDate = new \DateTimeImmutable('+1 minute');
+            $user->setConfirmationTokenExpiresAt($expirationDate);
 
             // Persister l'utilisateur
             $entityManager->persist($user);
@@ -44,11 +46,14 @@ class RegistrationController extends AbstractController
             $confirmationUrl = $this->generateUrl('app_confirm', ['token' => $confirmationToken], UrlGeneratorInterface::ABSOLUTE_URL);
             $email = (new Email())
                 ->from('noreply@yourdomain.com')
-                ->to($user->getEmail()) // Utilise l'adresse e-mail de l'utilisateur enregistré
+                ->to($user->getEmail())
                 ->subject('Confirmation de votre inscription')
                 ->text('Veuillez confirmer votre inscription en cliquant sur ce lien: ' . $confirmationUrl);
 
             $mailer->send($email);
+
+            // Ajouter un message flash
+            $this->addFlash('notice', 'Un e-mail de confirmation a été envoyé. Vous avez 1 minute pour activer votre compte.');
 
             // Redirect sur login après l'enregistrement
             return $this->redirectToRoute('app_login');
@@ -64,18 +69,26 @@ class RegistrationController extends AbstractController
     {
         $user = $entityManager->getRepository(User::class)->findOneBy(['confirmationToken' => $token]);
 
-        if ($user !== null && !$user->getIsActivated()) {
-            $user->setIsActivated(true);
-            $user->setConfirmationToken(null);
-            $entityManager->flush();
+        if ($user !== null) {
+            $now = new \DateTimeImmutable();
+            if ($user->getConfirmationTokenExpiresAt() <= $now) {
+                // Token expiré
+                $this->addFlash('error', 'Le lien de confirmation a expiré.');
+                return $this->redirectToRoute('app_register');
+            }
 
-            // Ajouter un message de succès ou rediriger l'utilisateur
-            $this->addFlash('success', 'Votre compte a été activé avec succès.');
-            return $this->redirectToRoute('app_login');
+            if (!$user->getIsActivated()) {
+                $user->setIsActivated(true);
+                $user->setConfirmationToken(null);
+                $user->setConfirmationTokenExpiresAt(null);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre compte a été activé avec succès.');
+                return $this->redirectToRoute('app_login');
+            }
         }
 
-        // Gérer le cas où le jeton n'est pas valide ou l'utilisateur est déjà activé
-        $this->addFlash('error', 'Le lien de confirmation est invalide ou expiré.');
+        $this->addFlash('error', 'Le lien de confirmation est invalide ou déjà utilisé.');
         return $this->redirectToRoute('app_home');
     }
 }
