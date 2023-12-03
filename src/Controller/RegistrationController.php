@@ -24,6 +24,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Vérifiez si l'utilisateur a accepté les termes et conditions
+            if ($form->get('agreeTerms')->getData() !== true) {
+                $this->addFlash('error', 'You must agree to the terms and conditions to register.');
+                return $this->redirectToRoute('app_register');
+            }
+
             // Hash le mot de passe de l'utilisateur
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -63,6 +69,7 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
 
     #[Route('/confirm/{token}', name: 'app_confirm')]
     public function confirmUser(string $token, EntityManagerInterface $entityManager): Response

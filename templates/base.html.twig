@@ -42,6 +42,12 @@
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
 			{% endif %}
+
+			<!-- Tarte au Citron -->
+			<link
+			rel="stylesheet" href="{{ asset('tarteAuCitron/tarteaucitron.css') }}">
+			<!-- Footer -->
+			<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 		{% endblock %}
 		{% block javascripts %}{% endblock %}
 	</head>
@@ -134,6 +140,21 @@
 
 		{% block body %}{% endblock %}
 
+		<!-- Footer -->
+		{% include 'partials/footer.html.twig' %}
+
+		<!-- Script de Tarte au Citron -->
+		<script src="{{ asset('tarteAuCitron/tarteaucitron.js') }}"></script>
+		<script>
+			tarteaucitron.init({
+"privacyUrl": "{{ path('privacy_policy') }}", /* Lien vers la politique de confidentialité */
+"hashtag": "#tarteaucitron", /* Ouverture automatique avec ce hashtag */
+"cookieName": "tarteaucitron", /* Nom du cookie de consentement */
+"orientation": "bottom",
+/* Position de la bannière */
+});
+/* Configuration des services, par exemple Google Analytics, ici(plus tard) */
+		</script>
 
 	</body>
 </html>

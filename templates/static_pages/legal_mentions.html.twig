@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Mentions Légales</h1>
+
+		<h2>Informations sur l'entreprise</h2>
+		<p>
+			Nom de l'entreprise : [Votre Entreprise]<br>
+			Adresse : [Adresse de votre entreprise]<br>
+			Téléphone : [Numéro de téléphone]<br>
+			Email :
+			<a href="mailto:contact@votreentreprise.com">contact@votreentreprise.com</a><br>
+			N° d'immatriculation : [Numéro d'immatriculation de l'entreprise]<br>
+		</p>
+
+		<h2>Directeur de la publication</h2>
+		<p>[Nom du directeur de publication]</p>
+
+		<h2>Hébergement du site</h2>
+		<p>
+			Ce site est hébergé par [Nom de l'hébergeur]<br>
+			Adresse : [Adresse de l'hébergeur]<br>
+			Téléphone : [Numéro de téléphone de l'hébergeur]
+		</p>
+
+		<h2>Propriété intellectuelle</h2>
+		<p>
+			Tout le contenu de ce site web, y compris les textes, graphiques, logos, images, etc., est la propriété de [Votre Entreprise] et est protégé par les lois internationales sur le droit d'auteur et la propriété intellectuelle. Toute reproduction ou utilisation sans autorisation expresse est interdite.
+		</p>
+
+		<!-- Les autres sections pertinentes à vos mentions légales -->
+
+		<h2>Politique de confidentialité</h2>
+		<p>
+			Veuillez consulter notre
+			<a href="{{ path('privacy_policy') }}">politique de confidentialité</a>
+			pour comprendre comment nous utilisons et protégeons les données que vous nous fournissez.
+		</p>
+
+	</div>
+{% endblock %}
