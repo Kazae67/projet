@@ -1,7 +1,7 @@
 h1 {
     text-align: center;
     color: #5D5C61;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
@@ -77,6 +77,34 @@ input:hover, textarea:hover, select:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px;
+}
+.agree-terms {
+    text-align: center; /* Centre le texte et les éléments inline à l'intérieur */
+    display: flex;
+    justify-content: center; /* Centre les éléments flex children */
+    align-items: center; /* Alignement vertical pour les éléments flex children */
+    flex-direction: column; /* Les éléments flex enfants sont empilés verticalement */
+}
+
+.agree-terms label {
+    margin-bottom: 10px; /* Ajoute un espace sous le label */
+}
+
+.agree-terms input[type=checkbox] {
+    margin-right: 5px; /* Ajoute un peu d'espace à droite de la case à cocher */
+}
+
+
+.inline-checkbox {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.inline-checkbox span, 
+.inline-checkbox label {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
 }
 
 .btn-add:hover,

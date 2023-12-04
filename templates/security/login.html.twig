@@ -4,39 +4,72 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Login</h1>
-	{% if error %}
-		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-	{% endif %}
-	{# Afficher les messages de type 'success' #}
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">{{ message }}</div>
-	{% endfor %}
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<!-- Demi-cercle décoratif -->
+		<div class="form-container">
+			<h1>Login</h1>
 
-	{# Afficher les messages de type 'error' #}
-	{% for message in app.flashes('error') %}
-		<div class="alert alert-danger">{{ message }}</div>
-	{% endfor %}
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-	{# Afficher les messages de type 'notice' #}
-	{% for message in app.flashes('notice') %}
-		<div class="alert alert-info">{{ message }}</div>
-	{% endfor %}
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">{{ message }}</div>
+			{% endfor %}
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">{{ message }}</div>
+			{% endfor %}
+			{% for message in app.flashes('notice') %}
+				<div class="alert alert-info">{{ message }}</div>
+			{% endfor %}
 
-	<form method="post">
-		<label for="inputEmail">Email:</label>
-		<input type="email" name="_username" id="inputEmail" required autofocus>
-		<br>
-		<label for="inputPassword">Password:</label>
-		<input type="password" name="_password" id="inputPassword" required>
-		<br>
-		<button type="submit" class="btn btn-login">Login</button>
-	</form>
+			<form method="post" class="login-form">
+				<div class="form-group">
+					<label for="inputEmail">Email:</label>
+					<input type="email" name="_username" id="inputEmail" required autofocus>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">Password:</label>
+					<input type="password" name="_password" id="inputPassword" required>
+				</div>
+				<button type="submit" class="btn-add">Login</button>
+			</form>
 
-	{# Formulaire pour renvoyer le mail de confirmation #}
-	<form action="{{ path('app_resend_confirmation') }}" method="post">
-		<label for="resendEmail">Enter your email to resend the confirmation link:</label>
-		<input type="email" id="resendEmail" name="email" required>
-		<button type="submit">Resend Email</button>
-	</form>
+			<!-- Checkbox pour afficher le formulaire de renvoi de mail -->
+			<div class="form-group inline-checkbox">
+				<span>Email not received?</span>
+				<label>
+					<input type="checkbox" id="resendEmailCheckbox">
+				</label>
+			</div>
+
+			<!-- Formulaire pour renvoyer le mail de confirmation -->
+			<form id="resendEmailForm" action="{{ path('app_resend_confirmation') }}" method="post" class="resend-form">
+				<div class="form-group">
+					<label for="resendEmail">Enter your email to resend the confirmation link:</label>
+					<input type="email" id="resendEmail" name="email" required>
+				</div>
+				<button type="submit" class="btn-add">Resend Email</button>
+			</form>
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+var checkbox = document.getElementById('resendEmailCheckbox');
+var resendEmailForm = document.getElementById('resendEmailForm');
+
+// Cachez le formulaire par défaut
+resendEmailForm.style.display = 'none';
+
+checkbox.addEventListener('change', function () {
+if (this.checked) {
+resendEmailForm.style.display = 'block';
+} else {
+resendEmailForm.style.display = 'none';
+}
+});
+});
+	</script>
 {% endblock %}

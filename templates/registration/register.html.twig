@@ -4,23 +4,45 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Register</h1>
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">{{ message }}</div>
-	{% endfor %}
-	{% for message in app.flashes('error') %}
-		<div class="alert alert-danger">{{ message }}</div>
-	{% endfor %}
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<!-- Demi-cercle décoratif -->
+		<div class="form-container">
+			<h1>Register</h1>
 
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.username) }}
-	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.plainPassword, { label: 'Password' }) }}
-	{{ form_row(registrationForm.role) }}
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">{{ message }}</div>
+			{% endfor %}
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">{{ message }}</div>
+			{% endfor %}
+
+			{{ form_start(registrationForm, {'attr': {'class': 'registration-form'}}) }}
+			<div class="form-group">
+				{{ form_row(registrationForm.username) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(registrationForm.email) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(registrationForm.plainPassword, {'label': 'Password'}) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(registrationForm.role) }}
+			</div>
+
+			<div class="form-group agree-terms">
+				{{ form_row(registrationForm.agreeTerms) }}
+			</div>
+
+			<button type="submit" class="btn-add">Register</button>
+			{{ form_end(registrationForm) }}
+		</div>
+	</div>
 
 	<div
 		id="termsModal" class="modal">
-		<!-- Contenu Modal -->
+		<!-- Modal content -->
 		<div class="modal-content">
 			<h2>Terms and Conditions</h2>
 			<div class="terms-content">
@@ -38,11 +60,6 @@
 			</button>
 		</div>
 	</div>
-
-	{{ form_row(registrationForm.agreeTerms) }}
-
-	<button type="submit">Register</button>
-	{{ form_end(registrationForm) }}
 
 	<script src="{{ asset('js/terms-modal.js') }}"></script>
 {% endblock %}

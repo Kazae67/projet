@@ -49,6 +49,11 @@
 			<!-- Registration -->
 			{% if app.request.attributes.get('_route') == 'app_register' %}
 				<link rel="stylesheet" href="{{ asset('css/terms-modal.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+			{% endif %}
+			<!-- Login -->
+			{% if app.request.attributes.get('_route') == 'app_login' %}
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 			{% endif %}
 
 			<!-- Tarte au Citron -->
