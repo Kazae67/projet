@@ -29,15 +29,19 @@
 			{% if app.request.attributes.get('_route') == 'product_add' or app.request.attributes.get('_route') == 'product_edit' %}
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 			{% endif %}
-			<!-- Pour la wishlist/cart des produits -->
+			<!-- Pour le cart -->
 			{% if app.request.attributes.get('_route') == 'cart_index' %}
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/body-wishlist-cart.css') }}">
 			{% endif %}
+			<!-- Pour la wishlist -->
 			{% if app.request.attributes.get('_route') == 'wishlist_index' %}
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/wishlist.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/body-wishlist-cart.css') }}">
 			{% endif %}
+			<!-- Pour la my profile -->
 			{% if app.request.attributes.get('_route') == 'app_profile' %}
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
@@ -54,11 +58,17 @@
 			<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 
 		{% endblock %}
-		{% block javascripts %}{% endblock %}
+
 	</head>
 	<body>
 		<div
 			class="navbar">
+			<!-- SCRIPT PARTICULE POUR WISHLIST & CART -->
+			{% block javascripts %}
+				{% if app.request.attributes.get('_route') == 'wishlist_index' or app.request.attributes.get('_route') == 'cart_index' %}
+					<script src="{{ asset('js/particule.js') }}"></script>
+				{% endif %}
+			{% endblock %}
 			<!-- Section gauche avec Logo et Home -->
 			<div class="nav-left">
 				<a href="{{ path('home') }}" class="nav-item">
@@ -142,7 +152,6 @@
 				{{ flash_message }}
 			</div>
 		{% endfor %}
-
 		{% block body %}{% endblock %}
 
 		<!-- Footer -->
@@ -158,7 +167,6 @@
 "orientation": "bottom",
 /* Position de la bannière */
 });
-/* Configuration des services, par exemple Google Analytics, ici(plus tard) */
 		</script>
 	</body>
-</html></head></html>
+</html>

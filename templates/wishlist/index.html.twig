@@ -4,58 +4,59 @@
 {% endblock %}
 
 {% block body %}
-	<div class="form-container">
-		<div class="form-circle"></div>
-		<h1>My Wishlist</h1>
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
+			<h1>My Wishlist</h1>
 
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-success">{{ message }}</div>
-		{% endfor %}
-		{% for message in app.flashes('error') %}
-			<div class="alert alert-danger">{{ message }}</div>
-		{% endfor %}
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">{{ message }}</div>
+			{% endfor %}
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">{{ message }}</div>
+			{% endfor %}
 
-		{% if wishlistItems %}
-			<div class="cart-items">
-				{% for item in wishlistItems %}
-					<div
-						class="cart-item">
-						<!-- Lien vers la page du produit -->
-						<a href="{{ path('product_show', {'id': item.product.id}) }}">
-							<div class="product-image-container">
-								<img src="{{ item.product.image_url|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
+			{% if wishlistItems %}
+				<div class="cart-items">
+					{% for item in wishlistItems %}
+						<div
+							class="cart-item">
+							<!-- Lien vers la page du produit -->
+							<a href="{{ path('product_show', {'id': item.product.id}) }}">
+								<div class="product-image-container">
+									<img src="{{ item.product.image_url|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
+								</div>
+							</a>
+							<div class="product-name">{{ item.product.name }}</div>
+							<div class="product-details">
+								<span class="product-price">{{ item.product.price }}€</span>
 							</div>
+							<div class="product-quantity-actions">
+								<div class="cart-actions">
+									<a href="{{ path('wishlist_remove', {'id' : item.id}) }}" class="btn btn-remove">Remove</a>
+									<a href="{{ path('wishlist_move_to_cart', {'id': item.id}) }}" class="btn btn-move">Move to Cart</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="action-container">
+					<div class="clear-cart-container">
+						<a href="{{ path('wishlist_clear') }}" class="clear-cart-link">
+							<span class="material-symbols-outlined clear">delete</span>
+							<span class="button-text">Clear Wishlist</span>
 						</a>
-						<div class="product-name">{{ item.product.name }}</div>
-						<div class="product-details">
-							<span class="product-price">{{ item.product.price }}€</span>
-						</div>
-						<div class="product-quantity-actions">
-							<div class="cart-actions">
-								<a href="{{ path('wishlist_remove', {'id' : item.id}) }}" class="btn btn-remove">Remove</a>
-								<a href="{{ path('wishlist_move_to_cart', {'id': item.id}) }}" class="btn btn-move">Move to Cart</a>
-							</div>
-						</div>
 					</div>
-				{% endfor %}
-			</div>
-			<div class="action-container">
-				<div class="clear-cart-container">
-					<a href="{{ path('wishlist_clear') }}" class="clear-cart-link">
-						<span class="material-symbols-outlined clear">delete</span>
-						<span class="button-text">Clear Wishlist</span>
-					</a>
+					<div class="move-all-to-cart-container">
+						<a href="{{ path('wishlist_move_all_to_cart') }}" class="btn btn-move-all">
+							<span class="material-symbols-outlined move-all-to-cart">trolley</span>
+							<span class="button-text">Move All to Cart</span>
+						</a>
+					</div>
 				</div>
-				<div class="move-all-to-cart-container">
-					<a href="{{ path('wishlist_move_all_to_cart') }}" class="btn btn-move-all">
-						<span class="material-symbols-outlined move-all-to-cart">trolley</span>
-						<span class="button-text">Move All to Cart</span>
-					</a>
-				</div>
-			</div>
-		{% else %}
-			<p>Your wishlist is empty.</p>
-		{% endif %}
-		<a href="{{ path('product') }}" class="back-link">Back to list</a>
-	</div>
-{% endblock %}
+			{% else %}
+				<p>Your wishlist is empty.</p>
+			{% endif %}
+			<a href="{{ path('product') }}" class="back-link">Back to list</a>
+		</div>
+	{% endblock %}

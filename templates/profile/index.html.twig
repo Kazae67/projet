@@ -4,85 +4,86 @@
 {% endblock %}
 
 {% block body %}
-	<div class="form-container">
-		<div class="form-circle"></div>
-		<div
-			class="profile-layout">
-			<!-- Section Informations Personnelles -->
-			<div class="personal-info">
-				<h2>Personal Information</h2>
-				<ul class="form-group">
-					<li>User name:
-						{{ user.username }}</li>
-					<li>Email:
-						{{ user.email }}</li>
-				</ul>
-			</div>
-
-			<!-- Section Adresses -->
-			<div class="addresses">
-				<h2>Addresses</h2>
-				{% if adresses|length > 0 %}
-					{% for address in adresses %}
-						<div class="form-group address-item">
-							<ul>
-								<li>
-									{{ address.type }}:
-									{{ address.street }},
-									{{ address.city }},
-									{{ address.postalCode }},
-									{{ address.country }}
-									{% if address.state %},
-										{{ address.state }}
-									{% endif %}
-									{% if address.isDefaultBilling %}
-										(Default Billing Address)
-									{% endif %}
-									{% if address.isDefaultDelivery %}
-										(Default Delivery Address)
-									{% endif %}
-								</li>
-							</ul>
-							<div class="address-actions">
-								<button class="btn btn-edit" onclick="location.href='{{ path('edit_address', {'id': address.id}) }}'">Edit</button>
-								<form action="{{ path('delete_address', {'id': address.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this address?');" class="inline-form">
-									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ address.id) }}">
-									<button class="btn btn-delete" type="submit">Delete</button>
-								</form>
-							</div>
-						</div>
-					{% endfor %}
-				{% else %}
-					<p>You have no active addresses. Addresses will be saved when placing an order.</p>
-				{% endif %}
-			</div>
-
-			<!-- Section Actions du Profil -->
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
 			<div
-				class="profile-actions">
-				<!-- Changement de mot de passe -->
-				<div class="change-password">
-					<a href="{{ path('app_profile_change_password') }}" class="form-group action-link">Change my password</a>
+				class="profile-layout">
+				<!-- Section Informations Personnelles -->
+				<div class="personal-info">
+					<h2>Personal Information</h2>
+					<ul class="form-group">
+						<li>User name:
+							{{ user.username }}</li>
+						<li>Email:
+							{{ user.email }}</li>
+					</ul>
 				</div>
 
-				<!-- Anonymisation du compte -->
-				<div class="anonymize-account">
-					<button id="anonymizeButton" class="btn btn-danger form-group">Anonymize My Account</button>
+				<!-- Section Adresses -->
+				<div class="addresses">
+					<h2>Addresses</h2>
+					{% if adresses|length > 0 %}
+						{% for address in adresses %}
+							<div class="form-group address-item">
+								<ul>
+									<li>
+										{{ address.type }}:
+										{{ address.street }},
+										{{ address.city }},
+										{{ address.postalCode }},
+										{{ address.country }}
+										{% if address.state %},
+											{{ address.state }}
+										{% endif %}
+										{% if address.isDefaultBilling %}
+											(Default Billing Address)
+										{% endif %}
+										{% if address.isDefaultDelivery %}
+											(Default Delivery Address)
+										{% endif %}
+									</li>
+								</ul>
+								<div class="address-actions">
+									<button class="btn btn-edit" onclick="location.href='{{ path('edit_address', {'id': address.id}) }}'">Edit</button>
+									<form action="{{ path('delete_address', {'id': address.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this address?');" class="inline-form">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ address.id) }}">
+										<button class="btn btn-delete" type="submit">Delete</button>
+									</form>
+								</div>
+							</div>
+						{% endfor %}
+					{% else %}
+						<p>You have no active addresses. Addresses will be saved when placing an order.</p>
+					{% endif %}
+				</div>
+
+				<!-- Section Actions du Profil -->
+				<div
+					class="profile-actions">
+					<!-- Changement de mot de passe -->
+					<div class="change-password">
+						<a href="{{ path('app_profile_change_password') }}" class="form-group action-link">Change my password</a>
+					</div>
+
+					<!-- Anonymisation du compte -->
+					<div class="anonymize-account">
+						<button id="anonymizeButton" class="btn btn-danger form-group">Anonymize My Account</button>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Modal pour la confirmation du mot de passe -->
-		<div id="passwordConfirmModal" style="display: none;" data-confirm-password-url="{{ path('user_confirm_password') }}" data-csrf-token="{{ csrf_token('confirm_password') }}">
-			<form id="confirmPasswordForm" class="form-group">
-				<input type="password" name="password" placeholder="Enter your password">
-				<button type="submit">Confirm</button>
-			</form>
+			<!-- Modal pour la confirmation du mot de passe -->
+			<div id="passwordConfirmModal" style="display: none;" data-confirm-password-url="{{ path('user_confirm_password') }}" data-csrf-token="{{ csrf_token('confirm_password') }}">
+				<form id="confirmPasswordForm" class="form-group">
+					<input type="password" name="password" placeholder="Enter your password">
+					<button type="submit">Confirm</button>
+				</form>
+			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}
 
-{% block javascripts %}
-	{{ parent() }}
-	<script src="{{ asset('js/anonymizeAccount.js') }}"></script>
-{% endblock %}
+	{% block javascripts %}
+		{{ parent() }}
+		<script src="{{ asset('js/anonymizeAccount.js') }}"></script>
+	{% endblock %}

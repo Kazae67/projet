@@ -4,32 +4,33 @@
 {% endblock %}
 
 {% block body %}
-	<div class="form-container">
-		<div class="form-circle"></div>
-		<h1>Add a New Product</h1>
 
-		{{ form_start(form) }}
-		<div class="form-group">
-			{{ form_row(form.name) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.description) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.price) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.stockQuantity) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.imageUrl) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.category) }}
-		</div>
-		<button type="submit" class="btn btn-add">Add Product</button>
-		{{ form_end(form) }}
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
+			<h1>Add a New Product</h1>
+			{{ form_start(form) }}
+			<div class="form-group">
+				{{ form_row(form.name) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.description) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.price) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.stockQuantity) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.imageUrl) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.category) }}
+			</div>
+			<button type="submit" class="btn btn-add">Add Product</button>
+			{{ form_end(form) }}
 
-		<a href="{{ path('product') }}" class="back-link">Back to list</a>
-	</div>
-{% endblock %}
+			<a href="{{ path('product') }}" class="back-link">Back to list</a>
+		</div>
+	{% endblock %}

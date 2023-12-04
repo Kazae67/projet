@@ -4,75 +4,76 @@
 {% endblock %}
 
 {% block body %}
-	<div class="form-container">
-		<div class="form-circle"></div>
-		<h1>Shopping Cart</h1>
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
+			<h1>Shopping Cart</h1>
 
-		{# Messages flash #}
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-success">{{ message }}</div>
-		{% endfor %}
-		{% for message in app.flashes('error') %}
-			<div class="alert alert-danger">{{ message }}</div>
-		{% endfor %}
+			{# Messages flash #}
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">{{ message }}</div>
+			{% endfor %}
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">{{ message }}</div>
+			{% endfor %}
 
-		{% if items %}
-			<div class="cart-items">
-				{% for item in items %}
-					<div
-						class="cart-item">
-						<!-- Image du produit -->
-						<a href="{{ path('product_show', {'id': item.product.id}) }}">
-							<div class="product-image-container">
-								<img src="{{ item.product.image_url|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
-							</div>
-						</a>
-						<!-- Nom et détails du produit -->
-						<div class="product-info">
-							<div class="product-name">{{ item.product.name }}</div>
-							<div class="product-details">
-								<span class="product-price">Price per unit:
-									{{ item.product.price }}€</span>
-								<span class="product-subtotal">Subtotal:
-									{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€</span>
-							</div>
-							<!-- Actions -->
-							<div class="product-quantity-actions">
-								<div class="cart-actions">
-									<a href="{{ path('cart_decrement', {'productId': item.product.id}) }}" class="btn btn-decrement">-</a>
-									<a href="{{ path('cart_increment', {'productId': item.product.id}) }}" class="btn btn-increment">+</a>
-									<a href="{{ path('cart_remove', {'productId': item.product.id}) }}" class="btn btn-remove">Remove</a>
+			{% if items %}
+				<div class="cart-items">
+					{% for item in items %}
+						<div
+							class="cart-item">
+							<!-- Image du produit -->
+							<a href="{{ path('product_show', {'id': item.product.id}) }}">
+								<div class="product-image-container">
+									<img src="{{ item.product.image_url|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
 								</div>
-								<span class="product-quantity">Quantity:
-									{{ item.quantity }}</span>
+							</a>
+							<!-- Nom et détails du produit -->
+							<div class="product-info">
+								<div class="product-name">{{ item.product.name }}</div>
+								<div class="product-details">
+									<span class="product-price">Price per unit:
+										{{ item.product.price }}€</span>
+									<span class="product-subtotal">Subtotal:
+										{{ (item.product.price * item.quantity)|number_format(2, '.', ',') }}€</span>
+								</div>
+								<!-- Actions -->
+								<div class="product-quantity-actions">
+									<div class="cart-actions">
+										<a href="{{ path('cart_decrement', {'productId': item.product.id}) }}" class="btn btn-decrement">-</a>
+										<a href="{{ path('cart_increment', {'productId': item.product.id}) }}" class="btn btn-increment">+</a>
+										<a href="{{ path('cart_remove', {'productId': item.product.id}) }}" class="btn btn-remove">Remove</a>
+									</div>
+									<span class="product-quantity">Quantity:
+										{{ item.quantity }}</span>
+								</div>
 							</div>
 						</div>
+					{% endfor %}
+					<!-- TOTAL PRICE -->
+					<div class="cart-total">
+						Total:
+						{{ total }}€
 					</div>
-				{% endfor %}
-				<!-- TOTAL PRICE -->
-				<div class="cart-total">
-					Total:
-					{{ total }}€
 				</div>
-			</div>
-			<!-- CLEAR CART -->
-			<div class="clear-cart-container">
-				<a href="{{ path('cart_clear') }}" class="clear-cart-link">
-					<span class="material-symbols-outlined clear">
-						remove_shopping_cart
-					</span>
-					<span class="button-text">Clear Cart</span>
-				</a>
-			</div>
-			<!-- CONFIRM ORDER -->
-			<div class="cart-footer">
-				<form action="{{ path('order_prepare') }}" method="post" class="confirm-order-form">
-					<button type="submit" class="btn btn-confirm">Confirm Order</button>
-				</form>
-			</div>
-		{% else %}
-			<p>Your cart is empty.</p>
-		{% endif %}
-		<a href="{{ path('product') }}" class="back-link">Back to list</a>
-	</div>
-{% endblock %}
+				<!-- CLEAR CART -->
+				<div class="clear-cart-container">
+					<a href="{{ path('cart_clear') }}" class="clear-cart-link">
+						<span class="material-symbols-outlined clear">
+							remove_shopping_cart
+						</span>
+						<span class="button-text">Clear Cart</span>
+					</a>
+				</div>
+				<!-- CONFIRM ORDER -->
+				<div class="cart-footer">
+					<form action="{{ path('order_prepare') }}" method="post" class="confirm-order-form">
+						<button type="submit" class="btn btn-confirm">Confirm Order</button>
+					</form>
+				</div>
+			{% else %}
+				<p>Your cart is empty.</p>
+			{% endif %}
+			<a href="{{ path('product') }}" class="back-link">Back to list</a>
+		</div>
+	{% endblock %}

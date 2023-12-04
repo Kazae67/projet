@@ -1,7 +1,55 @@
-body {
-    font-family: 'Acme', serif;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    font-family: 'Acme', serif;
+    margin: 0;
+    padding: 0;
+    background: 
+        linear-gradient(
+            to bottom, 
+            rgba(0, 0, 0, 0.7), 
+            transparent 70%
+        ),
+        radial-gradient(
+            circle, 
+            rgba(39, 52, 80, 0.541), 
+            rgb(0, 0, 0)
+        );
+    background-repeat: no-repeat; /* Empêche la répétition des fonds */
+    background-attachment: fixed; /* Fixe le fond pour qu'il ne défile pas avec le contenu */
+    background-size: cover; /* Assure que le fond couvre toute la zone */
+    height: 100%; /* Couvre toute la hauteur de la page */
+    min-height: 100vh; /* Assure une hauteur minimale basée sur la hauteur de la fenêtre */
+}
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgb(231, 5, 5); /* Couleur de la particule */
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: animateParticle infinite linear;
+    z-index: 0;
+    box-shadow: 0 0 8px 2px rgba(207, 103, 103, 0.8); /* Effet de flou lumineux */
+}
+
+@keyframes animateParticle {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(80vh); /* S'arrête avant d'atteindre le bas */
+        opacity: 0; /* S'estompe avant de disparaître */
+    }
+}
 .logo {
     border: solid 1px black;
     border-radius: 50%;

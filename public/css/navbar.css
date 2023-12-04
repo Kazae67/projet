@@ -6,7 +6,8 @@
   padding: 10px 20px;
   border:solid 1px black;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;;
+  position: relative; 
+  z-index:1000;
 }
 
 /* Section gauche avec logo et Home */

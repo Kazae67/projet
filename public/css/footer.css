@@ -7,6 +7,8 @@
     border-top: 1px solid #000000; /* Ligne de séparation subtile */
     font-family: 'Arial', sans-serif; /* Police simple et moderne */
     font-size: 14px; /* Taille de police standard */
+    z-index: 2;
+    position: relative;
 
 }
 
