@@ -79,9 +79,10 @@
 				<button type="submit">Confirm</button>
 			</form>
 		</div>
-	{% endblock %}
+	</div>
+{% endblock %}
 
-	{% block javascripts %}
-		{{ parent() }}
-		<script src="{{ asset('js/anonymizeAccount.js') }}"></script>
-	{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/anonymizeAccount.js') }}"></script>
+{% endblock %}
