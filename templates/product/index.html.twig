@@ -47,21 +47,26 @@
 
             <!-- Pagination -->
             <div class="pagination">
-                {% set totalPages = (totalProducts / maxResults) | round(0, 'ceil') %}
+                <!-- Bouton précédent -->
+                {% if currentPage > 1 %}
+                    <a href="{{ path('product', {'page': currentPage - 1}) }}">Précédent</a>
+                {% endif %}
 
-                {% set prevPage = currentPage - 1 %}
-                {% set nextPage = currentPage + 1 %}
-
-                <!-- Bouton Précédent -->
-                <a href="{{ prevPage > 0 ? path('product', {'page': prevPage}) : '#' }}" class="{{ prevPage <= 0 ? 'disabled' : '' }}">Précédent</a>
-
-                <!-- Numéros de page -->
-                {% for i in 1..totalPages %}
+                <!-- Liens de pagination -->
+                {% for i in startPage..endPage %}
                     <a href="{{ path('product', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">{{ i }}</a>
                 {% endfor %}
 
-                <!-- Bouton Suivant -->
-                <a href="{{ nextPage <= totalPages ? path('product', {'page': nextPage}) : '#' }}" class="{{ nextPage > totalPages ? 'disabled' : '' }}">Suivant</a>
+                <!-- Bouton suivant -->
+                {% if currentPage < totalPages %}
+                    <a href="{{ path('product', {'page': currentPage + 1}) }}">Suivant</a>
+                {% endif %}
+
+                <!-- Champ pour entrer un numéro de page -->
+                <form action="{{ path('product') }}" method="get" class="page-select-form">
+                    <input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
+                    <button type="submit">Aller</button>
+                </form>
             </div>
         </div>
     </div>

@@ -18,19 +18,40 @@ class ProductController extends AbstractController
     #[Route('/product', name: 'product')]
     public function index(ProductRepository $productRepository, Request $request): Response
     {
-        $page = $request->query->getInt('page', 1); // Récupère la page actuelle ou la première page par défaut
-        $maxResults = 3; // Nombre de produits par page
+        $maxResults = 20; // Nombre de produits par page
+        $totalProducts = $productRepository->count([]); // Total de produits
+        $totalPages = ceil($totalProducts / $maxResults);
+
+        $page = max(1, min($request->query->getInt('page', 1), $totalPages)); // S'assure que la page est dans les limites
         $start = ($page - 1) * $maxResults;
 
-        // Récupérer les produits pour la page actuelle
-        $totalProducts = $productRepository->count([]); // Total de produits
         $products = $productRepository->findBy([], null, $maxResults, $start);
+
+        // Logique pour déterminer les pages à afficher
+        $maxPagesToShow = 5; // Nombre maximal de pages à afficher
+        $pagesToShow = min($maxPagesToShow, $totalPages); // Nombre de pages réelles à afficher
+        $halfPagesToShow = floor($pagesToShow / 2);
+
+        $startPage = max(1, $page - $halfPagesToShow);
+        $endPage = min($totalPages, $page + $halfPagesToShow);
+
+        // Ajuster en cas de décalage
+        if ($endPage - $startPage + 1 < $pagesToShow) {
+            if ($startPage === 1) {
+                $endPage = min($totalPages, $startPage + $pagesToShow - 1);
+            } elseif ($endPage === $totalPages) {
+                $startPage = max(1, $endPage - $pagesToShow + 1);
+            }
+        }
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
             'totalProducts' => $totalProducts,
             'maxResults' => $maxResults,
-            'currentPage' => $page
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'startPage' => $startPage,
+            'endPage' => $endPage
         ]);
     }
 
