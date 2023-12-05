@@ -38,6 +38,7 @@ class WishlistController extends AbstractController
         // Récupérer l'utilisateur actuellement connecté
         $user = $this->getUser();
         if (!$user) {
+            $this->addFlash('error', 'You must be logged in to add products to your wishlist.');
             return $this->redirectToRoute('app_login');
         }
 
