@@ -8,7 +8,6 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>⚫️</text></svg>">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Acme" rel="stylesheet">
 
@@ -19,6 +18,7 @@
 			<!-- Pour la liste des produits -->
 			{% if app.request.attributes.get('_route') == 'product' %}
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form-products.css') }}">
 			{% endif %}
 			<!-- Pour la liste de mes produits -->
 			{% if app.request.attributes.get('_route') == 'my_products' %}
@@ -70,9 +70,6 @@
 			<!-- Messages Flash -->
 			<link
 			rel="stylesheet" href="{{ asset('css/flash-messages.css') }}">
-			<!-- Tarte au Citron -->
-			<link
-			rel="stylesheet" href="{{ asset('tarteAuCitron/tarteaucitron.css') }}">
 			<!-- Footer -->
 			<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 		{% endblock %}
@@ -168,13 +165,15 @@
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success">{{ message }}</div>
 		{% endfor %}
+
 		{% for message in app.flashes('error') %}
 			<div class="alert alert-error">{{ message }}</div>
 		{% endfor %}
+
 		{% for message in app.flashes('notice') %}
 			<div class="alert alert-notice">{{ message }}</div>
 		{% endfor %}
-		<!-- Ajoutez ici la section pour afficher les messages d'erreur -->
+
 		{% if app.request.attributes.get('_route') == 'app_login' and error %}
 			<div class="alert alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
