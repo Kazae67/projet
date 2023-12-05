@@ -75,7 +75,6 @@
 			rel="stylesheet" href="{{ asset('tarteAuCitron/tarteaucitron.css') }}">
 			<!-- Footer -->
 			<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
-
 		{% endblock %}
 
 	</head>
@@ -175,6 +174,10 @@
 		{% for message in app.flashes('notice') %}
 			<div class="alert alert-notice">{{ message }}</div>
 		{% endfor %}
+		<!-- Ajoutez ici la section pour afficher les messages d'erreur -->
+		{% if app.request.attributes.get('_route') == 'app_login' and error %}
+			<div class="alert alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
 
 		{% block body %}{% endblock %}
 

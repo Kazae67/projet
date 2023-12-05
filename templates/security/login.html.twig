@@ -10,9 +10,6 @@
 		<div class="form-container">
 			<h1>Login</h1>
 
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
 
 			{% for message in app.flashes('success') %}
 				<div class="alert alert-success">{{ message }}</div>
@@ -38,7 +35,7 @@
 
 			<!-- Checkbox pour afficher le formulaire de renvoi de mail -->
 			<div class="form-group inline-checkbox">
-				<span>Email not received?</span>
+				<span>Email expired or not received?</span>
 				<label>
 					<input type="checkbox" id="resendEmailCheckbox">
 				</label>
