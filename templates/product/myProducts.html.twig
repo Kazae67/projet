@@ -12,14 +12,6 @@
 				<p class="no-products-message">You have not added any products yet.</p>
 			{% endif %}
 
-			<!-- Message FLASH -->
-			{% for message in app.flashes('success') %}
-				<div class="alert flash-success">{{ message }}</div>
-			{% endfor %}
-
-			{% for message in app.flashes('error') %}
-				<div class="alert flash-error">{{ message }}</div>
-			{% endfor %}
 			<div class="products">
 				{% for product in products %}
 					<div class="card">
