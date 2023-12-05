@@ -30,6 +30,7 @@ security:
         ROLE_CRAFTSMAN: [ROLE_CUSTOMER]
 
     access_control:
+        - { path: ^/cart, roles: IS_AUTHENTICATED_REMEMBERED }
         - { path: ^/product/add, roles: ROLE_CRAFTSMAN }
         - { path: ^/order, roles: IS_AUTHENTICATED_REMEMBERED }
         - { path: ^/login_app, roles: IS_AUTHENTICATED_ANONYMOUSLY }
