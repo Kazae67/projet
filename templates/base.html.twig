@@ -24,45 +24,46 @@
 			{% if app.request.attributes.get('_route') == 'my_products' %}
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/my-products.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form-my-products.css') }}">
 			{% endif %}
 			<!-- Pour les formulaires add/edit produit -->
 			{% if app.request.attributes.get('_route') == 'product_add' or app.request.attributes.get('_route') == 'product_edit' %}
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 			{% endif %}
 			<!-- Pour le cart -->
 			{% if app.request.attributes.get('_route') == 'cart_index' %}
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/body-wishlist-cart.css') }}">
 			{% endif %}
 			<!-- Pour la wishlist -->
 			{% if app.request.attributes.get('_route') == 'wishlist_index' %}
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/wishlist.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/body-wishlist-cart.css') }}">
 			{% endif %}
 			<!-- Pour la my profile -->
 			{% if app.request.attributes.get('_route') == 'app_profile' %}
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
 			{% endif %}
 			<!-- Registration -->
 			{% if app.request.attributes.get('_route') == 'app_register' %}
 				<link rel="stylesheet" href="{{ asset('css/terms-modal.css') }}">
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 			{% endif %}
 			<!-- Login -->
 			{% if app.request.attributes.get('_route') == 'app_login' %}
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 			{% endif %}
 			<!-- Tracking -->
 			{% if app.request.attributes.get('_route') == 'order_tracking' %}
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/tracking.css') }}">
 			{% endif %}
 			<!-- Tracking list -->
 			{% if app.request.attributes.get('_route') == 'order_tracking_list' %}
-				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/tracking-list.css') }}">
 			{% endif %}
 
@@ -163,11 +164,16 @@
 		</div>
 
 		<!-- MESSAGES FLASH -->
-		{% for flash_message in app.flashes('error') %}
-			<div class="alert alert-flash">
-				{{ flash_message }}
-			</div>
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">{{ message }}</div>
 		{% endfor %}
+		{% for message in app.flashes('error') %}
+			<div class="alert alert-error">{{ message }}</div>
+		{% endfor %}
+		{% for message in app.flashes('notice') %}
+			<div class="alert alert-notice">{{ message }}</div>
+		{% endfor %}
+
 		{% block body %}{% endblock %}
 
 		<!-- Footer -->

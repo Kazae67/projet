@@ -1,0 +1,190 @@
+h1 {
+    text-align: center;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 20px;
+    margin-top:100px;
+    background-color: #f7f7f717;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    z-index: 20;
+    border-left: solid 1px black;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+}
+
+.parent-container {
+    position: relative; /* Position relative pour le positionnement du demi-cercle */
+}
+
+.demi-cercle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 15px 15px 0 0 #ffffff;
+    transform: rotate(45deg);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: 5;
+    margin-top:-100px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+textarea {
+    resize: none; /* Empêche la redimension du textarea */
+}
+
+input:hover, textarea:hover, select:hover {
+    border-color: #a0a0a0;
+}
+
+.btn-add,
+.btn-update {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+.agree-terms {
+    text-align: center; /* Centre le texte et les éléments inline à l'intérieur */
+    display: flex;
+    justify-content: center; /* Centre les éléments flex children */
+    align-items: center; /* Alignement vertical pour les éléments flex children */
+    flex-direction: column; /* Les éléments flex enfants sont empilés verticalement */
+}
+
+.agree-terms label {
+    margin-bottom: 10px; /* Ajoute un espace sous le label */
+}
+
+.agree-terms input[type=checkbox] {
+    margin-right: 5px; /* Ajoute un peu d'espace à droite de la case à cocher */
+}
+
+
+.inline-checkbox {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.inline-checkbox span, 
+.inline-checkbox label {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+.btn-add:hover,
+.btn-update:hover {
+    background-color: #45a049;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: #0056b3;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(50px); -webkit-transform: translateY(50px); -moz-transform: translateY(50px); -ms-transform: translateY(50px); -o-transform: translateY(50px); } /* Départ avec transparence et un léger déplacement vers le haut */
+    50% {opacity: 0.5; transform: translateY(-5px);} 
+    100% {opacity: 1; transform: translateY(0);} 
+}
+
+.btn, .demi-cercle {
+    animation: fadeIn 3s ease-out;
+    -webkit-animation: fadeIn 3s ease-out;
+}
+
+@keyframes fadeInAndSway {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) rotate(0); /* Départ de fadeIn et sway */
+    }
+    10% {
+        transform: translateY(-5px) rotate(-12deg); /* sway */
+    }
+    30% {
+        transform: translateY(-5px) rotate(8deg); /* sway */
+    }
+    45% {
+        transform: translateY(-5px) rotate(-4deg); /* sway */
+    }
+    60% {
+        transform: translateY(-5px) rotate(2deg); /* sway */
+    }
+    70% {
+        transform: translateY(-5px) rotate(-.1deg);
+}
+    75% {
+        transform: translateY(-5px) rotate(.05deg); /* sway */
+    }
+    80% {
+        transform: translateY(0) rotate(0); /* Fin de sway */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0); /* Fin de fadeIn et sway */
+    }
+}
+.form-container {
+    /*Vosstylesexistantspour.form-container*/animation: fadeInAndSway 1.2s ease-in-out 1;
+    transform-origin: 390% 200%;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%) rotate(45deg);
+        /*Commenceplusbas*/
+}
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(45deg);
+         /* Position finale */
+        }
+}
+
+.demi-cercle {
+    animation: fadeInUp 1s ease-in-out;
+}

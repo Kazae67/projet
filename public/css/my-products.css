@@ -30,6 +30,13 @@
     text-decoration: none;
 }
 
+.no-products-message {
+    text-align: center;
+    font-size: 16px;
+    color: #ffffff;
+    margin-top: 20px;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);
