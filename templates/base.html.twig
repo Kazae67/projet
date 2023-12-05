@@ -19,6 +19,7 @@
 			{% if app.request.attributes.get('_route') == 'product' %}
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/forms/form-products.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
 			{% endif %}
 			<!-- Pour la liste de mes produits -->
 			{% if app.request.attributes.get('_route') == 'my_products' %}

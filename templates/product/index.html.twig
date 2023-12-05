@@ -1,50 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products
-{% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block body %}
-	<div class="parent-container">
-		<div class="demi-cercle"></div>
-		<div class="form-container">
-			<h1>List of products</h1>
+    <div class="parent-container">
+        <div class="demi-cercle"></div>
+        <div class="form-container">
+            <h1>List of products</h1>
 
-			<div class="products">
-				{% for product in products %}
-					<div class="card">
-						<div class="card-img-container">
-							<img
-							src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+            <div class="products">
+                {% for product in products %}
+                    <div class="card">
+                        <div class="card-img-container">
+                            <img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
 
-							<!-- Conteneur pour la description au survol -->
-							<div class="card-hover-description">
-								{{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
-							</div>
+                            <!-- Conteneur pour la description au survol -->
+                            <div class="card-hover-description">
+                                {{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
+                            </div>
 
-							<div class="card-price">{{ product.price }}€</div>
+                            <div class="card-price">{{ product.price }}€</div>
 
-							<div class="icon-group">
-								<a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
-									<span class="material-symbols-outlined show">visibility</span>
-								</a>
-								{% if product.user != app.user %}
-									<a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-add">
-										<span class="material-symbols-outlined cart">add_shopping_cart</span>
-									</a>
-									<a href="{{ path('wishlist_add', {'productId': product.id}) }}" class="btn btn-add">
-										<span class="material-symbols-outlined wishlist">receipt_long</span>
-									</a>
-								{% endif %}
-							</div>
-						</div>
+                            <div class="icon-group">
+                                <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
+                                    <span class="material-symbols-outlined show">visibility</span>
+                                </a>
+                                {% if product.user != app.user %}
+                                    <a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-add">
+                                        <span class="material-symbols-outlined cart">add_shopping_cart</span>
+                                    </a>
+                                    <a href="{{ path('wishlist_add', {'productId': product.id}) }}" class="btn btn-add">
+                                        <span class="material-symbols-outlined wishlist">receipt_long</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
 
-						<div class="card-user">{{ product.user.username }}</div>
+                        <div class="card-user">{{ product.user.username }}</div>
 
-						<div class="card-body">
-							<h5 class="card-title">{{ product.name }}</h5>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-		</div>
-	{% endblock %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                {% set totalPages = (totalProducts / maxResults) | round(0, 'ceil') %}
+
+                {% set prevPage = currentPage - 1 %}
+                {% set nextPage = currentPage + 1 %}
+
+                <!-- Bouton Précédent -->
+                <a href="{{ prevPage > 0 ? path('product', {'page': prevPage}) : '#' }}" class="{{ prevPage <= 0 ? 'disabled' : '' }}">Précédent</a>
+
+                <!-- Numéros de page -->
+                {% for i in 1..totalPages %}
+                    <a href="{{ path('product', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">{{ i }}</a>
+                {% endfor %}
+
+                <!-- Bouton Suivant -->
+                <a href="{{ nextPage <= totalPages ? path('product', {'page': nextPage}) : '#' }}" class="{{ nextPage > totalPages ? 'disabled' : '' }}">Suivant</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -16,19 +16,25 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'product')]
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, Request $request): Response
     {
-        // Récupérer tous les produits depuis le repository
-        $products = $productRepository->findAll();
+        $page = $request->query->getInt('page', 1); // Récupère la page actuelle ou la première page par défaut
+        $maxResults = 3; // Nombre de produits par page
+        $start = ($page - 1) * $maxResults;
 
-        // Rendre la vue 'product/index.html.twig' avec la liste des produits
+        // Récupérer les produits pour la page actuelle
+        $totalProducts = $productRepository->count([]); // Total de produits
+        $products = $productRepository->findBy([], null, $maxResults, $start);
+
         return $this->render('product/index.html.twig', [
-            'controller_name' => 'ProductController',
-            'products' => $products
+            'products' => $products,
+            'totalProducts' => $totalProducts,
+            'maxResults' => $maxResults,
+            'currentPage' => $page
         ]);
     }
 
-    // action pour afficher un produit en détail
+    // pour afficher un produit en détail
     #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]
     public function show(int $id, ProductRepository $productRepository): Response
     {
