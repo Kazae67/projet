@@ -1,0 +1,39 @@
+/* Styles généraux pour les messages flash */
+.alert {
+    position: fixed; 
+    top: 10px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 1000; 
+    
+    padding: 10px 20px;
+    margin: 0 auto; 
+    border-radius: 5px; 
+    color: #fff; 
+    text-align: center; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+    max-width: 300px; 
+    word-wrap: break-word; /* Pour éviter le débordement de texte */
+    opacity: 0; /* Début invisible */
+    animation: flashMessageAnimation 4s ease-in-out; 
+    margin-top:5px;
+}
+
+/* type de message */
+.alert-success {
+    background-color: #4CAF50; /* Vert pour succès */
+}
+
+.alert-error {
+    background-color: #f44336; /* Rouge pour erreur */
+}
+
+.alert-notice {
+    background-color: #ff9800; /* Orange pour avis */
+}
+
+/* Animations messages flash */
+@keyframes flashMessageAnimation {
+    0%, 100% { top: -50px; opacity: 0; } /* Commence et finit en dehors de l'écran */
+    10%, 90% { top: 10px; opacity: 1; } /* Entre 10% et 90% de l'animation, le message est visible et à sa position finale */
+}

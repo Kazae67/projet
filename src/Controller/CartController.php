@@ -37,6 +37,7 @@ class CartController extends AbstractController
         // Sauvegarder le panier dans un cookie (voir tarte au citron avant)
         $cartService->saveCartToCookie();
 
+        $this->addFlash('success', 'Product added to your cart.');
         // Rediriger vers la page du panier
         return $this->redirectToRoute('cart_index');
     }
@@ -49,6 +50,8 @@ class CartController extends AbstractController
 
         // Sauvegarder le panier dans un cookie (j'vais devoir ajouter tarte au citron avant de mieux gérer ça)
         $cartService->saveCartToCookie();
+
+        $this->addFlash('success', 'Product removed from your cart.');
 
         // Rediriger vers la page du panier
         return $this->redirectToRoute('cart_index');
