@@ -17,9 +17,9 @@
 								<th>Date</th>
 								<th>Status</th>
 								<th>Items</th>
-								<th>Total Price</th>
+								<th>Total</th>
 								<th>Track</th>
-								<th>Download</th>
+								<th>Invoice</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -38,7 +38,7 @@
 										{% endif %}
 									</td>
 									<td>
-										<a href="{{ path('download_invoice', {'orderId': order.id}) }}">Download Invoice</a>
+										<a href="{{ path('download_invoice', {'orderId': order.id}) }}">Download</a>
 									</td>
 								</tr>
 							{% endfor %}

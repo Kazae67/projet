@@ -1,4 +1,8 @@
 /* tableau des commandes */
+
+.order-table-container {
+    overflow-x: auto;
+}
 .table-orders {
     width: 100%;
     border-collapse: collapse;
@@ -46,4 +50,19 @@
     text-align: center;
     color: #666;
     margin-top: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .table-orders th, .table-orders td {
+        padding: 10px; /* Réduire le padding sur les petits écrans */
+    }
+
+    .table-orders th {
+        font-size: 14px; /* Taille de police plus petite pour les en-têtes */
+    }
+
+    .table-orders td {
+        font-size: 13px; /* Taille de police plus petite pour les cellules */
+    }
+
 }
