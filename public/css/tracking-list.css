@@ -52,17 +52,17 @@
     margin-top: 20px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 620px) {
     .table-orders th, .table-orders td {
-        padding: 10px; /* Réduire le padding sur les petits écrans */
+        padding: 10px;
     }
 
     .table-orders th {
-        font-size: 14px; /* Taille de police plus petite pour les en-têtes */
+        font-size: 14px;
     }
 
     .table-orders td {
-        font-size: 13px; /* Taille de police plus petite pour les cellules */
+        font-size: 13px; 
     }
 
 }
