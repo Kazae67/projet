@@ -55,6 +55,17 @@
 			{% if app.request.attributes.get('_route') == 'app_login' %}
 				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 			{% endif %}
+			<!-- Tracking -->
+			{% if app.request.attributes.get('_route') == 'order_tracking' %}
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/tracking.css') }}">
+			{% endif %}
+			<!-- Tracking list -->
+			{% if app.request.attributes.get('_route') == 'order_tracking_list' %}
+				<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/tracking-list.css') }}">
+			{% endif %}
+
 
 			<!-- Tarte au Citron -->
 			<link

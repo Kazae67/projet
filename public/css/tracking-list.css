@@ -1,0 +1,49 @@
+/* tableau des commandes */
+.table-orders {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* En-têtes */
+.table-orders th {
+    padding: 12px;
+    text-align: left;
+    background-color: #f2f2f2; 
+    color: #333;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Cellules */
+.table-orders td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Alternance des couleurs pour chaque ligne représentant une commande */
+.table-orders tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-orders tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* liens dans le tableau */
+.table-orders a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.table-orders a:hover {
+    text-decoration: underline;
+}
+
+/* Message d'absence de commandes */
+.no-orders {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+}

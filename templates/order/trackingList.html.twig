@@ -1,47 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Orders
+{% block title %}My Order Tracking List
 {% endblock %}
 
 {% block body %}
-	<h1>My Orders</h1>
-	{% if orders|length > 0 %}
-		<table>
-			<thead>
-				<tr>
-					<th>Order #</th>
-					<th>Date</th>
-					<th>Status</th>
-					<th>Items</th>
-					<th>Total Price</th>
-					<th>Track</th>
-					<th>Download</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for order in orders %}
-					<tr>
-						<td>{{ order.trackingToken }}</td>
-						<td>{{ order.updatedAt|date('Y-m-d H:i') }}</td>
-						<td>{{ order.status }}</td>
-						<td>{{ order.orderDetails|length }}</td>
-						<td>{{ order.totalPrice }}€</td>
-						<td>
-							{% if order.trackingToken %}
-								<a href="{{ path('order_tracking', {'token': order.trackingToken}) }}">Track</a>
-							{% else %}
-								<span>Not available</span>
-							{% endif %}
-						</td>
-						<td>
-							<!-- Lien de téléchargement du PDF -->
-							<a href="{{ path('download_invoice', {'orderId': order.id}) }}">Download Invoice</a>
-						</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	{% else %}
-		<p>You have no orders.</p>
-	{% endif %}
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
+			<h1>My Orders</h1>
+			{% if orders|length > 0 %}
+				<div class="order-table-container">
+					<table class="table-orders">
+						<thead>
+							<tr>
+								<th>Order #</th>
+								<th>Date</th>
+								<th>Status</th>
+								<th>Items</th>
+								<th>Total Price</th>
+								<th>Track</th>
+								<th>Download</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for order in orders %}
+								<tr>
+									<td>{{ order.trackingToken }}</td>
+									<td>{{ order.updatedAt|date('Y-m-d H:i') }}</td>
+									<td>{{ order.status }}</td>
+									<td>{{ order.orderDetails|length }}</td>
+									<td>{{ order.totalPrice }}€</td>
+									<td>
+										{% if order.trackingToken %}
+											<a href="{{ path('order_tracking', {'token': order.trackingToken}) }}">Track</a>
+										{% else %}
+											<span>Not available</span>
+										{% endif %}
+									</td>
+									<td>
+										<a href="{{ path('download_invoice', {'orderId': order.id}) }}">Download Invoice</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% else %}
+				<p class="no-orders">You have no orders.</p>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}
