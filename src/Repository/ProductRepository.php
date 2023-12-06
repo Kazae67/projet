@@ -35,6 +35,44 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    // Méthode pour compter les produits filtrés
+    public function countFilteredProducts($category = null)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($category) {
+            $qb->andWhere('p.category = :category')
+                ->setParameter('category', $category);
+        }
+
+        return $qb->select('count(p.id)')
+                    ->getQuery()
+                    ->getSingleScalarResult();
+    }
+
+    // Méthode pour récupérer les produits avec filtres et tri
+    public function findByFilters($category = null, $sort = 'newest', $maxResults, $start)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($category) {
+            $qb->andWhere('p.category = :category')
+                ->setParameter('category', $category);
+        }
+
+        if ($sort === 'oldest') {
+            $qb->orderBy('p.created_at', 'ASC');
+        } else {
+            $qb->orderBy('p.created_at', 'DESC');
+        }
+
+        return $qb->setMaxResults($maxResults)
+                    ->setFirstResult($start)
+                    ->getQuery()
+                    ->getResult();
+    }
+
     // You can uncomment and use the following methods as examples for custom queries:
 
     // public function findByExampleField($value): array

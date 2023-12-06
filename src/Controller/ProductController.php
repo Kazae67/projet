@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,26 +17,30 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'product')]
-    public function index(ProductRepository $productRepository, Request $request): Response
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
+        // Paramètres de pagination et de filtre
         $maxResults = 10; // Nombre de produits par page
-        $totalProducts = $productRepository->count([]); // Total de produits
+        $sort = $request->query->get('sort', 'newest'); // Tri par défaut
+        $category = $request->query->get('category', null); // Aucune catégorie par défaut
+
+        // Récupérer les produits filtrés et paginés
+        $totalProducts = $productRepository->countFilteredProducts($category); // Total de produits avec filtre
         $totalPages = ceil($totalProducts / $maxResults);
-
-        $page = max(1, min($request->query->getInt('page', 1), $totalPages)); // S'assure que la page est dans les limites
+        $page = max(1, min($request->query->getInt('page', 1), $totalPages));
         $start = ($page - 1) * $maxResults;
+        $products = $productRepository->findByFilters($category, $sort, $maxResults, $start);
 
-        $products = $productRepository->findBy([], null, $maxResults, $start);
+        // Récupérer les catégories
+        $categories = $categoryRepository->findAll();
 
         // Logique pour déterminer les pages à afficher
         $maxPagesToShow = 5; // Nombre maximal de pages à afficher
-        $pagesToShow = min($maxPagesToShow, $totalPages); // Nombre de pages réelles à afficher
+        $pagesToShow = min($maxPagesToShow, $totalPages);
         $halfPagesToShow = floor($pagesToShow / 2);
-
         $startPage = max(1, $page - $halfPagesToShow);
         $endPage = min($totalPages, $page + $halfPagesToShow);
 
-        // Ajuster en cas de décalage
         if ($endPage - $startPage + 1 < $pagesToShow) {
             if ($startPage === 1) {
                 $endPage = min($totalPages, $startPage + $pagesToShow - 1);
@@ -51,9 +56,13 @@ class ProductController extends AbstractController
             'currentPage' => $page,
             'totalPages' => $totalPages,
             'startPage' => $startPage,
-            'endPage' => $endPage
+            'endPage' => $endPage,
+            'sort' => $sort,
+            'category' => $category,
+            'categories' => $categories
         ]);
     }
+
 
     // pour afficher un produit en détail
     #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]

@@ -8,6 +8,22 @@
         <div class="form-container">
             <h1>List of products</h1>
 
+			<form action="{{ path('product') }}" method="get">
+				<select name="category">
+					<option value="">Toutes les catégories</option>
+					{% for category in categories %}
+						<option value="{{ category.id }}">{{ category.name }}</option>
+					{% endfor %}
+				</select>
+
+				<select name="sort">
+					<option value="newest">From newest to oldest</option>
+					<option value="oldest">From oldest to newest</option>
+				</select>
+
+				<button type="submit">Filtrer</button>
+			</form>
+
             <div class="products">
                 {% for product in products %}
                     <div class="card">
