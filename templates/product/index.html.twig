@@ -8,17 +8,28 @@
         <div class="form-container">
             <h1>List of products</h1>
 
+			<!-- FILTRES -->
 			<form action="{{ path('product') }}" method="get">
+				<!-- Categories -->
 				<select name="category">
-					<option value="">Toutes les catégories</option>
+					<option value="">All categories</option>
 					{% for category in categories %}
 						<option value="{{ category.id }}">{{ category.name }}</option>
 					{% endfor %}
 				</select>
 
+
 				<select name="sort">
-					<option value="newest">From newest to oldest</option>
-					<option value="oldest">From oldest to newest</option>
+					<!-- Date -->
+					<optgroup label="Date">
+						<option value="newest">From newest to oldest</option>
+						<option value="oldest">From oldest to newest</option>
+					</optgroup>
+					<!-- Prix -->
+					<optgroup label="Price">
+						<option value="price_high_to_low">Price from highest to lowest</option>
+						<option value="price_low_to_high">Prices from lowest to highest</option>
+					</optgroup>
 				</select>
 
 				<button type="submit">Filtrer</button>
@@ -81,7 +92,7 @@
                 <!-- Champ pour entrer un numéro de page -->
                 <form action="{{ path('product') }}" method="get" class="page-select-form">
                     <input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
-                    <button type="submit" class="pagination-button">Aller</button>
+                    <button type="submit" class="pagination-button">Go</button>
                 </form>
             </div>
         </div>

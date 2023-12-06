@@ -55,24 +55,32 @@ class ProductRepository extends ServiceEntityRepository
     public function findByFilters($category = null, $sort = 'newest', $maxResults, $start)
     {
         $qb = $this->createQueryBuilder('p');
-
+    
         if ($category) {
             $qb->andWhere('p.category = :category')
-                ->setParameter('category', $category);
+               ->setParameter('category', $category);
         }
-
-        if ($sort === 'oldest') {
-            $qb->orderBy('p.created_at', 'ASC');
-        } else {
-            $qb->orderBy('p.created_at', 'DESC');
+    
+        switch ($sort) {
+            case 'oldest':
+                $qb->orderBy('p.created_at', 'ASC');
+                break;
+            case 'price_high_to_low':
+                $qb->orderBy('p.price', 'DESC');
+                break;
+            case 'price_low_to_high':
+                $qb->orderBy('p.price', 'ASC');
+                break;
+            default:
+                $qb->orderBy('p.created_at', 'DESC');
+                break;
         }
-
+    
         return $qb->setMaxResults($maxResults)
-                    ->setFirstResult($start)
-                    ->getQuery()
-                    ->getResult();
+                  ->setFirstResult($start)
+                  ->getQuery()
+                  ->getResult();
     }
-
     // You can uncomment and use the following methods as examples for custom queries:
 
     // public function findByExampleField($value): array

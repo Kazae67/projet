@@ -34,7 +34,7 @@ class ProductController extends AbstractController
         // Récupérer les catégories
         $categories = $categoryRepository->findAll();
 
-        // Logique pour déterminer les pages à afficher
+        // Pour déterminer les pages à afficher
         $maxPagesToShow = 5; // Nombre maximal de pages à afficher
         $pagesToShow = min($maxPagesToShow, $totalPages);
         $halfPagesToShow = floor($pagesToShow / 2);
