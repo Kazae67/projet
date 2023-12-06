@@ -49,23 +49,23 @@
             <div class="pagination">
                 <!-- Bouton précédent -->
                 {% if currentPage > 1 %}
-                    <a href="{{ path('product', {'page': currentPage - 1}) }}">Précédent</a>
+                    <a href="{{ path('product', {'page': currentPage - 1}) }}" class="pagination-button">Précédent</a>
                 {% endif %}
 
                 <!-- Liens de pagination -->
                 {% for i in startPage..endPage %}
-                    <a href="{{ path('product', {'page': i}) }}" class="{{ i == currentPage ? 'active' : '' }}">{{ i }}</a>
+                    <a href="{{ path('product', {'page': i}) }}" class="{{ i == currentPage ? 'pagination-button active' : 'pagination-button' }}">{{ i }}</a>
                 {% endfor %}
 
                 <!-- Bouton suivant -->
                 {% if currentPage < totalPages %}
-                    <a href="{{ path('product', {'page': currentPage + 1}) }}">Suivant</a>
+                    <a href="{{ path('product', {'page': currentPage + 1}) }}" class="pagination-button">Suivant</a>
                 {% endif %}
 
                 <!-- Champ pour entrer un numéro de page -->
                 <form action="{{ path('product') }}" method="get" class="page-select-form">
                     <input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
-                    <button type="submit">Aller</button>
+                    <button type="submit" class="pagination-button">Aller</button>
                 </form>
             </div>
         </div>

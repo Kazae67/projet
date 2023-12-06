@@ -6,7 +6,8 @@
     margin: 20px 0;
 }
 
-.pagination a {
+.pagination a,
+.pagination .pagination-button { /* Styles appliqués aux liens et au bouton "Aller" */
     margin: 0 5px;
     padding: 5px 10px;
     text-decoration: none;
@@ -14,25 +15,24 @@
     background-color: #f2f2f2;
     border: 1px solid #ddd;
     border-radius: 5px;
+    cursor: pointer;
 }
 
-.pagination a.active {
+.pagination a.active,
+.pagination .pagination-button.active { /* Styles pour le lien actif et le bouton "Aller" actif */
     background-color: #4CAF50;
     color: white;
 }
 
-.pagination a:hover {
+.pagination a:hover,
+.pagination .pagination-button:hover { /* Styles pour le survol */
     background-color: #ddd;
 }
 
-/* Boutons Précédent et Suivant */
-.pagination .prev,
-.pagination .next {
-    font-weight: bold;
-}
-
 /* Champ de saisie pour entrer le numéro de la page */
-.pagination .page-input {
+.pagination .page-select-form {
+    display: flex;
+    align-items: center;
     margin: 0 10px;
 }
 
@@ -43,3 +43,11 @@
     border-radius: 5px;
     text-align: center;
 }
+
+/* Cacher les boutons de contrôle de l'input[type="number"] */
+.pagination input[type="number"]::-webkit-inner-spin-button,
+.pagination input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+

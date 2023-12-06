@@ -18,7 +18,7 @@ class ProductController extends AbstractController
     #[Route('/product', name: 'product')]
     public function index(ProductRepository $productRepository, Request $request): Response
     {
-        $maxResults = 20; // Nombre de produits par page
+        $maxResults = 10; // Nombre de produits par page
         $totalProducts = $productRepository->count([]); // Total de produits
         $totalPages = ceil($totalProducts / $maxResults);
 
