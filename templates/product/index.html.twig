@@ -8,29 +8,37 @@
         <div class="form-container">
             <h1>List of products</h1>
 
-			<!-- FILTRES -->
-			<form action="{{ path('product') }}" method="get" id="filter-form">
-				<!-- Categories -->
-				<select name="category" id="category-select">
-					<option value="" {{ category is null ? 'selected' : '' }}>All categories</option>
-					{% for categoryOption in categories %}
-						<option value="{{ categoryOption.id }}" {{ categoryOption.id == category ? 'selected' : '' }}>{{ categoryOption.name }}</option>
-					{% endfor %}
-				</select>
+            <!-- FILTRES -->
+            <form action="{{ path('product') }}" method="get" id="filter-form">
+                <!-- Categories -->
+                <select name="category" id="category-select">
+                    <option value="" {{ category is null ? 'selected' : '' }}>All categories</option>
+                    {% for categoryOption in categories %}
+                        <option value="{{ categoryOption.id }}" {{ categoryOption.id == category ? 'selected' : '' }}>{{ categoryOption.name }}</option>
+                    {% endfor %}
+                </select>
 
-				<select name="sort" id="sort-select">
-					<!-- Date -->
-					<optgroup label="Date">
-						<option value="newest" {{ sort == 'newest' ? 'selected' : '' }}>newest to oldest</option>
-						<option value="oldest" {{ sort == 'oldest' ? 'selected' : '' }}>oldest to newest</option>
-					</optgroup>
-					<!-- Prix -->
-					<optgroup label="Price">
-						<option value="price_high_to_low" {{ sort == 'price_high_to_low' ? 'selected' : '' }}>highest to lowest</option>
-						<option value="price_low_to_high" {{ sort == 'price_low_to_high' ? 'selected' : '' }}>lowest to highest</option>
-					</optgroup>
-				</select>
-			</form>
+                <select name="sort" id="sort-select">
+                    <!-- Date -->
+                    <optgroup label="Date">
+                        <option value="newest" {{ sort == 'newest' ? 'selected' : '' }}>newest to oldest</option>
+                        <option value="oldest" {{ sort == 'oldest' ? 'selected' : '' }}>oldest to newest</option>
+                    </optgroup>
+                    <!-- Prix -->
+                    <optgroup label="Price">
+                        <option value="price_high_to_low" {{ sort == 'price_high_to_low' ? 'selected' : '' }}>highest to lowest</option>
+                        <option value="price_low_to_high" {{ sort == 'price_low_to_high' ? 'selected' : '' }}>lowest to highest</option>
+                    </optgroup>
+                </select>
+
+				<!-- Nombre de produits que l'utilisateur veut afficher -->
+                <select name="maxResults" id="max-results-select">
+                    {% set options = [5, 10, 15, 20, 30, 40, 50, 100] %}
+                    {% for option in options %}
+                        <option value="{{ option }}" {{ maxResults == option ? 'selected' : '' }}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </form>
 
             <div class="products">
                 {% for product in products %}
@@ -69,35 +77,37 @@
                 {% endfor %}
             </div>
 
-			<!-- Pagination -->
-			<div class="pagination">
-				<!-- Navigation (Boutons précédent, suivant, numéros de page) -->
-				<div class="pagination-nav">
-					{% if currentPage > 1 %}
-						<a href="{{ path('product', {'page': currentPage - 1}) }}" class="pagination-button">Précédent</a>
-					{% endif %}
+            <!-- Pagination -->
+            <div class="pagination">
+                <!-- Navigation (Boutons précédent, suivant, numéros de page) -->
+                <div class="pagination-nav">
+                    {% if currentPage > 1 %}
+                        <a href="{{ path('product', {'page': currentPage - 1, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="pagination-button">Previous</a>
+                    {% endif %}
 
-					{% for i in startPage..endPage %}
-						<a href="{{ path('product', {'page': i}) }}" class="{{ i == currentPage ? 'pagination-button active' : 'pagination-button' }}">{{ i }}</a>
-					{% endfor %}
+                    {% for i in startPage..endPage %}
+                        <a href="{{ path('product', {'page': i, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="{{ i == currentPage ? 'pagination-button active' : 'pagination-button' }}">{{ i }}</a>
+                    {% endfor %}
 
-					{# Ajouter des points de suspension et le lien vers la dernière page #}
-					{% if endPage < totalPages %}
-						<span class="pagination-ellipsis">...</span>
-						<a href="{{ path('product', {'page': totalPages}) }}" class="pagination-button">{{ totalPages }}</a>
-					{% endif %}
+                    {% if endPage < totalPages %}
+                        <span class="pagination-ellipsis">...</span>
+                        <a href="{{ path('product', {'page': totalPages, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="pagination-button">{{ totalPages }}</a>
+                    {% endif %}
 
-					{% if currentPage < totalPages %}
-						<a href="{{ path('product', {'page': currentPage + 1}) }}" class="pagination-button">Suivant</a>
-					{% endif %}
-				</div>
+                    {% if currentPage < totalPages %}
+                        <a href="{{ path('product', {'page': currentPage + 1, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="pagination-button">Next</a>
+                    {% endif %}
+                </div>
 
-				<!-- Champ pour entrer un numéro de page et bouton "Go" -->
-				<form action="{{ path('product') }}" method="get" class="page-select-form">
-					<input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
-					<button type="submit" class="pagination-button">Go</button>
-				</form>
-			</div>
+                <!-- Champ pour entrer un numéro de page et bouton "Go" -->
+                <form action="{{ path('product') }}" method="get" class="page-select-form">
+                    <input type="hidden" name="category" value="{{ category }}">
+                    <input type="hidden" name="sort" value="{{ sort }}">
+                    <input type="hidden" name="maxResults" value="{{ maxResults }}">
+                    <input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
+                    <button type="submit" class="pagination-button">Go</button>
+                </form>
+            </div>
         </div>
     </div>
 

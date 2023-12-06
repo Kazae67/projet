@@ -20,7 +20,8 @@ class ProductController extends AbstractController
     public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
         // Paramètres de pagination et de filtre
-        $maxResults = 20; // Nombre de produits par page
+        $defaultMaxResults = 20; // Valeur par défaut pour le nombre de produits par page
+        $maxResults = $request->query->getInt('maxResults', $defaultMaxResults); // Récupérer la valeur choisie ou utiliser la valeur par défaut
         $sort = $request->query->get('sort', 'newest'); // Tri par défaut
         $category = $request->query->get('category', null); // Aucune catégorie par défaut
 
