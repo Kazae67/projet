@@ -1,13 +1,19 @@
 .pagination {
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Colonne pour superposer les éléments */
     align-items: center;
     margin: 20px 0;
 }
 
+.pagination .pagination-nav {
+    display: flex; /* Flex pour aligner les boutons de navigation */
+    justify-content: center;
+    margin-bottom: 5px; /* Espace entre les boutons de navigation et le formulaire */
+}
+
 .pagination a,
-.pagination .pagination-button { /* liens et au bouton "Aller" */
-    margin: 0 5px;
+.pagination .pagination-button {
+    margin: 5px;
     padding: 5px 10px;
     text-decoration: none;
     color: #333;
@@ -18,31 +24,44 @@
 }
 
 .pagination a.active,
-.pagination .pagination-button.active { /* lien actif et le bouton "Aller" actif */
+.pagination .pagination-button.active {
     background-color: #4CAF50;
     color: white;
 }
 
 .pagination a:hover,
-.pagination .pagination-button:hover { /* pour le survol */
+.pagination .pagination-button:hover {
     background-color: #ddd;
 }
 
-/* Champ de saisie pour entrer le numéro de la page */
+/* formulaire de sélection de la page */
 .pagination .page-select-form {
     display: flex;
-    align-items: center;
-    margin: 0 10px;
+    align-items: center; 
 }
 
 .pagination input[type="number"] {
-    width: 50px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    width: 60px; /* Largeur fixe pour le champ de saisie */
+    padding: 4px 0px;
+    border: 1px solid #ffffff;
+    border-radius: 5px 0px 0px 5px;
     text-align: center;
+    margin-right: -7px; /* Espace entre l'input et le bouton */
 }
 
+.pagination button[type="submit"] {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0px 5px 5px 0px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination button[type="submit"]:hover {
+    background-color: #3e8e41;
+}
 /* Cacher les boutons de contrôle de l'input[type="number"] */
 .pagination input[type="number"]::-webkit-inner-spin-button,
 .pagination input[type="number"]::-webkit-outer-spin-button {
@@ -50,3 +69,15 @@
     margin: 0;
 }
 
+/* l'état focus de l'input */
+.pagination input[type="number"]:focus {
+    outline: none; 
+    border-color: #4CAF50;
+    border-width: 1px; 
+    box-shadow: none;
+}
+
+.pagination .pagination-ellipsis {
+    margin: 5px;
+    vertical-align: middle; /* Ajuste l'alignement vertical */
+}

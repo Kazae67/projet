@@ -72,29 +72,35 @@
                 {% endfor %}
             </div>
 
-            <!-- Pagination -->
-            <div class="pagination">
-                <!-- Bouton précédent -->
-                {% if currentPage > 1 %}
-                    <a href="{{ path('product', {'page': currentPage - 1}) }}" class="pagination-button">Précédent</a>
-                {% endif %}
+<!-- Pagination -->
+<div class="pagination">
+    <!-- Navigation (Boutons précédent, suivant, numéros de page) -->
+    <div class="pagination-nav">
+        {% if currentPage > 1 %}
+            <a href="{{ path('product', {'page': currentPage - 1}) }}" class="pagination-button">Précédent</a>
+        {% endif %}
 
-                <!-- Liens de pagination -->
-                {% for i in startPage..endPage %}
-                    <a href="{{ path('product', {'page': i}) }}" class="{{ i == currentPage ? 'pagination-button active' : 'pagination-button' }}">{{ i }}</a>
-                {% endfor %}
+        {% for i in startPage..endPage %}
+            <a href="{{ path('product', {'page': i}) }}" class="{{ i == currentPage ? 'pagination-button active' : 'pagination-button' }}">{{ i }}</a>
+        {% endfor %}
 
-                <!-- Bouton suivant -->
-                {% if currentPage < totalPages %}
-                    <a href="{{ path('product', {'page': currentPage + 1}) }}" class="pagination-button">Suivant</a>
-                {% endif %}
+        {# Ajouter des points de suspension et le lien vers la dernière page #}
+        {% if endPage < totalPages %}
+            <span class="pagination-ellipsis">...</span>
+            <a href="{{ path('product', {'page': totalPages}) }}" class="pagination-button">{{ totalPages }}</a>
+        {% endif %}
 
-                <!-- Champ pour entrer un numéro de page -->
-                <form action="{{ path('product') }}" method="get" class="page-select-form">
-                    <input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
-                    <button type="submit" class="pagination-button">Go</button>
-                </form>
-            </div>
+        {% if currentPage < totalPages %}
+            <a href="{{ path('product', {'page': currentPage + 1}) }}" class="pagination-button">Suivant</a>
+        {% endif %}
+    </div>
+
+    <!-- Champ pour entrer un numéro de page et bouton "Go" -->
+    <form action="{{ path('product') }}" method="get" class="page-select-form">
+        <input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
+        <button type="submit" class="pagination-button">Go</button>
+    </form>
+</div>
         </div>
     </div>
 {% endblock %}
