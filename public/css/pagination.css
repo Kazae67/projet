@@ -1,4 +1,3 @@
-/* Styles pour la pagination */
 .pagination {
     display: flex;
     justify-content: center;
@@ -7,7 +6,7 @@
 }
 
 .pagination a,
-.pagination .pagination-button { /* Styles appliqués aux liens et au bouton "Aller" */
+.pagination .pagination-button { /* liens et au bouton "Aller" */
     margin: 0 5px;
     padding: 5px 10px;
     text-decoration: none;
@@ -19,13 +18,13 @@
 }
 
 .pagination a.active,
-.pagination .pagination-button.active { /* Styles pour le lien actif et le bouton "Aller" actif */
+.pagination .pagination-button.active { /* lien actif et le bouton "Aller" actif */
     background-color: #4CAF50;
     color: white;
 }
 
 .pagination a:hover,
-.pagination .pagination-button:hover { /* Styles pour le survol */
+.pagination .pagination-button:hover { /* pour le survol */
     background-color: #ddd;
 }
 
