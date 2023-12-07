@@ -6,6 +6,9 @@
 	<script src="{{ asset('js/form.js') }}"></script>
 {% endblock %}
 {% block body %}
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
 	<h1>Order Confirmation</h1>
 
 	{{ form_start(orderForm) }}
@@ -22,11 +25,7 @@
 		{{ form_row(orderForm.type) }}
 		{{ form_row(orderForm.saveAddress) }}
 	</div>
-
-
-	{{ form_row(orderForm.confirmOrder) }}
-	{{ form_end(orderForm) }}
-
+	
 	<h2>Basket Details</h2>
 	{% for item in items %}
 		<div>
@@ -39,6 +38,9 @@
 	{% endfor %}
 	<p>Order Total:
 		{{ total }}€</p>
+
+	{{ form_end(orderForm) }}
+	</div>
 
 	<script>
 		function toggleAddressForm() {

@@ -55,9 +55,14 @@ button {
 }
 
 #acceptTermsBtn {
-    background-color: #4CAF50;
+    background-color: #5dd661;
     color: white;
 }
+
+#acceptTermsBtn:hover{
+    background-color: #1fd125;
+}
+
 #acceptTermsBtn:disabled {
     background-color: #9e9e9e; /* Couleur plus claire ou grisée pour indiquer qu'il est désactivé */
     color: #cfcfcf;
@@ -65,7 +70,11 @@ button {
 }
 
 #declineTermsBtn {
-    background-color: #f44336;
+    background-color: #ff7b72;
+    color: white;
+}
+#declineTermsBtn:hover {
+    background-color: #ff5147;
     color: white;
 }
 

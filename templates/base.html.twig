@@ -49,6 +49,14 @@
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
 			{% endif %}
+			<!-- Pour la commande -->
+			{% if app.request.attributes.get('_route') == 'order_prepare' %}
+				<link rel="stylesheet" href="{{ asset('css/forms/form-order.css') }}">
+			{% endif %}
+			<!-- Pour l'adresse -->
+			{% if app.request.attributes.get('_route') == 'edit_address' %}
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
+			{% endif %}
 			<!-- Registration -->
 			{% if app.request.attributes.get('_route') == 'app_register' %}
 				<link rel="stylesheet" href="{{ asset('css/terms-modal.css') }}">
@@ -68,7 +76,6 @@
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/tracking-list.css') }}">
 			{% endif %}
-
 			<!-- Messages Flash -->
 			<link
 			rel="stylesheet" href="{{ asset('css/flash-messages.css') }}">
@@ -83,6 +90,7 @@
 			<!-- SCRIPT PARTICULE POUR WISHLIST & CART -->
 			{% block javascripts %}
 				{% if app.request.attributes.get('_route') == 'wishlist_index' or app.request.attributes.get('_route') == 'cart_index' %}
+								{# <script src="https://app.embed.im/snow.js" defer></script> #}
 					<script src="{{ asset('js/particule.js') }}"></script>
 				{% endif %}
 			{% endblock %}

@@ -185,9 +185,13 @@
     color: rgb(202, 5, 5);
 }
 
+.icon-group button:hover .material-symbols-outlined.delete{
+    color: rgb(255, 0, 0);
+}
 .icon-group a:hover .material-symbols-outlined, .icon-group button:hover .material-symbols-outlined {
     color: white;
 }
+
 
 /* Styles existants */
 .d-flex {

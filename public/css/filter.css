@@ -12,10 +12,10 @@ form {
 /* les sélecteurs de filtre */
 select {
     flex: 1 1 auto; /* Flexibilité pour que les sélecteurs s'adaptent à la largeur disponible */
-    margin: 5px;
+    margin: 10px;
     padding: 5px 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 5px 5px 0px 0px;
     background-color: #f9f9f9;
     cursor: pointer;
     max-width: 100%; /* Chaque sélecteur peut s'étendre sur toute la largeur disponible */

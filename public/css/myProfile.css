@@ -59,7 +59,7 @@
 /* Anonymiser le compte */
 .anonymize-account {
     grid-column: 2 / 3; /* Dans la seconde colonne */
-    grid-row: 2; /* Seconde rangée */
+    grid-row: 1; /* Seconde rangée */
     text-align: center; 
 }
 
@@ -85,7 +85,7 @@
         background-color: #ccc;
         margin-top: 20px; /* Espace au-dessus de la ligne */
     }
-
+    
     /* Centrage du contenu des informations personnelles */
     .personal-info ul {
         text-align: center;

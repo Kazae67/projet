@@ -4,11 +4,17 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Edit Address</h1>
-	{{ form_start(addressForm) }}
-	{{ form_widget(addressForm) }}
-	<button type="submit" class="btn btn-save">Save Changes</button>
-	{{ form_end(addressForm) }}
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
+			<h1>Edit Address</h1>
+			{{ form_start(addressForm) }}
+			<div class="form-group">
+				{{ form_widget(addressForm) }}
+			</div>
+			<button type="submit" class="btn btn-update">Save Changes</button>
+			{{ form_end(addressForm) }}
 
-	<a href="{{ path('app_profile') }}">Back to Profile</a>
+	<a href="{{ path('app_profile') }}" class="back-link">Back to Profile</a>
+	</div>
 {% endblock %}

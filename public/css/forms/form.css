@@ -57,6 +57,10 @@ input, textarea, select {
     transition: border-color 0.3s;
 }
 
+select{
+    border-radius: 5px 5px 0px 0px;
+}
+
 textarea {
     resize: none; /* Empêche la redimension du textarea */
 }
@@ -186,10 +190,14 @@ input:hover, textarea:hover, select:hover {
 }
 
 .btn, .demi-cercle {
-    animation: fadeIn 1.5s ease-out;
-    -webkit-animation: fadeIn 1.5s ease-out;
+    animation: fadeIn 2s ease-out;
+    -webkit-animation: fadeIn 2s ease-out;
 }
 
+.product-image-container{
+animation: fadeIn 3s ease-out;
+-webkit-animation: fadeIn 3s ease-out;
+}
 @keyframes fadeInAndSway {
     0% {
         opacity: 0;

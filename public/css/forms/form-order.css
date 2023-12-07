@@ -1,0 +1,93 @@
+h1 {
+    text-align: center;
+    color: #5D5C61;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 20px;
+    margin-top:100px;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    z-index: 20;
+    border-left: solid 1px black;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+}
+
+.parent-container {
+    position: relative; /* Position relative pour le positionnement du demi-cercle */
+}
+
+.demi-cercle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 15px 15px 0 0 #ffffff;
+    transform: rotate(45deg);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: 5;
+    margin-top:-100px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+select{
+    border-radius: 5px 5px 0px 0px;
+}
+input:hover, textarea:hover, select:hover {
+    border-color: #a0a0a0;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(50px); -webkit-transform: translateY(50px); -moz-transform: translateY(50px); -ms-transform: translateY(50px); -o-transform: translateY(50px); } /* Départ avec transparence et un léger déplacement vers le haut */
+    50% {opacity: 0.5; transform: translateY(-5px);} 
+    100% {opacity: 1; transform: translateY(0);} 
+}
+
+.btn {
+    animation: fadeIn 1.5s ease-out;
+    -webkit-animation: fadeIn 1.5s ease-out;
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%) rotate(45deg);
+        /*Commenceplusbas*/
+}
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(45deg);
+         /* Position finale */
+        }
+}
+
+.demi-cercle {
+    animation: fadeInUp 1s ease-in-out;
+}
