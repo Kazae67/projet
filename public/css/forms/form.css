@@ -65,8 +65,47 @@ input:hover, textarea:hover, select:hover {
     border-color: #a0a0a0;
 }
 
-.btn-add,
-.btn-update {
+.btn-blue,
+.btn-edit {
+    display: block;
+    border:solid 1px black;
+    width: max-content;
+    margin: 20px auto;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: rgba(121, 175, 255, 0.966);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover{
+    background-color: rgba(64, 141, 255, 0.966);
+}
+
+.btn-blue:hover {
+    background-color: rgba(64, 141, 255, 0.966);
+}
+
+.btn-delete{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff7b72;
+    color: white;
+    border:solid 1px black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.btn-delete:hover{
+    background-color: #ff5147;
+}
+/* .btn-edit{
     display: block;
     width: 100%;
     padding: 10px;
@@ -77,7 +116,22 @@ input:hover, textarea:hover, select:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px;
+} */
+
+.btn-add,
+.btn-update {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #5dd661;
+    color: white;
+    border: solid black 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
 }
+
 .agree-terms {
     text-align: center; /* Centre le texte et les éléments inline à l'intérieur */
     display: flex;
@@ -109,7 +163,7 @@ input:hover, textarea:hover, select:hover {
 
 .btn-add:hover,
 .btn-update:hover {
-    background-color: #45a049;
+    background-color: #1fd125;
 }
 
 .back-link {
@@ -132,8 +186,8 @@ input:hover, textarea:hover, select:hover {
 }
 
 .btn, .demi-cercle {
-    animation: fadeIn 3s ease-out;
-    -webkit-animation: fadeIn 3s ease-out;
+    animation: fadeIn 1.5s ease-out;
+    -webkit-animation: fadeIn 1.5s ease-out;
 }
 
 @keyframes fadeInAndSway {

@@ -122,10 +122,15 @@
 }
 
 .btn-increment, .btn-decrement {
-    background-color: #4CAF50;
+    background-color: #5dd661;
     color: white;
     padding: 5px 10px;
     border:solid 1px black;
+}
+
+.btn-increment:hover,
+.btn-decrement:hover{
+    background-color: #1fd125;
 }
 
 .cart-actions a.btn-remove, .wishlist-actions a.btn-remove {
@@ -150,17 +155,17 @@
 }
 
 .cart-footer button, .wishlist-footer button {
-    background-color: #4CAF50;
+    background-color: #5dd661;
     color: white;
     padding: 12px 25px;
     border-radius: 6px;
-    border: none;
+    border: solid 1px black;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .cart-footer button:hover, .wishlist-footer button:hover {
-    background-color: #45a049;
+    background-color: #1fd125;
 }
 
 .clear-cart-link {
