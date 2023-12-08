@@ -4,7 +4,7 @@ html, body {
     padding: 0;
 }
 
-h1, h2, h3 {
+h1 {
     font-family: 'Berkshire Swash', serif;
 }
 
@@ -66,8 +66,8 @@ body {
 }
 
 .logo img {
-    width: 178%;
-    /*Agrandirl'image*/height: auto;
+    width: 180%;
+    height: auto;
     border-radius: 50%;
     filter: invert(0%) contrast(100%) brightness(200%);
 }
