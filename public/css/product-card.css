@@ -14,17 +14,21 @@
 }
 
 .card {
-      display: flex;
-      flex-direction: column;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      z-index: 1; /* placer la carte est au-dessus de son pseudo-élément */
-      transition: box-shadow 0.3s ease;
-      background-color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 1;
+    background-color: white;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    outline: 1px solid rgb(255, 217, 0);
+    box-shadow: 0px 1px 1px rgba(207, 121, 8, 0.9);
 }
 
 .card:before {
@@ -39,13 +43,6 @@
     z-index: 0;
     pointer-events: none;
 }
-
-.card:hover {
-    outline: 1px solid black;
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .card:hover:before {
     background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
     animation: shimmer 3s linear infinite;
@@ -102,7 +99,7 @@
     transition: background-color 0.3s, color 0.3s; /* Effet de transition douce */
 }
 .card-user:hover {
-    box-shadow: 0 0 0 2px white; /* Ajoute une ombre portée blanche qui agit comme un bord */
+    box-shadow: 0 0 0 1px white; /* Ajoute une ombre portée blanche qui agit comme un bord */
 }
 
 .card-img-container:hover .card-user, .card:hover .card-user {
