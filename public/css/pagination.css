@@ -23,6 +23,7 @@
     cursor: pointer;
 }
 
+
 .pagination a.active,
 .pagination .pagination-button.active {
     background-color: #4CAF50;

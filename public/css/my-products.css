@@ -1,6 +1,6 @@
 /* Styles pour le slot d'ajout de produit */
 .add-product-slot {
-    border: 2px dashed #ccc;
+    border: 2px dashed rgba(255, 255, 255, 0.486);
     border-radius: 10px;
     text-align: center;
     padding: 20px;
@@ -54,6 +54,7 @@
 
 .material-symbols-outlined.plus {
     font-size: 150px; 
+    color: black;
 
 }
 
