@@ -4,6 +4,10 @@ html, body {
     padding: 0;
 }
 
+h1, h2, h3 {
+    font-family: 'Berkshire Swash', serif;
+}
+
 body {
     font-family: 'Acme', serif;
     margin: 0;
