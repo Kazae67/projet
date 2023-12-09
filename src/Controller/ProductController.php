@@ -150,9 +150,8 @@ class ProductController extends AbstractController
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-            // Vérification de l'existence d'un produit similaire
             $existingProduct = $productRepository->findOneBy(['name' => $product->getName()]);
             if ($existingProduct) {
                 $this->addFlash('error', 'A product with this name already exists.');
@@ -160,36 +159,38 @@ class ProductController extends AbstractController
                     'form' => $form->createView(),
                 ]);
             }
-
-            // Traitement de l'upload d'image
+    
             $imageFile = $form->get('imageFile')->getData();
             if ($imageFile) {
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-
+    
                 try {
                     $imageFile->move(
                         $this->getParameter('products_directory'),
                         $newFilename
                     );
+                    $product->setImageUrl('/uploads/products/'.$newFilename);
                 } catch (FileException $e) {
-                    // Gestion de l'erreur d'upload
+                    // message d'erreur
+                    $this->addFlash('error', 'Failed to upload image: ' . $e->getMessage());
+                    return $this->render('product/add.html.twig', [
+                        'form' => $form->createView(),
+                    ]);
                 }
-
-                $product->setImageUrl('/uploads/products/'.$newFilename);
             } else {
                 $product->setImageUrl('/images/default-image.jpg');
             }
-
+    
             $product->setUser($this->getUser());
             $em->persist($product);
             $em->flush();
-
+    
             $this->addFlash('success', 'Product successfully added.');
             return $this->redirectToRoute('my_products');
         }
-
+    
         return $this->render('product/add.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -214,21 +215,40 @@ class ProductController extends AbstractController
 
     #[IsGranted('ROLE_CRAFTSMAN')]
     #[Route('/product/edit/{id}', name: 'product_edit')]
-    public function editProduct(Request $request, EntityManagerInterface $em, Product $product): Response
+    public function editProduct(Request $request, EntityManagerInterface $em, Product $product, SluggerInterface $slugger): Response
     {
-        // Créer un formulaire de modification pour le produit
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrer les modifications apportées au produit
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+    
+                try {
+                    $imageFile->move(
+                        $this->getParameter('products_directory'),
+                        $newFilename
+                    );
+                    $product->setImageUrl('/uploads/products/'.$newFilename);
+                } catch (FileException $e) {
+                    // Message d'erreur
+                    $this->addFlash('error', 'Failed to upload image: ' . $e->getMessage());
+                    return $this->render('product/edit.html.twig', [
+                        'form' => $form->createView(),
+                        'product' => $product,
+                    ]);
+                }
+            }
+    
             $em->flush();
             $this->addFlash('success', 'Product successfully updated.');
-
-            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+    
+            return $this->redirectToRoute('my_products', ['id' => $product->getId()]);
         }
-
-        // Rendre la vue 'product/edit.html.twig' avec le formulaire de modification
+    
         return $this->render('product/edit.html.twig', [
             'form' => $form->createView(),
         ]);
