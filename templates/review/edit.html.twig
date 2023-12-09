@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Éditer la revue{% endblock %}
+{% block title %}Edit Review{% endblock %}
 
 {% block body %}
-<h1>Éditer la revue</h1>
+<h1>Edit review</h1>
 
 {{ form_start(form) }}
     <div class="form-group">
@@ -24,7 +24,7 @@
         {{ form_errors(form.comment) }}
     </div>
 
-    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    <button type="submit" class="btn btn-update">Update</button>
 {{ form_end(form) }}
 
 {% endblock %}

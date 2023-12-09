@@ -19,7 +19,7 @@ class ReviewController extends AbstractController
     {
         $review = new Review();
         $review->setProduct($product); // Associer le produit à la revue
-        $review->setUser($this->getUser()); // Assurez-vous que l'utilisateur est connecté
+        $review->setUser($this->getUser());
         $review->setCreatedAt(new \DateTimeImmutable());
 
         // Créer et traiter le formulaire

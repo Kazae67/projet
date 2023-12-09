@@ -1,5 +1,5 @@
 function editReview(reviewId) {
-    // Masquer le commentaire et afficher le formulaire
+    // Masque le commentaire et afficher le formulaire
     document.getElementById('review-comment-' + reviewId).style.display = 'none';
     document.getElementById('edit-review-form-' + reviewId).style.display = 'block';
 }
@@ -7,12 +7,12 @@ function editReview(reviewId) {
 function submitReviewEditForm(event, reviewId) {
     event.preventDefault();
 
-    // Récupérer les nouvelles valeurs du titre, de la note et du commentaire
+    // Récupère les nouvelles valeurs du titre, de la note et du commentaire
     var updatedTitle = document.getElementById('edit-title-' + reviewId).value;
     var updatedRating = document.getElementById('edit-rating-' + reviewId).value;
     var updatedComment = document.getElementById('edit-comment-' + reviewId).value;
 
-    // Préparer les données à envoyer
+    // Prépare les données à envoyer
     var data = new FormData();
     data.append('title', updatedTitle);
     data.append('rating', updatedRating);
