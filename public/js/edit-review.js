@@ -7,11 +7,15 @@ function editReview(reviewId) {
 function submitReviewEditForm(event, reviewId) {
     event.preventDefault();
 
-    // Récupérer la nouvelle valeur du commentaire
+    // Récupérer les nouvelles valeurs du titre, de la note et du commentaire
+    var updatedTitle = document.getElementById('edit-title-' + reviewId).value;
+    var updatedRating = document.getElementById('edit-rating-' + reviewId).value;
     var updatedComment = document.getElementById('edit-comment-' + reviewId).value;
 
     // Préparer les données à envoyer
     var data = new FormData();
+    data.append('title', updatedTitle);
+    data.append('rating', updatedRating);
     data.append('comment', updatedComment);
 
     // Envoyer la requête AJAX
@@ -30,7 +34,9 @@ function submitReviewEditForm(event, reviewId) {
     })
     .then(data => {
         // Mettre à jour l'affichage de la revue
-        document.getElementById('review-comment-' + reviewId).innerHTML = updatedComment;
+        document.getElementById('review-title-' + reviewId).innerText = updatedTitle; // Mise à jour du titre
+        document.getElementById('review-rating-' + reviewId).innerText = 'Rating: ' + updatedRating + '/5'; // Mise à jour de la note
+        document.getElementById('review-comment-' + reviewId).innerText = updatedComment;
         document.getElementById('review-comment-' + reviewId).style.display = 'block';
         document.getElementById('edit-review-form-' + reviewId).style.display = 'none';
     })

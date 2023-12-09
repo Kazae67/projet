@@ -82,12 +82,17 @@ class ReviewController extends AbstractController
         if ($this->getUser() !== $review->getUser()) {
             return new JsonResponse(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
-
+    
+        $title = $request->request->get('title');
+        $rating = $request->request->get('rating');
         $comment = $request->request->get('comment');
+    
+        $review->setTitle($title);
+        $review->setRating($rating);
         $review->setComment($comment);
-
+    
         $entityManager->flush();
-
+    
         return new JsonResponse(['message' => 'Review updated successfully']);
     }
 }

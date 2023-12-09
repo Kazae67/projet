@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Review;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,6 +21,16 @@ class ReviewRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Review::class);
     }
+
+    public function findByProductSortedByDate(Product $product)
+{
+    return $this->createQueryBuilder('r')
+        ->where('r.product = :product')
+        ->setParameter('product', $product)
+        ->orderBy('r.createdAt', 'DESC') // du plus récent au plus ancien
+        ->getQuery()
+        ->getResult();
+}
 
 //    /**
 //     * @return Review[] Returns an array of Review objects
