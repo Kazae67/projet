@@ -18,7 +18,7 @@
 							<!-- Lien vers la page du produit -->
 							<a href="{{ path('product_show', {'id': item.product.id}) }}">
 								<div class="product-image-container">
-									<img src="{{ item.product.image_url|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
+									  <img src="{{ item.product.imageUrl|default('/images/default-image.jpg') }}" alt="{{ item.product.name }}" class="product-image">
 								</div>
 							</a>
 							<div class="product-name">{{ item.product.name }}</div>
