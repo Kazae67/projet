@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,30 +21,26 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // Champ 'name' avec contraintes pour s'assurer que le nom est non vide et de longueur appropriée
-            //Limiter la longueur pour éviter des entrées excessivement longues, ce qui peut être une source de failles XSS.
             ->add('name', TextType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length(['min' => 3, 'max' => 30]), // Limite de 30 caractères
+                    new Assert\Length(['min' => 3, 'max' => 30]),
                     new Assert\Regex([
                         'pattern' => '/^[a-zA-Z0-9\s\/]+(?!\/\/)$/',
                         'message' => 'The title should not contain special characters like @{}|'
                     ]),
                 ]
             ])
-            // Champ 'description' avec contrainte de longueur pour éviter des entrées trop longues. 
             ->add('description', TextareaType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length(['min' => 10, 'max' => 5000]),
                     new Assert\Regex([
-                        'pattern' => '/^[^<>]*(?!\/\/)[^<>]*$/u', // Interdit les caractères < et > pour éviter les balises HTML et empêche les doubles slash pour les liens
+                        'pattern' => '/^[^<>]*(?!\/\/)[^<>]*$/u',
                         'message' => 'The description should not contain HTML tags.'
                     ]),
                 ]
             ])
-            // Champ 'price' pour s'assurer que le prix est un nombre positif
             ->add('price', MoneyType::class, [
                 'currency' => 'EUR',
                 'constraints' => [
@@ -52,21 +49,22 @@ class ProductType extends AbstractType
                     new Assert\GreaterThan(['value' => 0])
                 ]
             ])
-            // Champ 'stockQuantity' pour s'assurer que la quantité est positive ou zéro
             ->add('stockQuantity', NumberType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\PositiveOrZero()
                 ]
             ])
-            // Champ 'imageUrl' avec validation d'URL
-            ->add('imageUrl', UrlType::class, [
+            ->add('imageFile', FileType::class, [
+                'label' => 'Product Image',
+                'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new Assert\Url()
-                ]
+                    new Assert\Image([
+                        'maxSize' => '5M',
+                    ]),
+                ],
             ])
-            // Champ 'category' pour sélectionner une catégorie existante
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProductController extends AbstractController
 {
@@ -143,25 +145,43 @@ class ProductController extends AbstractController
     // Les méthodes pour gérer l'ajout, l'édition et la suppression de produits par un artisan sont annotées avec IsGranted pour restreindre l'accès aux artisans.
     #[IsGranted('ROLE_CRAFTSMAN')]
     #[Route('/product/add', name: 'product_add')]
-    public function addProduct(Request $request, EntityManagerInterface $em, ProductRepository $productRepository): Response
+    public function addProduct(Request $request, EntityManagerInterface $em, ProductRepository $productRepository, SluggerInterface $slugger): Response
     {
-        // Créer un nouveau produit et un formulaire
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Vérifier si un produit avec le même nom existe déjà
+            // Vérification de l'existence d'un produit similaire
             $existingProduct = $productRepository->findOneBy(['name' => $product->getName()]);
             if ($existingProduct) {
-                // Afficher un message d'erreur si le produit existe déjà
                 $this->addFlash('error', 'A product with this name already exists.');
                 return $this->render('product/add.html.twig', [
                     'form' => $form->createView(),
                 ]);
             }
 
-            // Associer le produit à l'utilisateur connecté et le sauvegarder
+            // Traitement de l'upload d'image
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('products_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gestion de l'erreur d'upload
+                }
+
+                $product->setImageUrl('/uploads/products/'.$newFilename);
+            } else {
+                $product->setImageUrl('/images/default-image.jpg');
+            }
+
             $product->setUser($this->getUser());
             $em->persist($product);
             $em->flush();
@@ -170,7 +190,6 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('my_products');
         }
 
-        // Rendre la vue 'product/add.html.twig' avec le formulaire
         return $this->render('product/add.html.twig', [
             'form' => $form->createView(),
         ]);

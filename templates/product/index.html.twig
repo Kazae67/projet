@@ -44,7 +44,8 @@
                 {% for product in products %}
                     <div class="card">
                         <div class="card-img-container">
-                            <img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                        <!-- Si l'utilisateur a ajouté une image, sinon, default-image -->
+                            <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="{{ product.name }}" class="card-img-top">
 
                             <!-- Conteneur pour la description au survol -->
                             <div class="card-hover-description">
