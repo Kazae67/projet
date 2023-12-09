@@ -76,8 +76,6 @@ class SecurityController extends AbstractController
             //  $em->remove($product);
             $product->setPrice(0);
             $product->setStockQuantity(0);
-            $product->setName('Deleted'. rand(1000, 9999));
-            $product->setDescription('This product is deleted');
             $product->setActive(false);
 
          }
