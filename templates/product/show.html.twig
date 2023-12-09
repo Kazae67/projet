@@ -29,10 +29,10 @@
                 <!-- Affichage des revues existantes -->
                 <div class="product-reviews">
                     <h3>Review</h3>
-                    {% for review in product.reviews %}
+                    {% for review in reviews %}
                         <div class="review" id="review-{{ review.id }}">
-                            <p id="review-title-{{ review.id }}"><strong>Title:</strong> {{ review.title }}</p> <!-- Ajout de l'ID pour le titre -->
-                            <p id="review-rating-{{ review.id }}"><strong>Rating:</strong> {{ review.rating }}/5</p> <!-- Ajout de l'ID pour la note -->
+                            <p id="review-title-{{ review.id }}"><strong>Title:</strong> {{ review.title }}</p> 
+                            <p id="review-rating-{{ review.id }}"><strong>Rating:</strong> {{ review.rating }}/5</p> 
                             <div id="review-comment-{{ review.id }}">{{ review.comment }}</div>
                             {% if app.user and app.user == review.user %}
                                 <button class="btn btn-edit" onclick="editReview({{ review.id }})">Edit</button>

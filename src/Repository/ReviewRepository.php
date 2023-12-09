@@ -23,14 +23,14 @@ class ReviewRepository extends ServiceEntityRepository
     }
 
     public function findByProductSortedByDate(Product $product)
-{
-    return $this->createQueryBuilder('r')
-        ->where('r.product = :product')
-        ->setParameter('product', $product)
-        ->orderBy('r.createdAt', 'DESC') // du plus récent au plus ancien
-        ->getQuery()
-        ->getResult();
-}
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.product = :product')
+            ->setParameter('product', $product)
+            ->orderBy('r.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Review[] Returns an array of Review objects

@@ -34,8 +34,8 @@ function submitReviewEditForm(event, reviewId) {
     })
     .then(data => {
         // Mettre à jour l'affichage de la revue
-        document.getElementById('review-title-' + reviewId).innerText = updatedTitle; // Mise à jour du titre
-        document.getElementById('review-rating-' + reviewId).innerText = 'Rating: ' + updatedRating + '/5'; // Mise à jour de la note
+        document.getElementById('review-title-' + reviewId).innerText = 'Title: ' + updatedTitle; // Titre
+        document.getElementById('review-rating-' + reviewId).innerText = 'Rating: ' + updatedRating + '/5'; // Note
         document.getElementById('review-comment-' + reviewId).innerText = updatedComment;
         document.getElementById('review-comment-' + reviewId).style.display = 'block';
         document.getElementById('edit-review-form-' + reviewId).style.display = 'none';

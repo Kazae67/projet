@@ -8,6 +8,7 @@ use App\Form\ProductType;
 use App\Form\ReviewFormType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\ReviewRepository;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,24 +68,22 @@ class ProductController extends AbstractController
     }
 
 
-    // pour afficher un produit en détail
     #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]
-    public function show(int $id, ProductRepository $productRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function show(int $id, ProductRepository $productRepository, ReviewRepository $reviewRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Trouver le produit par son ID
         $product = $productRepository->find($id);
 
-        // Si le produit n'existe pas, générer une exception
         if (!$product) {
             throw $this->createNotFoundException('The requested product does not exist.');
         }
 
-        // Créer une nouvelle revue
+        // Récup' les revues triées du plus récent au plus ancien
+        $reviews = $reviewRepository->findByProductSortedByDate($product);
+
         $review = new Review();
         $review->setProduct($product);
-        $review->setUser($this->getUser()); // Assurez-vous que l'utilisateur est connecté
+        $review->setUser($this->getUser()); // S'assurer que l'utilisateur est connecté
 
-        // Créer le formulaire
         $form = $this->createForm(ReviewFormType::class, $review);
         $form->handleRequest($request);
 
@@ -93,13 +92,12 @@ class ProductController extends AbstractController
             $entityManager->persist($review);
             $entityManager->flush();
 
-            // Rediriger vers la même page pour afficher la nouvelle revue
             return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
         }
 
-        // Rendre la vue 'product/show.html.twig' avec les détails du produit et le formulaire
         return $this->render('product/show.html.twig', [
             'product' => $product,
+            'reviews' => $reviews, // Transmettre les revues triées à la vue
             'form' => $form->createView(),
         ]);
     }
