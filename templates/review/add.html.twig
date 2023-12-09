@@ -1,8 +1,8 @@
 
-{% block title %}Ajouter une revue{% endblock %}
+{% block title %}Add a review{% endblock %}
 
 {% block body %}
-<h1>Ajouter une revue</h1>
+<h1>Add a review</h1>
 
 {{ form_start(form) }}
     <div class="form-group">
@@ -23,7 +23,7 @@
         {{ form_errors(form.comment) }}
     </div>
 
-    <button type="submit" class="btn btn-primary">Soumettre</button>
+    <button type="submit" class="btn btn-submit">Submit</button>
 {{ form_end(form) }}
 
 {% endblock %}

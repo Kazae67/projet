@@ -45,7 +45,7 @@ class ReviewController extends AbstractController
     {
         // Vérifier si l'utilisateur est le propriétaire de la revue
         if ($this->getUser() !== $review->getUser()) {
-            throw $this->createAccessDeniedException('Vous nêtes pas autorisé à éditer cette revue.');
+            throw $this->createAccessDeniedException('You are not allowed to edit this review.');
         }
     
         $form = $this->createForm(ReviewFormType::class, $review);
@@ -65,7 +65,7 @@ class ReviewController extends AbstractController
     public function delete(Review $review, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser() !== $review->getUser()) {
-            throw $this->createAccessDeniedException('Vous nêtes pas autorisé à supprimer cette revue.');
+            throw $this->createAccessDeniedException('You are not allowed to delete this review.');
         }
 
         $entityManager->remove($review);

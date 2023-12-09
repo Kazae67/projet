@@ -1,103 +1,74 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Product details - {{ product.name }}
+	Product details -
+	{{ product.name }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ product.name }}</h1>
+	<div class="parent-container">
+		<div class="demi-cercle"></div>
+		<div class="form-container">
+			<h1>{{ product.name }}</h1>
 
-    <div class="product-detail">
-        <img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="product-img">
-        <p><strong>Description:</strong> {{ product.description }}</p>
-        <p><strong>Price:</strong> {{ product.price }}€</p>
-        <p><strong>Quantity in stock:</strong> {{ product.stockQuantity }}</p>
-        <p><strong>Date of creation:</strong> {{ product.createdAt ? product.createdAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
-        <p><strong>Update date:</strong> {{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
-        <a href="{{ path('product') }}" class="btn btn-back">Retour à la liste des produits</a>
+			<div class="product-detail">
+				<img src="{{ product.image_url|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="product-img">
+				<p>
+					<strong>Description:</strong>
+					{{ product.description }}</p>
+				<p>
+					<strong>Price:</strong>
+					{{ product.price }}€</p>
+				<p>
+					<strong>Quantity in stock:</strong>
+					{{ product.stockQuantity }}</p>
+				<p>
+					<strong>Date of creation:</strong>
+					{{ product.createdAt ? product.createdAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
+				<p>
+					<strong>Update date:</strong>
+					{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i') : 'Non spécifiée' }}</p>
 
-        <!-- Bouton pour ajouter une revue -->
-        <button id="add-review-button" class="btn btn-primary">Ajouter une revue</button>
 
-        <!-- Container pour le formulaire de revue -->
-        <div id="review-form-container" style="display:none;">
-            {% include 'review/add.html.twig' with {'form': form} %}
-        </div>
+				<!-- Bouton pour ajouter une revue -->
+				<button id="add-review-button" class="btn btn-primary">Add a review</button>
 
-        <!-- Affichage des revues existantes -->
-        <div class="product-reviews">
-            <h3>Revues</h3>
-    {% for review in product.reviews %}
-        <div class="review" id="review-{{ review.id }}">
-            <p><strong>{{ review.user.username }}</strong> ({{ review.createdAt|date('d-m-Y') }})</p>
-            <div id="review-comment-{{ review.id }}">{{ review.comment }}</div>
-            {% if app.user and app.user == review.user %}
-                <button class="btn btn-secondary" onclick="editReview({{ review.id }})">Éditer</button>
-                <a href="{{ path('review_delete', {'id': review.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette revue ?');">Supprimer</a>
+				<!-- Container pour le formulaire de revue -->
+				<div id="review-form-container" style="display:none;">
+					{% include 'review/add.html.twig' with {'form': form} %}
+				</div>
 
-                <!-- Formulaire d'édition, caché par défaut -->
-                <div id="edit-review-form-{{ review.id }}" style="display:none;">
-                    <textarea id="edit-comment-{{ review.id }}" class="form-control">{{ review.comment }}</textarea>
-                    <button onclick="submitReviewEditForm(event, {{ review.id }})" class="btn btn-primary">Mettre à jour</button>
-                </div>
-            {% endif %}
-        </div>
-    {% else %}
-        <p>Aucune revue pour ce produit.</p>
-    {% endfor %}
-</div>
-    </div>
-{% endblock %}
+				<!-- Affichage des revues existantes -->
+				<div class="product-reviews">
+					<h3>Review</h3>
+					{% for review in product.reviews %}
+						<div class="review" id="review-{{ review.id }}">
+							<p>
+		                    <p>
+                        <strong>{{ review.user.username }}</strong> ({{ review.createdAt|date('d-m-Y') }})
+                        - Rating: {{ review.rating }}/5 <!-- Affichage de la note -->
+                    </p>
+							<div id="review-comment-{{ review.id }}">{{ review.comment }}</div>
+							{% if app.user and app.user == review.user %}
+								<button class="btn btn-edit" onclick="editReview({{ review.id }})">Edit</button>
+								<a href="{{ path('review_delete', {'id': review.id}) }}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this review ?');">Delete</a>
 
-{% block javascripts %}
-<script>
-function editReview(reviewId) {
-    // Masquer le commentaire et afficher le formulaire
-    document.getElementById('review-comment-' + reviewId).style.display = 'none';
-    document.getElementById('edit-review-form-' + reviewId).style.display = 'block';
-}
+								<!-- Formulaire d'édition, caché par défaut -->
+								<div id="edit-review-form-{{ review.id }}" style="display:none;">
+									<textarea id="edit-comment-{{ review.id }}" class="form-control">{{ review.comment }}</textarea>
+									<button onclick="submitReviewEditForm(event, {{ review.id }})" class="btn btn-primary">Update</button>
+								</div>
+							{% endif %}
+						</div>
+					{% else %}
+						<p>No review for this product.</p>
+					{% endfor %}
+				</div>
+			</div>
+			<a href="{{ path('product') }}" class="btn btn-back">Back to products list</a>
+		</div>
+	{% endblock %}
 
-function submitReviewEditForm(event, reviewId) {
-    event.preventDefault();
-
-    // Récupérer la nouvelle valeur du commentaire
-    var updatedComment = document.getElementById('edit-comment-' + reviewId).value;
-
-    // Préparer les données à envoyer
-    var data = new FormData();
-    data.append('comment', updatedComment);
-
-    // Envoyer la requête AJAX
-    fetch('/review/update/' + reviewId, {
-        method: 'POST',
-        body: data,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Mettre à jour l'affichage de la revue
-        document.getElementById('review-comment-' + reviewId).innerHTML = updatedComment;
-        document.getElementById('review-comment-' + reviewId).style.display = 'block';
-        document.getElementById('edit-review-form-' + reviewId).style.display = 'none';
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    var addButton = document.getElementById('add-review-button');
-    if(addButton) {
-        addButton.addEventListener('click', function() {
-            document.getElementById('review-form-container').style.display = 'block';
-            this.style.display = 'none';
-        });
-    }
-});
-</script>
-{% endblock %}
+	{% block javascripts %}
+		<script src="{{ asset('js/edit-review.js') }}"></script>
+	{% endblock %}

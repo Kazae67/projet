@@ -50,6 +50,10 @@
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
 			{% endif %}
+			<!-- Pour la my profile -->
+			{% if app.request.attributes.get('_route') == 'product_show' %}
+				<link rel="stylesheet" href="{{ asset('css/forms/form-review.css') }}">
+			{% endif %}
 			<!-- Pour la commande -->
 			{% if app.request.attributes.get('_route') == 'order_prepare' %}
 				<link rel="stylesheet" href="{{ asset('css/forms/form-order.css') }}">
