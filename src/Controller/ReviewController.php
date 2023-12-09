@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ReviewController extends AbstractController
 {
@@ -61,16 +62,33 @@ class ReviewController extends AbstractController
     }
 
     #[Route('/review/delete/{id}', name: 'review_delete')]
-public function delete(Review $review, EntityManagerInterface $entityManager): Response
-{
-    if ($this->getUser() !== $review->getUser()) {
-        throw $this->createAccessDeniedException('Vous nêtes pas autorisé à supprimer cette revue.');
+    public function delete(Review $review, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->getUser() !== $review->getUser()) {
+            throw $this->createAccessDeniedException('Vous nêtes pas autorisé à supprimer cette revue.');
+        }
+
+        $entityManager->remove($review);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('product_show', ['id' => $review->getProduct()->getId()]);
     }
 
-    $entityManager->remove($review);
-    $entityManager->flush();
 
-    return $this->redirectToRoute('product_show', ['id' => $review->getProduct()->getId()]);
-}
+    // Mise à jour avec AJAX
+    #[Route('/review/update/{id}', name: 'review_update')]
+    public function update(Request $request, Review $review, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if ($this->getUser() !== $review->getUser()) {
+            return new JsonResponse(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $comment = $request->request->get('comment');
+        $review->setComment($comment);
+
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Review updated successfully']);
+    }
 }
 

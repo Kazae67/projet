@@ -27,26 +27,70 @@
         <!-- Affichage des revues existantes -->
         <div class="product-reviews">
             <h3>Revues</h3>
-            {% for review in product.reviews %}
-                <div class="review">
-                    <p><strong>{{ review.user.username }}</strong> ({{ review.createdAt|date('d-m-Y') }})</p>
-                    <p>{{ review.comment }}</p>
-                    {% if app.user and app.user == review.user %}
-                        <a href="{{ path('review_edit', {'id': review.id}) }}" class="btn btn-secondary">Éditer</a>
-                        <a href="{{ path('review_delete', {'id': review.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette revue ?');">Supprimer</a>
+    {% for review in product.reviews %}
+        <div class="review" id="review-{{ review.id }}">
+            <p><strong>{{ review.user.username }}</strong> ({{ review.createdAt|date('d-m-Y') }})</p>
+            <div id="review-comment-{{ review.id }}">{{ review.comment }}</div>
+            {% if app.user and app.user == review.user %}
+                <button class="btn btn-secondary" onclick="editReview({{ review.id }})">Éditer</button>
+                <a href="{{ path('review_delete', {'id': review.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette revue ?');">Supprimer</a>
 
-                    {% endif %}
+                <!-- Formulaire d'édition, caché par défaut -->
+                <div id="edit-review-form-{{ review.id }}" style="display:none;">
+                    <textarea id="edit-comment-{{ review.id }}" class="form-control">{{ review.comment }}</textarea>
+                    <button onclick="submitReviewEditForm(event, {{ review.id }})" class="btn btn-primary">Mettre à jour</button>
                 </div>
-            {% else %}
-                <p>Aucune revue pour ce produit.</p>
-            {% endfor %}
+            {% endif %}
         </div>
+    {% else %}
+        <p>Aucune revue pour ce produit.</p>
+    {% endfor %}
+</div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-document.addEventListener('DOMContentLoaded', (event) => {
+<script>
+function editReview(reviewId) {
+    // Masquer le commentaire et afficher le formulaire
+    document.getElementById('review-comment-' + reviewId).style.display = 'none';
+    document.getElementById('edit-review-form-' + reviewId).style.display = 'block';
+}
+
+function submitReviewEditForm(event, reviewId) {
+    event.preventDefault();
+
+    // Récupérer la nouvelle valeur du commentaire
+    var updatedComment = document.getElementById('edit-comment-' + reviewId).value;
+
+    // Préparer les données à envoyer
+    var data = new FormData();
+    data.append('comment', updatedComment);
+
+    // Envoyer la requête AJAX
+    fetch('/review/update/' + reviewId, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Mettre à jour l'affichage de la revue
+        document.getElementById('review-comment-' + reviewId).innerHTML = updatedComment;
+        document.getElementById('review-comment-' + reviewId).style.display = 'block';
+        document.getElementById('edit-review-form-' + reviewId).style.display = 'none';
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     var addButton = document.getElementById('add-review-button');
     if(addButton) {
         addButton.addEventListener('click', function() {
@@ -55,5 +99,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 });
-    </script>
+</script>
 {% endblock %}
