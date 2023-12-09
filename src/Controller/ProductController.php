@@ -72,35 +72,45 @@ class ProductController extends AbstractController
     public function show(int $id, ProductRepository $productRepository, ReviewRepository $reviewRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = $productRepository->find($id);
-
+    
         if (!$product) {
             throw $this->createNotFoundException('The requested product does not exist.');
         }
-
-        // Récup' les revues triées du plus récent au plus ancien
+    
+        // Récupérer les revues triées du plus récent au plus ancien
         $reviews = $reviewRepository->findByProductSortedByDate($product);
-
-        $review = new Review();
-        $review->setProduct($product);
-        $review->setUser($this->getUser()); // S'assurer que l'utilisateur est connecté
-
-        $form = $this->createForm(ReviewFormType::class, $review);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $review->setCreatedAt(new \DateTimeImmutable()); // Définir la date de création
-            $entityManager->persist($review);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+    
+        $user = $this->getUser();
+        $existingReview = $reviewRepository->findOneBy(['product' => $product, 'user' => $user]);
+    
+        $form = $this->createForm(ReviewFormType::class, new Review());
+    
+        // Afficher le formulaire seulement si l'utilisateur n'a pas déjà laissé de revue
+        // et si l'utilisateur n'est pas le propriétaire du produit
+        if (!$existingReview && $user !== $product->getUser()) {
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                $review = $form->getData();
+                $review->setProduct($product);
+                $review->setUser($user);
+                $review->setCreatedAt(new \DateTimeImmutable());
+                $entityManager->persist($review);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+            }
         }
-
+    
         return $this->render('product/show.html.twig', [
             'product' => $product,
-            'reviews' => $reviews, // Transmettre les revues triées à la vue
+            'reviews' => $reviews,
             'form' => $form->createView(),
+            'existingReview' => $existingReview,
+            'canReview' => !$existingReview && $user !== $product->getUser(),
         ]);
     }
+    
     #[Route('/add-to-cart/{id}', name: 'add_to_cart')]
     public function addToCart(int $id, CartService $cartService): Response
     {
