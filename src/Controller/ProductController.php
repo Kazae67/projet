@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Review;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Form\ReviewFormType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Service\CartService;
@@ -67,7 +69,7 @@ class ProductController extends AbstractController
 
     // pour afficher un produit en détail
     #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]
-    public function show(int $id, ProductRepository $productRepository): Response
+    public function show(int $id, ProductRepository $productRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         // Trouver le produit par son ID
         $product = $productRepository->find($id);
@@ -77,12 +79,30 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('The requested product does not exist.');
         }
 
-        // Rendre la vue 'product/show.html.twig' avec les détails du produit
+        // Créer une nouvelle revue
+        $review = new Review();
+        $review->setProduct($product);
+        $review->setUser($this->getUser()); // Assurez-vous que l'utilisateur est connecté
+
+        // Créer le formulaire
+        $form = $this->createForm(ReviewFormType::class, $review);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $review->setCreatedAt(new \DateTimeImmutable()); // Définir la date de création
+            $entityManager->persist($review);
+            $entityManager->flush();
+
+            // Rediriger vers la même page pour afficher la nouvelle revue
+            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+        }
+
+        // Rendre la vue 'product/show.html.twig' avec les détails du produit et le formulaire
         return $this->render('product/show.html.twig', [
             'product' => $product,
+            'form' => $form->createView(),
         ]);
     }
-
     #[Route('/add-to-cart/{id}', name: 'add_to_cart')]
     public function addToCart(int $id, CartService $cartService): Response
     {
