@@ -246,11 +246,28 @@
 
 @media screen and (max-width: 480px) {
   /* Réduire la taille du logo et des éléments de navigation */
-  .nav-logo img {
-      height: 30px;
-  }
+
   .nav-item {
-      margin: 0 10px;
-      font-size: 14px;
+      margin: 0 5px;
+      font-size: 16px;
   }
+}
+
+@media screen and (max-width: 374px) {
+  .nav-item {
+    margin: 0 0px;
+    font-size: 16px;
+}
+}
+@media screen and (max-width: 327px) {
+  .nav-item {
+    margin: 0 2px;
+    font-size: 13px;
+}
+.nav-left{
+  margin-left:-15px;
+}
+.nav-right{
+  margin-right:-15px;
+}
 }
