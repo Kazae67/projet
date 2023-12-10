@@ -7,7 +7,7 @@ function editReview(reviewId) {
 function updateRatingDisplay(reviewId, updatedRating) {
     var ratingContainer = document.getElementById('review-rating-' + reviewId);
     ratingContainer.innerHTML = '';
-    ratingContainer.setAttribute('data-rating', updatedRating); // Ajoute l'attribut data-rating
+    ratingContainer.setAttribute('data-rating', updatedRating); // data-rating (pour les couleurs des étoiles)
 
     for (var i = 1; i <= 5; i++) {
         var star = document.createElement('span');
@@ -17,7 +17,7 @@ function updateRatingDisplay(reviewId, updatedRating) {
         }
         ratingContainer.appendChild(star);
 
-        // Ajoutez un espace blanc après chaque étoile
+        // espace blanc après chaque étoile
         ratingContainer.appendChild(document.createTextNode(' '));
     }
 }
@@ -52,7 +52,7 @@ function submitReviewEditForm(event, reviewId) {
         return response.json();
     })
     .then(data => {
-        // Mettre à jour l'affichage du titre de la revue
+        // Met à jour l'affichage du titre de la revue
         var titleElement = document.getElementById('review-title-' + reviewId);
         titleElement.innerHTML = ''; // Efface le contenu existant
 
@@ -62,7 +62,7 @@ function submitReviewEditForm(event, reviewId) {
 
         titleElement.append(updatedTitle);
 
-        // Mise à jour des étoiles et du commentaire
+        // Met à jour des étoiles et du commentaire
         updateRatingDisplay(reviewId, updatedRating);
         document.getElementById('review-comment-' + reviewId).innerText = updatedComment;
         document.getElementById('review-comment-' + reviewId).style.display = 'block';
