@@ -64,3 +64,17 @@ h2 {
 .review p {
     margin-bottom: 5px;
 }
+
+/* les étoiles de notation */
+.fa-star {
+    color: gold;
+    margin-right: 4px; 
+}
+
+.fa-star.checked {
+    color: darkorange;
+}
+
+#edit-review-form .fa-star {
+    margin-right: 4px; 
+}

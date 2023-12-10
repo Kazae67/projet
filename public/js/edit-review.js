@@ -1,7 +1,24 @@
 function editReview(reviewId) {
-    // Masque le commentaire et afficher le formulaire
+    // Masque le commentaire et affiche le formulaire
     document.getElementById('review-comment-' + reviewId).style.display = 'none';
     document.getElementById('edit-review-form-' + reviewId).style.display = 'block';
+}
+
+function updateRatingDisplay(reviewId, updatedRating) {
+    var ratingContainer = document.getElementById('review-rating-' + reviewId);
+    ratingContainer.innerHTML = '';
+
+    for (var i = 1; i <= 5; i++) {
+        var star = document.createElement('span');
+        star.className = 'fa fa-star';
+        if (i <= updatedRating) {
+            star.classList.add('checked');
+        }
+        ratingContainer.appendChild(star);
+
+        // Ajoutez un espace blanc après chaque étoile
+        ratingContainer.appendChild(document.createTextNode(' '));
+    }
 }
 
 function submitReviewEditForm(event, reviewId) {
@@ -9,7 +26,8 @@ function submitReviewEditForm(event, reviewId) {
 
     // Récupère les nouvelles valeurs du titre, de la note et du commentaire
     var updatedTitle = document.getElementById('edit-title-' + reviewId).value;
-    var updatedRating = document.getElementById('edit-rating-' + reviewId).value;
+    var updatedRatingSelect = document.getElementById('edit-rating-' + reviewId);
+    var updatedRating = updatedRatingSelect.options[updatedRatingSelect.selectedIndex].value;
     var updatedComment = document.getElementById('edit-comment-' + reviewId).value;
 
     // Prépare les données à envoyer
@@ -33,9 +51,18 @@ function submitReviewEditForm(event, reviewId) {
         return response.json();
     })
     .then(data => {
-        // Mettre à jour l'affichage de la revue
-        document.getElementById('review-title-' + reviewId).innerText = 'Title: ' + updatedTitle; // Titre
-        document.getElementById('review-rating-' + reviewId).innerText = 'Rating: ' + updatedRating + '/5'; // Note
+        // Mettre à jour l'affichage du titre de la revue
+        var titleElement = document.getElementById('review-title-' + reviewId);
+        titleElement.innerHTML = ''; // Efface le contenu existant
+
+        var strongElement = document.createElement('strong');
+        strongElement.textContent = 'Title: ';
+        titleElement.appendChild(strongElement);
+
+        titleElement.append(updatedTitle);
+
+        // Mise à jour des étoiles et du commentaire
+        updateRatingDisplay(reviewId, updatedRating);
         document.getElementById('review-comment-' + reviewId).innerText = updatedComment;
         document.getElementById('review-comment-' + reviewId).style.display = 'block';
         document.getElementById('edit-review-form-' + reviewId).style.display = 'none';
