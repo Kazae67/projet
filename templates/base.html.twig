@@ -3,11 +3,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{% block meta_description %}This is a default description of my website.{% endblock %}">
+		<link rel="canonical" href="{{ app.request.uri }}"
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>
-			{% block title %}Welcome!
-			{% endblock %}
-		</title>
+        <title>{% block title %}Welcome!{% endblock %}</title>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Acme" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
@@ -50,9 +49,10 @@
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
 			{% endif %}
-			<!-- Pour la my profile -->
+			<!-- Pour Review -->
 			{% if app.request.attributes.get('_route') == 'product_show' %}
 				<link rel="stylesheet" href="{{ asset('css/forms/form-review.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/review.css') }}">
 			{% endif %}
 			<!-- Pour la commande -->
 			{% if app.request.attributes.get('_route') == 'order_prepare' %}
@@ -87,95 +87,95 @@
 			<!-- Footer -->
 			<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 		{% endblock %}
-
 	</head>
+
 	<body>
-		<div
-			class="navbar">
-			<!-- SCRIPT PARTICULE POUR WISHLIST & CART -->
-			{% block javascripts %}
-				{% if app.request.attributes.get('_route') == 'wishlist_index' or app.request.attributes.get('_route') == 'cart_index' %}
-								{# <script src="https://app.embed.im/snow.js" defer></script> #}
-					<script src="{{ asset('js/particule.js') }}"></script>
-				{% endif %}
-			{% endblock %}
-			<!-- Section gauche avec Logo et Home -->
-			<div class="nav-left">
-				<a href="{{ path('home') }}" class="nav-item">
-					<span class="material-symbols-outlined">cottage</span>
-					Home
-				</a>
-				<a href="{{ path('product') }}" class="nav-item">
-					<span class="material-symbols-outlined">
-						inventory_2
-					</span>Products</a>
-			</div>
-			<!-- Section centrale pour le nom de l'utilisateur -->
-			<div
-				class="nav-center">
-				<!-- Afficher seulement si l'utilisateur est connecté -->
-				{% if app.user %}
-					<div class="nav-item dropdown {% if is_granted('ROLE_CRAFTSMAN') %}is-craftsman{% else %}is-customer{% endif %}">
-						<button class="dropbtn">{{ app.user.username }}</button>
-						<div class="logo material-symbols-outlined profil">
-							<img src="{{ asset('images/logo.png') }}" alt="Logo" class="profil-logo">
-						</div>
-						<div class="dropdown-content">
-							<div class="dropdown-item">
-								<a href="{{ path('app_profile') }}">
-									<span class="material-symbols-outlined my-profil">user_attributes</span>
-									<span class="icon-text">My Profil</span>
-								</a>
+		<header>
+			<div class="navbar">
+				<!-- SCRIPT PARTICULE POUR WISHLIST & CART -->
+				{% block javascripts %}
+					{% if app.request.attributes.get('_route') == 'wishlist_index' or app.request.attributes.get('_route') == 'cart_index' %}
+									{# <script src="https://app.embed.im/snow.js" defer></script> #}
+						<script src="{{ asset('js/particule.js') }}"></script>
+					{% endif %}
+				{% endblock %}
+				<!-- Section gauche avec Logo et Home -->
+				<div class="nav-left">
+					<a href="{{ path('home') }}" class="nav-item">
+						<span class="material-symbols-outlined">cottage</span>
+						Home
+					</a>
+					<a href="{{ path('product') }}" class="nav-item">
+						<span class="material-symbols-outlined">
+							inventory_2
+						</span>Products</a>
+				</div>
+				<!-- Section centrale pour le nom de l'utilisateur -->
+				<div
+					class="nav-center">
+					<!-- Afficher seulement si l'utilisateur est connecté -->
+					{% if app.user %}
+						<div class="nav-item dropdown {% if is_granted('ROLE_CRAFTSMAN') %}is-craftsman{% else %}is-customer{% endif %}">
+							<button class="dropbtn">{{ app.user.username }}</button>
+							<div class="logo material-symbols-outlined profil">
+								<img src="{{ asset('images/logo.png') }}" alt="Logo" class="profil-logo">
 							</div>
-							{% if is_granted('ROLE_CRAFTSMAN') %}
+							<div class="dropdown-content">
 								<div class="dropdown-item">
-									<a href="{{ path('my_products') }}">
-										<span class="material-symbols-outlined my-products">precision_manufacturing</span>
-										<span class="icon-text">My Products</span>
+									<a href="{{ path('app_profile') }}">
+										<span class="material-symbols-outlined my-profil">user_attributes</span>
+										<span class="icon-text">My Profil</span>
 									</a>
 								</div>
-							{% endif %}
-							<div class="dropdown-item">
-								<a href="{{ path('order_tracking_list') }}">
-									<span class="material-symbols-outlined tracking-list">data_exploration</span>
-									<span class="icon-text">My Order Tracking List</span>
-								</a>
-							</div>
-							<div class="dropdown-item">
-								<a href="{{ path('app_logout') }}">
-									<span class="material-symbols-outlined logout">logout</span>
-									<span class="icon-text">Logout</span>
-								</a>
+								{% if is_granted('ROLE_CRAFTSMAN') %}
+									<div class="dropdown-item">
+										<a href="{{ path('my_products') }}">
+											<span class="material-symbols-outlined my-products">precision_manufacturing</span>
+											<span class="icon-text">My Products</span>
+										</a>
+									</div>
+								{% endif %}
+								<div class="dropdown-item">
+									<a href="{{ path('order_tracking_list') }}">
+										<span class="material-symbols-outlined tracking-list">data_exploration</span>
+										<span class="icon-text">My Order Tracking List</span>
+									</a>
+								</div>
+								<div class="dropdown-item">
+									<a href="{{ path('app_logout') }}">
+										<span class="material-symbols-outlined logout">logout</span>
+										<span class="icon-text">Logout</span>
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-				{% endif %}
-			</div>
+					{% endif %}
+				</div>
 
-			<!-- Section droite pour les autres liens -->
-			<div class="nav-right">
-				<a href="{{ path('cart_index') }}" class="nav-item">
-					<span class="material-symbols-outlined">
-						shopping_cart
-					</span>Cart</a>
-				<a href="{{ path('wishlist_index') }}" class="nav-item">
-					<span class="material-symbols-outlined">
-						receipt_long
-					</span>Wishlist</a>
-
-				{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-					<a href="{{ path('app_register') }}" class="nav-item">
+				<!-- Section droite pour les autres liens -->
+				<div class="nav-right">
+					<a href="{{ path('cart_index') }}" class="nav-item">
 						<span class="material-symbols-outlined">
-							app_registration
-						</span>Register</a>
-					<a href="{{ path('app_login') }}" class="nav-item">
+							shopping_cart
+						</span>Cart</a>
+					<a href="{{ path('wishlist_index') }}" class="nav-item">
 						<span class="material-symbols-outlined">
-							login
-						</span>Login</a>
-				{% endif %}
-			</div>
-		</div>
+							receipt_long
+						</span>Wishlist</a>
 
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+						<a href="{{ path('app_register') }}" class="nav-item">
+							<span class="material-symbols-outlined">
+								app_registration
+							</span>Register</a>
+						<a href="{{ path('app_login') }}" class="nav-item">
+							<span class="material-symbols-outlined">
+								login
+							</span>Login</a>
+					{% endif %}
+				</div>
+			</div>
+		</header>
 		<!-- MESSAGES FLASH -->
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success">{{ message }}</div>
@@ -195,8 +195,10 @@
 
 		{% block body %}{% endblock %}
 
-		<!-- Footer -->
-		{% include 'partials/footer.html.twig' %}
+		<footer>
+			<!-- Footer -->
+			{% include 'partials/footer.html.twig' %}
+		</footer>
 
 		<!-- Script de Tarte au Citron -->
 		<script src="{{ asset('tarteAuCitron/tarteaucitron.js') }}"></script>
@@ -205,8 +207,7 @@
 			"privacyUrl": "{{ path('privacy_policy') }}", /* Lien vers la politique de confidentialité */
 			"hashtag": "#tarteaucitron", /* Ouverture automatique avec ce hashtag */
 			"cookieName": "tarteaucitron", /* Nom du cookie de consentement */
-			"orientation": "bottom",
-			/* Position de la bannière */
+			"orientation": "bottom", /* Position de la bannière */
 			});
 		</script>
 	</body>

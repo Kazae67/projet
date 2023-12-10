@@ -96,11 +96,6 @@ input:hover, textarea:hover, select:hover {
 animation: fadeIn 3s ease-out;
 }
 
-.form-container {
-    /*Vosstylesexistantspour.form-container*/animation: fadeInAndSway 1.2s ease-in-out 1;
-    transform-origin: 390% 200%;
-}
-
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -109,23 +104,6 @@ animation: fadeIn 3s ease-out;
 }
     to {
         opacity: 1;
-        transform: translate(-50%, -50%) rotate(45deg);
-         /* Position finale */
-        }
-}
-
-.demi-cercle {
-    animation: fadeInUp 1s ease-in-out;
-}
-
-@keyframes fadeWait {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -40%) rotate(45deg);
-        /*Commenceplusbas*/
-}
-    to {
-        opacity: 0;
         transform: translate(-50%, -50%) rotate(45deg);
          /* Position finale */
         }
