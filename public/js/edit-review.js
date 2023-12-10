@@ -7,6 +7,7 @@ function editReview(reviewId) {
 function updateRatingDisplay(reviewId, updatedRating) {
     var ratingContainer = document.getElementById('review-rating-' + reviewId);
     ratingContainer.innerHTML = '';
+    ratingContainer.setAttribute('data-rating', updatedRating); // Ajoute l'attribut data-rating
 
     for (var i = 1; i <= 5; i++) {
         var star = document.createElement('span');

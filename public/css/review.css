@@ -67,14 +67,18 @@ h2 {
 
 /* les étoiles de notation */
 .fa-star {
-    color: gold;
-    margin-right: 4px; 
+    color: white;
+    margin-right: 4px;
+    text-shadow: 0 0 2px black; 
 }
 
 .fa-star.checked {
-    color: darkorange;
+    /* dégradé de couleur */
+    color: var(--star-color);
 }
-
-#edit-review-form .fa-star {
-    margin-right: 4px; 
-}
+/* couleurs de dégradé pour chaque note */
+.rating[data-rating='1'] .fa-star.checked { --star-color: red; }
+.rating[data-rating='2'] .fa-star.checked { --star-color: rgb(255, 123, 0); }
+.rating[data-rating='3'] .fa-star.checked { --star-color: rgb(255, 187, 0); }
+.rating[data-rating='4'] .fa-star.checked { --star-color: rgb(255, 208, 0); }
+.rating[data-rating='5'] .fa-star.checked { --star-color: rgb(255, 238, 0);}
