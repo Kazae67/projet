@@ -26,8 +26,8 @@ class ProductController extends AbstractController
     {
         // Paramètres de pagination et de filtre
         $defaultMaxResults = 20; // Valeur par défaut pour le nombre de produits par page
-        $maxResults = $request->query->getInt('maxResults', $defaultMaxResults); // Récupérer la valeur choisie ou utiliser la valeur par défaut
-        $sort = $request->query->get('sort', 'newest'); // Tri par défaut
+        $maxResults = $request->query->getInt('maxResults', $defaultMaxResults); // Récupérer la valeur choisie 
+        $sort = $request->query->get('sort', 'newest'); 
         $category = $request->query->get('category', null); // Aucune catégorie par défaut
 
         // Récupérer les produits filtrés et paginés

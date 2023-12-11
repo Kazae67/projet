@@ -25,7 +25,7 @@ class PdfGenerator
         // Chargement du HTML dans DOMPDF
         $dompdf->loadHtml($html);
 
-        // Définition du format et de l'orientation du papier
+        // l'orientation du papier
         $dompdf->setPaper('A4', 'portrait');
 
         // Rendu du PDF
