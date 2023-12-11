@@ -40,21 +40,27 @@ class ProductRepository extends ServiceEntityRepository
     public function countFilteredProducts($category = null)
     {
         $qb = $this->createQueryBuilder('p');
-
+    
+        $qb->where('p.is_active = :isActive') // évite de mettre des pages en trop en désactivant les produits inactifs
+           ->setParameter('isActive', true);
+    
         if ($category) {
             $qb->andWhere('p.category = :category')
-                ->setParameter('category', $category);
+               ->setParameter('category', $category);
         }
-
+    
         return $qb->select('count(p.id)')
-                    ->getQuery()
-                    ->getSingleScalarResult();
+                  ->getQuery()
+                  ->getSingleScalarResult();
     }
 
     // Méthode pour récupérer les produits avec filtres et tri
     public function findByFilters($category = null, $sort = 'newest', $maxResults, $start)
     {
         $qb = $this->createQueryBuilder('p');
+    
+        $qb->where('p.is_active = :isActive')   // condition pour filtrer uniquement les produits actifs
+           ->setParameter('isActive', true);
     
         if ($category) {
             $qb->andWhere('p.category = :category')
@@ -81,6 +87,7 @@ class ProductRepository extends ServiceEntityRepository
                   ->getQuery()
                   ->getResult();
     }
+    
     // You can uncomment and use the following methods as examples for custom queries:
 
     // public function findByExampleField($value): array

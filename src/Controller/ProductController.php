@@ -75,9 +75,9 @@ class ProductController extends AbstractController
     {
         $product = $productRepository->find($id);
     
-        if (!$product) {
-            throw $this->createNotFoundException('The requested product does not exist.');
-        }
+        if (!$product || !$product->isActive()) {
+            throw $this->createNotFoundException('The requested product does not exist or is not active.');
+        }    
     
         // Récupérer les revues triées du plus récent au plus ancien
         $reviews = $reviewRepository->findByProductSortedByDate($product);
@@ -201,13 +201,13 @@ class ProductController extends AbstractController
     public function myProducts(ProductRepository $productRepository): Response
     {
         $user = $this->getUser();
-
+    
         if (!$user) {
             throw $this->createNotFoundException('User not found or not logged in.');
         }
-
-        $products = $productRepository->findByUser($user);
-
+    
+        $products = $productRepository->findBy(['user' => $user, 'is_active' => true]);
+    
         return $this->render('product/myProducts.html.twig', [
             'products' => $products
         ]);
@@ -259,13 +259,13 @@ class ProductController extends AbstractController
     public function deleteProduct(Request $request, EntityManagerInterface $em, Product $product): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-            // Supprimer le produit en fonction du jeton CSRF valide
-            $em->remove($product);
+            // Désactiver le produit
+            $product->setActive(false);
+            $em->persist($product);
             $em->flush();
-            $this->addFlash('success', 'Product successfully deleted.');
+            $this->addFlash('success', 'Product successfully deactivated.');
         }
-
-        // Rediriger vers la liste des produits de l'artisan
+    
         return $this->redirectToRoute('my_products');
     }
 }
