@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sold Order Tracking{% endblock %}
+
+{% block body %}
+    <div class="parent-container">
+        <div class="demi-cercle"></div>
+        <div class="form-container">
+            <h1>Sold Order Tracking</h1>
+
+            {% if soldOrder %}
+                <h2>Sold Order Details</h2>
+                <p class="order-info">Order ID: {{ soldOrder.trackingToken }}</p>
+                <p class="order-info">Status: {{ soldOrder.status }}</p>
+
+                <h2>Product Details</h2>
+                {% if soldOrder.orderDetails|length > 0 %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Buyer</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detail in soldOrder.orderDetails %}
+                                <tr>
+                                    <td>{{ detail.order.user.username }}</td>
+                                    <td>{{ detail.product.name }}</td>
+                                    <td>{{ detail.quantity }}</td>
+                                    <td>{{ detail.price }}€</td>
+                                    <td>{{ soldOrder.totalPrice }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No product details available.</p>
+                {% endif %}
+
+                <h2>Tracking Information</h2>
+                {% if trackings|length > 0 %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tracking in trackings %}
+                                <tr>
+                                    <td>{{ tracking.updatedAt|date('Y-m-d H:i') }}</td>
+                                    <td>{{ tracking.status }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No tracking information available.</p>
+                {% endif %}
+
+                <!-- Bouton de téléchargement du PDF -->
+                <a href="{{ path('download_invoice', {'orderId': soldOrder.id}) }}" class="btn btn-blue">Download invoice</a>
+
+            {% else %}
+                <p>Order not found or access denied.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Sold Orders{% endblock %}
+
+{% block body %}
+    <div class="parent-container">
+        <div class="demi-cercle"></div>
+        <div class="form-container">
+            <h1>My Sold Orders</h1>
+            {% if soldOrders|length > 0 %}
+                <div class="order-table-container">
+                    <table class="table-orders">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Track</th>
+                                <th>Invoice</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in soldOrders %}
+                                <tr>
+                                    <td>{{ order.trackingToken }}</td>
+                                    <td>{{ order.createdAt|date('Y-m-d H:i') }}</td>
+                                    <td>{{ order.status }}</td>
+                                    <td>{{ order.orderDetails|length }}</td>
+                                    <td>{{ order.totalPrice }}€</td>
+                                    <td>
+                                        {% if order.trackingToken %}
+                                                 <a href="{{ path('sold_order_tracking', {'token': order.trackingToken}) }}">Track</a>
+                                        {% else %}
+                                            <span>Not available</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('download_invoice', {'orderId': order.id}) }}">Download</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="no-orders">You have not sold any orders.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

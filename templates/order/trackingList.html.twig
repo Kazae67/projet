@@ -7,6 +7,10 @@
 	<div class="parent-container">
 		<div class="demi-cercle"></div>
 		<div class="form-container">
+		 <!-- Lien vers les commandes vendues -->
+            <div class="navigation-links">
+                <a href="{{ path('my_sold_orders') }}" class="btn btn-view-sold-orders">View My Sold Orders</a>
+            </div>
 			<h1>My Orders</h1>
 			{% if orders|length > 0 %}
 				<div class="order-table-container">

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,7 +21,36 @@ class OrderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Order::class);
     }
+        /**
+     * Find orders sold by a given user.
+     *
+     * @param User $user
+     * @return Order[]
+     */
+    public function findSoldOrdersByUser($user)
+    {
+        return $this->createQueryBuilder('o')
+            ->join('o.orderDetails', 'od')
+            ->join('od.product', 'p')
+            ->where('p.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 
+    public function findSoldOrderByTokenAndSeller(string $token, User $seller): ?Order
+{
+    return $this->createQueryBuilder('o')
+        ->innerJoin('o.orderDetails', 'od')
+        ->innerJoin('od.product', 'p')
+        ->where('o.trackingToken = :token')
+        ->andWhere('p.user = :seller')
+        ->setParameter('token', $token)
+        ->setParameter('seller', $seller)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+    
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */

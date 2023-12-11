@@ -74,12 +74,12 @@
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 			{% endif %}
 			<!-- Tracking -->
-			{% if app.request.attributes.get('_route') == 'order_tracking' %}
+			{% if app.request.attributes.get('_route') == 'order_tracking' or app.request.attributes.get('_route') == 'sold_order_tracking' %}
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/tracking.css') }}">
 			{% endif %}
 			<!-- Tracking list -->
-			{% if app.request.attributes.get('_route') == 'order_tracking_list' %}
+			{% if app.request.attributes.get('_route') == 'order_tracking_list' or app.request.attributes.get('_route') == 'my_sold_orders' %}
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/tracking-list.css') }}">
 			{% endif %}
