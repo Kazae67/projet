@@ -31,6 +31,10 @@
     grid-row: 1 / 3; /* S'étend sur deux rangées */
 }
 
+.addresses::after{
+    content: '';
+}
+
 .personal-info h2, .addresses h2 {
     text-align: center;
 }
@@ -84,6 +88,13 @@
 
     /* ligne de séparation horizontale entre les sections */
     .personal-info::after {
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: #ccc;
+        margin-top: 20px; /* Espace au-dessus de la ligne */
+    }
+    .addresses::after {
         content: '';
         display: block;
         height: 1px;
