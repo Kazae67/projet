@@ -70,7 +70,8 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .profile-layout {
-        grid-template-columns: 1fr; /* Passage à une seule colonne */
+        grid-template-columns: 1fr; /* Une colonne */
+        grid-template-rows: auto auto auto; /* Trois rangées */
     }
 
     .profile-layout::after {
@@ -90,9 +91,16 @@
         margin-top: 20px; /* Espace au-dessus de la ligne */
     }
     
+    .addresses {
+        grid-row: 2; /* Les adresses en deuxième rangée */
+    }
+
     /* Centrage du contenu des informations personnelles */
     .personal-info ul {
         text-align: center;
+    }
+    .change-password, .anonymize-account {
+        grid-row: 3; /* Changement de mot de passe et Anonymize en troisième rangée */
     }
 
     /* pour que les éléments de liste soient centrés */
