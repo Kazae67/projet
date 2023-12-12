@@ -47,7 +47,7 @@
 				<link rel="stylesheet" href="{{ asset('css/body-wishlist-cart.css') }}">
 			{% endif %}
 			<!-- Pour la my profile -->
-			{% if app.request.attributes.get('_route') == 'app_profile' %}
+			{% if app.request.attributes.get('_route') == 'app_profile' or app.request.attributes.get('_route') == 'app_profile_change_password'%}
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
 			{% endif %}
