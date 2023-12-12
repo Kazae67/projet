@@ -3,8 +3,10 @@
 {% block title %}Products{% endblock %}
 
 {% block body %}
-    <div class="parent-container">
-        <div class="demi-cercle"></div>
+    {% if app.user %}
+        <div class="parent-container">
+            <div class="demi-cercle"></div>
+    {% endif %}
         <div class="form-container">
             <h1>List of products</h1>
 
