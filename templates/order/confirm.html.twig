@@ -3,7 +3,7 @@
 {% block title %}Order Confirmation
 {% endblock %}
 {% block javascripts %}
-	<script src="{{ asset('js/form.js') }}"></script>
+	<script src="{{ asset('js/new-adress.js') }}"></script>
 {% endblock %}
 {% block body %}
 	<div class="parent-container">
@@ -43,13 +43,6 @@
 	</div>
 
 	<script>
-		function toggleAddressForm() {
-var newAddressRadio = document.getElementById('new_address');
-var formDiv = document.getElementById('new_address_form');
-formDiv.style.display = newAddressRadio.checked ? 'block' : 'none';
-}
-document.addEventListener('DOMContentLoaded', function () {
-toggleAddressForm();
-});
+
 	</script>
 {% endblock %}

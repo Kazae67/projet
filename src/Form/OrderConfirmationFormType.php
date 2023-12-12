@@ -12,11 +12,32 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Security;
 
 class OrderConfirmationFormType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $user = $this->security->getUser();
+        $addressChoices = [];
+
+        if (null !== $user->getDefaultDeliveryAddress()) {
+            $addressChoices['Use default delivery address'] = 'delivery_default';
+        }
+
+        if (null !== $user->getDefaultBillingAddress()) {
+            $addressChoices['Use default billing address'] = 'billing_default';
+        }
+
+        $addressChoices['Use a new address'] = 'new_address';
+
         $builder
             // Validation de longueur : Pour les champs street, city, state, et postalCode, j'ai ajouté des contraintes de longueur pour éviter des entrées trop longues.
             // Champs pour l'adresse
@@ -98,16 +119,18 @@ class OrderConfirmationFormType extends AbstractType
             // Champs pour sélectionner l'adresse
             ->add('selectedAddress', ChoiceType::class, [
                 'label' => 'Select Address',
-                'choices' => [
-                    'Use default billing address' => 'billing_default',
-                    'Use default delivery address' => 'delivery_default',
-                    'Use a new address' => 'new_address',
-                ],
+                'choices' => $addressChoices,
                 'expanded' => true,
                 'multiple' => false,
                 'constraints' => [
-                    new Assert\Choice(['billing_default', 'delivery_default', 'new_address']),
-                ]
+                    new Assert\Choice(['choices' => array_values($addressChoices)]),
+                ],
+                'choice_attr' => function($choice, $key, $value) {
+                    if ($value === 'new_address') {
+                        return ['class' => 'new-address-radio'];
+                    }
+                    return [];
+                },
             ])
             // Boutons de soumission
             ->add('saveAddress', SubmitType::class, [
