@@ -89,7 +89,7 @@ class OrderConfirmationFormType extends AbstractType
             // Champs pour prénom et nom
             ->add('firstName', TextType::class, [
                 'label' => 'First Name',
-                'required' => true,
+                'required' => false,
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'Please enter your first name',
@@ -103,7 +103,7 @@ class OrderConfirmationFormType extends AbstractType
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Last Name',
-                'required' => true,
+                'required' => false,
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'Please enter your last name',

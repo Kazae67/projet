@@ -38,8 +38,13 @@
 	{% endfor %}
 	<p>Order Total:
 		{{ total }}€</p>
-
+		            <div id="name_and_confirm_fields" style="display: none;">
+                {{ form_row(orderForm.firstName) }}
+                {{ form_row(orderForm.lastName) }}
+                {{ form_row(orderForm.confirmOrder) }}
+            </div>
 	{{ form_end(orderForm) }}
+
 	</div>
 
 	<script>
