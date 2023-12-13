@@ -1,8 +1,6 @@
 
-{% block title %}Add a review{% endblock %}
-
 {% block body %}
-<h1>Add a review</h1>
+<h1 style="display:non">Add a review</h1>
 
 {{ form_start(form) }}
     <div class="form-group">
@@ -23,7 +21,7 @@
         {{ form_errors(form.comment) }}
     </div>
 
-    <button type="submit" class="btn btn-submit">Submit</button>
+    <button type="submit" class="btn btn-post">Post my comment !</button>
 {{ form_end(form) }}
 
 {% endblock %}

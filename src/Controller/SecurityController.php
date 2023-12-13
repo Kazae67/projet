@@ -100,12 +100,12 @@ class SecurityController extends AbstractController
         }
 
         // Anonymiser les avis laissés par l'utilisateur
-        $reviews = $reviewRepository->findBy(['user' => $user]);
-        foreach ($reviews as $review) {
-            $review->setTitle('Anonymized Review');
-            $review->setComment('This review has been anonymized.');
-            $em->persist($review);
-        }
+        // $reviews = $reviewRepository->findBy(['user' => $user]);
+        // foreach ($reviews as $review) {
+        //     $review->setTitle('Anonymized Review');
+        //     $review->setComment('This review has been anonymized.');
+        //     $em->persist($review);
+        // }
 
         // Remplacer les données personnelles de l'utilisateur par des valeurs génériques
         $user->setUsername('DeletedUser' . rand(1000, 9999));

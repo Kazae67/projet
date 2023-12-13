@@ -69,6 +69,36 @@ input:hover, textarea:hover, select:hover {
     border-color: #a0a0a0;
 }
 
+.btn-add-review{
+    cursor: pointer;
+}
+.btn-add-review:hover{
+    color:#0056b3;
+}
+.icon-comment {
+
+    font-size:40px;
+  }
+
+  .btn-post,
+  .btn-update {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #238B2A;
+    color: rgb(255, 255, 255);
+    border: solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    font-weight:900;
+}
+  .btn-post:hover,
+  .btn-update {
+    background-color: #1fa828;
+}
+
 .back-link {
     display: block;
     text-align: center;

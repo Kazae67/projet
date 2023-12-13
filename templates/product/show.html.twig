@@ -3,8 +3,10 @@
 {% block title %}{{ product.name }} - Product Details{% endblock %}
 
 {% block body %}
-    <div class="parent-container">
-        <div class="demi-cercle"></div>
+    {% if app.user %}
+        <div class="parent-container">
+            <div class="demi-cercle"></div>
+    {% endif %}
         <div class="form-container">
             <header>
                 <h1>{{ product.name }}</h1>
@@ -46,18 +48,20 @@
 
                 <!-- Affichage des revues existantes -->
                 <div class="product-reviews">
+                    <h3>Review</h3>
+
                     <!-- Afficher le formulaire de revue uniquement si l'utilisateur peut laisser un avis et n'est pas le propriétaire du produit -->
                     {% if canReview and app.user != product.user %}
                         <div id="review-form-container" style="display:none;">
                             {% include 'review/add.html.twig' with {'form': form} %}
                         </div>
-                        <button id="add-review-button" class="btn btn-primary">Add a review</button>
+                        <div id="add-review-button" class="btn btn-add-review">Add a review<span class="material-symbols-outlined icon-comment">add_comment</span></div>
+
+
                     {% elseif existingReview %}
                         <p>Thank you for your review!</p>
                     {% endif %}
 
-                    <!-- Affichage des revues existantes -->
-                    <h3>Review</h3>
                     {% for review in reviews %}
                         <div class="review" id="review-{{ review.id }}">
                             <!-- USERNAME -->
