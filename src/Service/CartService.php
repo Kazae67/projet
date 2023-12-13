@@ -60,15 +60,9 @@ class CartService
     public function remove(int $productId)
     {
         $cart = $this->session->get('cart', []);
-
         if (!empty($cart[$productId])) {
-            if ($cart[$productId] > 1) {
-                $cart[$productId]--;
-            } else {
                 unset($cart[$productId]);
             }
-        }
-
         $this->session->set('cart', $cart);
     }
 
