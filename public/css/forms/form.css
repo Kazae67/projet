@@ -1,6 +1,6 @@
 h1 {
     text-align: center;
-    color: #5D5C61;
+    color: #000000;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -80,6 +80,10 @@ textarea {
 
 input:hover, textarea:hover, select:hover {
     border-color: #a0a0a0;
+}
+
+.btn-back{
+    
 }
 
 .btn-blue,
@@ -191,6 +195,15 @@ input:hover, textarea:hover, select:hover {
     text-decoration: none;
     transition: color 0.3s;
 }
+.back-link-special {
+    display: block;
+    text-align: center;
+    margin-top: 0px;
+    padding: 0px;
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+}
 
 .navigation-links{
     display:flex;
@@ -198,7 +211,7 @@ input:hover, textarea:hover, select:hover {
     justify-content: space-between;
 }
 
-.back-link:hover {
+.back-link:hover, .back-link-special:hover {
     color: #0056b3;
 }
 
