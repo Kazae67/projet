@@ -141,6 +141,7 @@ a.btn-remove, .btn-move {
 
 a.btn-remove{
     background-color: #ff7b72;
+    padding: 8px 27.5px;
 }
 a.btn-remove:hover {
     background-color: #ff5147;
