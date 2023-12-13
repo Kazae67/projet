@@ -18,7 +18,7 @@
 					<table class="table-orders">
 						<thead>
 							<tr>
-								<th>Order #</th>
+								<th class="order">Order #</th>
 								<th>Date</th>
 								<th>Status</th>
 								<th>Items</th>
@@ -30,7 +30,7 @@
 						<tbody>
 							{% for order in orders %}
 								<tr>
-									<td>{{ order.trackingToken }}</td>
+									<td class="order">{{ order.trackingToken }}</td>
 									<td>{{ order.updatedAt|date('Y-m-d H:i') }}</td>
 									<td>{{ order.status }}</td>
 									<td>{{ order.orderDetails|length }}</td>

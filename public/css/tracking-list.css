@@ -55,7 +55,16 @@ table, th, td, .order-table-container{
     margin-top: 20px;
 }
 
-@media screen and (max-width: 620px) {
+
+
+
+@media screen and (max-width: 690px) {
+    .order{
+        display:none;
+    }
+}
+
+@media screen and (max-width: 470px) {
     .table-orders th, .table-orders td {
         padding: 10px;
     }
@@ -67,5 +76,69 @@ table, th, td, .order-table-container{
     .table-orders td {
         font-size: 13px; 
     }
+}
+@media screen and (max-width: 400px) {
+    .table-orders th, .table-orders td {
+        padding: 7px;
+    }
 
+    .table-orders th {
+        font-size: 14px;
+    }
+
+    .table-orders td {
+        font-size: 13px; 
+    }
+}
+@media screen and (max-width: 375px) {
+    .table-orders th, .table-orders td {
+        padding: 5px;
+    }
+
+    .table-orders th {
+        font-size: 14px;
+    }
+
+    .table-orders td {
+        font-size: 13px; 
+    }
+}
+@media screen and (max-width: 340px) {
+    .table-orders th, .table-orders td {
+        padding: 3px;
+    }
+
+    .table-orders th {
+        font-size: 14px;
+    }
+
+    .table-orders td {
+        font-size: 13px; 
+    }
+}
+@media screen and (max-width: 316px) {
+    .table-orders th, .table-orders td {
+        padding: 1px;
+    }
+
+    .table-orders th {
+        font-size: 14px;
+    }
+
+    .table-orders td {
+        font-size: 13px; 
+    }
+}
+@media screen and (max-width: 292px) {
+    .table-orders th, .table-orders td {
+        padding: 0px;
+    }
+
+    .table-orders th {
+        font-size: 14px;
+    }
+
+    .table-orders td {
+        font-size: 13px; 
+    }
 }
