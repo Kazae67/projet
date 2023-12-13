@@ -39,3 +39,19 @@ h1, h2 {
     text-align: center;
 }
 
+@media screen and (max-width: 488px) {
+    table, th, td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 0px;
+        font-size:14px;
+    }
+}
+@media screen and (max-width: 365px) {
+    table, th, td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 0px;
+        font-size:12px;
+    }
+}
