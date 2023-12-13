@@ -7,8 +7,9 @@
 	<div class="parent-container">
 		<div class="demi-cercle"></div>
 		<div class="form-container">
-		 <!-- Lien vers les commandes vendues -->
+            <!-- Lien vers les commandes tracking/sold -->
             <div class="navigation-links">
+                <a href="{{ path('order_tracking_list') }}" class="btn btn-view-sold-orders">View My Orders</a>
                 <a href="{{ path('my_sold_orders') }}" class="btn btn-view-sold-orders">View My Sold Orders</a>
             </div>
 			<h1>My Orders</h1>

@@ -192,6 +192,12 @@ input:hover, textarea:hover, select:hover {
     transition: color 0.3s;
 }
 
+.navigation-links{
+    display:flex;
+    text-align:center;
+    justify-content: space-between;
+}
+
 .back-link:hover {
     color: #0056b3;
 }
