@@ -39,7 +39,7 @@ h1, h2 {
     text-align: center;
 }
 
-@media screen and (max-width: 488px) {
+@media screen and (max-width: 508px) {
     table, th, td {
         border: 1px solid #ddd;
         text-align: center;
@@ -47,7 +47,7 @@ h1, h2 {
         font-size:14px;
     }
 }
-@media screen and (max-width: 365px) {
+@media screen and (max-width: 381px) {
     table, th, td {
         border: 1px solid #ddd;
         text-align: center;

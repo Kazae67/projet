@@ -9,6 +9,7 @@
     font-size: 14px; /* Taille de police standard */
     z-index: 2;
     position: relative;
+    bottom:0px;
 
 }
 

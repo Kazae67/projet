@@ -33,12 +33,12 @@ body {
     position: absolute;
     width: 2px;
     height: 2px;
-    background: rgb(231, 5, 5); /* Couleur de la particule */
+    background: rgb(255, 255, 255); /* Couleur de la particule */
     border-radius: 50%;
     opacity: 0.8;
     animation: animateParticle infinite linear;
     z-index: 0;
-    box-shadow: 0 0 8px 2px rgba(207, 103, 103, 0.8); /* Effet de flou lumineux */
+    box-shadow: 0 0 15px 4px rgba(242, 255, 169, 0.8); /* Effet de flou lumineux */
 }
 
 @keyframes animateParticle {
