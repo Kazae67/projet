@@ -95,7 +95,7 @@ input:hover, textarea:hover, select:hover {
     font-weight:900;
 }
   .btn-post:hover,
-  .btn-update {
+  .btn-update:hover {
     background-color: #1fa828;
 }
 
