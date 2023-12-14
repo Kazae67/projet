@@ -22,6 +22,16 @@
 					</ul>
 				</div>
 
+                <!-- Section Upload Profile Picture -->
+                <div class="upload-profile-picture">
+                    <h2>Upload Profile Picture</h2>
+                    {{ form_start(profilePictureForm) }}
+                        {{ form_row(profilePictureForm.image) }}
+                        <button type="submit" class="btn">Upload</button>
+                    {{ form_end(profilePictureForm) }}
+                </div>
+
+
 				<!-- Section Adresses -->
 				<div class="addresses">
 					<h2>Addresses</h2>

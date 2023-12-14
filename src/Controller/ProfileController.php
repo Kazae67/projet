@@ -6,36 +6,71 @@ use App\Entity\User;
 use App\Entity\Adress;
 use App\DTO\ChangePasswordModel;
 use App\Form\ChangePasswordFormType;
+use App\Form\ProfilePictureType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Récupère l'utilisateur actuellement connecté
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw new AccessDeniedException('You must be logged in.');
         }
-
+    
+        // Création du formulaire pour la photo de profil
+        $profilePictureForm = $this->createForm(ProfilePictureType::class);
+        $profilePictureForm->handleRequest($request);
+    
+        if ($profilePictureForm->isSubmitted() && $profilePictureForm->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $profilePictureForm['image']->getData();
+    
+            if ($file) {
+                $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+    
+                try {
+                    $file->move($this->getParameter('profile_pictures_directory'), $fileName);
+                    $user->setProfilePicture($fileName);
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+    
+                    $this->addFlash('success', 'Profile picture updated successfully.');
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Failed to upload profile picture.');
+                }
+            }
+    
+            return $this->redirectToRoute('app_profile');
+        }
+    
         // Récupérer uniquement les adresses actives de l'utilisateur
         $activeAdresses = $entityManager->getRepository(Adress::class)->findBy([
             'user' => $user,
             'isActive' => true
         ]);
-
-        // Rendre la vue 'profile/index.html.twig' avec les données de l'utilisateur et ses adresses actives
+    
+        // Rendre la vue 'profile/index.html.twig'
         return $this->render('profile/index.html.twig', [
             'user' => $user,
-            'adresses' => $activeAdresses, // Passer les adresses actives à la vue
+            'adresses' => $activeAdresses,
+            'profilePictureForm' => $profilePictureForm->createView(),
         ]);
+    }
+    
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
     }
 
     #[Route('/profile/change-password', name: 'app_profile_change_password')]

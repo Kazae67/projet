@@ -113,20 +113,23 @@
 						</span>Products</a>
 				</div>
 				<!-- Section centrale pour le nom de l'utilisateur -->
-				<div
-					class="nav-center">
+				<div class="nav-center">
 					<!-- Afficher seulement si l'utilisateur est connecté -->
 					{% if app.user %}
 						<div class="nav-item dropdown {% if is_granted('ROLE_CRAFTSMAN') %}is-craftsman{% else %}is-customer{% endif %}">
 							<button class="dropbtn">{{ app.user.username }}</button>
 							<div class="logo material-symbols-outlined profil">
-								<img src="{{ asset('images/logo.png') }}" alt="Logo" class="profil-logo">
+								{% if app.user.profilePicture %}
+									<img src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePicture) }}" alt="Profile Picture" class="profil-logo">
+								{% else %}
+									<img src="{{ asset('images/logo.png') }}" alt="Default Profile Picture" class="profil-logo">
+								{% endif %}
 							</div>
 							<div class="dropdown-content">
 								<div class="dropdown-item">
 									<a href="{{ path('app_profile') }}">
 										<span class="material-symbols-outlined my-profil">user_attributes</span>
-										<span class="icon-text">My Profil</span>
+										<span class="icon-text">My Profile</span>
 									</a>
 								</div>
 								{% if is_granted('ROLE_CRAFTSMAN') %}
