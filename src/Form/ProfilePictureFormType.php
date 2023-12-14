@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 class ProfilePictureType extends AbstractType
 {
@@ -23,12 +24,19 @@ class ProfilePictureType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
-                            'image/webp', // Ajout du format WebP
+                            'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG image',
+                        'mimeTypesMessage' => 'Please upload a valid JPEG, PNG, or WebP image',
                     ])
                 ],
             ])
-            ->add('upload', SubmitType::class, ['label' => 'Upload']);
+            ->add('upload', SubmitType::class, [
+                'label' => 'Upload',
+                'attr' => ['class' => 'btn-upload']
+            ])
+            ->add('delete', SubmitType::class, [
+                'label' => 'Delete Profile Picture',
+                'attr' => ['class' => 'btn-delete-picture']
+            ]);
     }
 }

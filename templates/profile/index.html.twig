@@ -27,7 +27,6 @@
                     <h2>Upload Profile Picture</h2>
                     {{ form_start(profilePictureForm) }}
                         {{ form_row(profilePictureForm.image) }}
-                        <button type="submit" class="btn">Upload</button>
                     {{ form_end(profilePictureForm) }}
                 </div>
 
@@ -98,4 +97,5 @@
 	{% block javascripts %}
 		{{ parent() }}
 		<script src="{{ asset('js/anonymizeAccount.js') }}"></script>
+		<script src="{{ asset('js/deleteProfilePicture.js') }}"></script>
 	{% endblock %}
