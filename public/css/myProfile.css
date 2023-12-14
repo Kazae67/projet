@@ -61,6 +61,12 @@
     align-items: center; /* Alignement central */
 }
 
+.profile-actions{
+    text-align:center;
+}
+.upload-profile-picture::after{
+    content: '';
+}
 /* changer le mot de passe */
 .change-password {
     grid-column: 1 / 2; /* Dans la première colonne */
@@ -74,6 +80,51 @@
     grid-row: 1; /* Seconde rangée */
     text-align: center; 
 }
+
+.upload-profile-picture {
+    text-align: center;
+    margin: 20px 0;
+    margin-top: 0px;
+}
+
+.upload-profile-picture h2 {
+    margin-bottom: 15px;
+}
+
+
+.profile-picture-buttons {
+    display: flex;
+    justify-content: center; 
+    gap: 10px; /* Espace entre les boutons */
+    margin-top: 10px;
+}
+
+.btn-upload, .btn-delete-picture {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    color: white;
+    background-color: rgba(121, 175, 255, 0.966);
+    border:solid 1px black;
+}
+
+.btn-delete-picture {
+    background-color: #ff7b72;
+    transition: background-color 0.3s;
+}
+
+/* Hover boutons */
+.btn-delete-picture:hover {
+    background-color: #ff5147;
+}
+.btn-upload:hover {
+    background-color: rgba(64, 141, 255, 0.966);
+    transition: background-color 0.3s;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -105,7 +156,17 @@
         background-color: #ccc;
         margin-top: 20px; /* Espace au-dessus de la ligne */
     }
+    .upload-profile-picture::after{
+        content: '';
+        display: block;
+        height: 1px;
+        background-color: #ccc;
+        margin-top: 40px; /* Espace au-dessus de la ligne */
+    }
     
+    .profile-actions{
+        margin-top:-20px;
+    }
     .addresses {
         grid-row: 2; /* Les adresses en deuxième rangée */
     }

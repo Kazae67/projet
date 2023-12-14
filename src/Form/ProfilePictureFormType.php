@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 class ProfilePictureType extends AbstractType
 {
@@ -33,10 +32,6 @@ class ProfilePictureType extends AbstractType
             ->add('upload', SubmitType::class, [
                 'label' => 'Upload',
                 'attr' => ['class' => 'btn-upload']
-            ])
-            ->add('delete', SubmitType::class, [
-                'label' => 'Delete Profile Picture',
-                'attr' => ['class' => 'btn-delete-picture']
             ]);
     }
 }

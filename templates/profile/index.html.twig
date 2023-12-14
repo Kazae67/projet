@@ -22,14 +22,17 @@
 					</ul>
 				</div>
 
-                <!-- Section Upload Profile Picture -->
-                <div class="upload-profile-picture">
-                    <h2>Upload Profile Picture</h2>
-                    {{ form_start(profilePictureForm) }}
-                        {{ form_row(profilePictureForm.image) }}
-                    {{ form_end(profilePictureForm) }}
-                </div>
-
+				<!-- Section Upload Profile Picture -->
+				<div class="upload-profile-picture">
+					<h2>Upload Profile Picture</h2>
+					{{ form_start(profilePictureForm) }}
+						{{ form_row(profilePictureForm.image) }}
+						<div class="profile-picture-buttons">
+							{{ form_row(profilePictureForm.upload) }}
+							<a href="{{ path('app_profile_delete_picture') }}" class="btn-delete-picture">Delete Profile Picture</a>
+						</div>
+					{{ form_end(profilePictureForm) }}
+				</div>
 
 				<!-- Section Adresses -->
 				<div class="addresses">
@@ -70,8 +73,8 @@
 				</div>
 
 				<!-- Section Actions du Profil -->
-				<div
-					class="profile-actions">
+				<div class="profile-actions">
+					<h2>Account management</h2>
 					<!-- Changement de mot de passe -->
 					<div class="change-password">
 						<a href="{{ path('app_profile_change_password') }}" class="form-group action-link">Change my password</a>
