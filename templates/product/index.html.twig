@@ -36,10 +36,12 @@
 
 				<!-- Nombre de produits que l'utilisateur veut afficher -->
                 <select name="maxResults" id="max-results-select">
-                    {% set options = [5, 10, 15, 20, 30, 40, 50, 100] %}
-                    {% for option in options %}
-                        <option value="{{ option }}" {{ maxResults == option ? 'selected' : '' }}>{{ option }}</option>
-                    {% endfor %}
+                    <optgroup label="Pages"
+                        {% set options = [0, 5, 10, 20, 30, 50, 100] %}
+                        {% for option in options %}
+                            <option value="{{ option }}" {{ maxResults == option ? 'selected' : '' }}>{{ option }}</option>
+                        {% endfor %}
+                    </optgroup>
                 </select>
             </form>
 
