@@ -149,6 +149,7 @@
         background-color: #ccc;
         margin-top: 20px; /* Espace au-dessus de la ligne */
     }
+    
     .addresses::after {
         content: '';
         display: block;
