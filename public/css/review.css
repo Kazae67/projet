@@ -82,3 +82,21 @@ h2 {
 .rating[data-rating='3'] .fa-star.checked { --star-color: rgb(255, 187, 0); }
 .rating[data-rating='4'] .fa-star.checked { --star-color: rgb(255, 208, 0); }
 .rating[data-rating='5'] .fa-star.checked { --star-color: rgb(255, 217, 0);}
+
+
+
+.user-profile-picture {
+    width: 50px; /* Taille de l'image */
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden; 
+    display: flex; /* centre l'image dans le conteneur */
+    align-items: center; 
+    justify-content: center; 
+}
+
+.user-img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; /*l'image couvre tout l'espace*/
+}

@@ -64,6 +64,14 @@
 
                     {% for review in reviews %}
                         <div class="review" id="review-{{ review.id }}">
+                            <!-- Image de profil de l'utilisateur -->
+                            <div class="user-profile-picture">
+                                {% if review.user.profilePicture %}
+                                    <img src="{{ asset('uploads/profile_pictures/' ~ review.user.profilePicture) }}" alt="Profile Picture of {{ review.user.username }}" class="user-img">
+                                {% else %}
+                                    <img src="{{ asset('images/logo.png') }}" alt="Default Profile Picture" class="user-img">
+                                {% endif %}
+                            </div>
                             <!-- USERNAME -->
                             <p><strong>Username:</strong> {{ review.user.username }}</p>
                             <!-- TITRE -->
