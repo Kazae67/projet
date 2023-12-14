@@ -37,11 +37,11 @@
 .dropdown::after {
   content: "";
   position: absolute;
-  bottom: -140px; /* Positionne le pseudo-élément sous l'icône */
-  left: -150%;
+  bottom: -160px; /* Positionne le pseudo-élément sous l'icône */
+  left: -92%;
   right: 0;
-  width: 260px; /* Largeur suffisante pour couvrir les éléments du menu */
-  height: 130px; /* Hauteur de l'extension de la zone de hover */
+  width: 280px; /* Largeur suffisante pour couvrir les éléments du menu */
+  height: 200px; /* Hauteur de l'extension de la zone de hover */
   pointer-events: none; /* Pour pseudo-élément ne bloque pas les interactions avec d'autres éléments */
 }
 
@@ -71,29 +71,29 @@
 /******** CRAFTMEN ********/
 /* my profil */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(1) {
-  left: calc(50% - 75px); /* Décale légèrement vers la gauche */
-  bottom: -15px; /* Descendre l'icône */
+  left: calc(50% - 88.5px); /* Décale légèrement vers la gauche */
+  bottom: -45px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my products */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(2) { 
-  left: calc(50% + -48px); /* Décale légèrement vers la droite */
-  bottom: -70px; /* Descendre l'icône */
+  left: calc(50% + -47px); /* Décale légèrement vers la droite */
+  bottom: -105.5px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my tracking list */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(3) { 
-  left: calc(50% + 36px); /* Décale vers la droite */
-  bottom: -70px; /* Descendre l'icône */
+  left: calc(50% + 33px); /* Décale vers la droite */
+  bottom: -105.5px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* logout */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(4) {
-  left: calc(50% + 63px); /* Décale vers la droite */
-  bottom: -15px; /* Descendre l'icône */
+  left: calc(50% + 75px); /* Décale vers la droite */
+  bottom: -45px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
