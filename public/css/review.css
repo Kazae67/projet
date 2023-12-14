@@ -100,3 +100,9 @@ h2 {
     height: 100%; 
     object-fit: cover; /*l'image couvre tout l'espace*/
 }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espace entre l'image et le nom d'utilisateur */
+}
