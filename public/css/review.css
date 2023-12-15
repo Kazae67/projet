@@ -27,7 +27,6 @@
     height: 100%;
     object-fit:cover;
     border-radius : 10px 10px 0px 0px;
-    border:solid 3px black;
 }
 .page-layout {
     display: grid;
@@ -126,8 +125,9 @@ h2 {
     border-radius: 50%; /* Rend le cadre circulaire */
     overflow: hidden;
     position: relative;
-    border: 2px solid #ddd; /* Une bordure fine et élégante */
+    border: 1px solid rgb(255, 217, 0); /* Une bordure fine et élégante */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre plus marquée pour un effet de profondeur */
+    cursor:pointer; 
 }
 
 .user-img {
@@ -142,15 +142,15 @@ h2 {
     align-items: center;
 }
 
-/* bordure supplémentaire pour plus d'élégance */
+/* bordure supplémentaire */
 .user-profile-picture::after {
     content: '';
     position: absolute;
     top: -3px; left: -3px;
     right: -3px; bottom: -3px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.7); /* Une bordure claire pour un contraste subtil */
-    z-index: -1;
+    /* border: 5px solid #ddd;  bordure claire pour un contraste subtil */
+    z-index: 10;
 }
 
 .user-info {
@@ -198,19 +198,32 @@ h2 {
 
 .added-product-user-profile {
     display: inline-block;
-    width: 100px; 
-    height: 90px;
-    border-bottom: 3px solid #000000; 
-    border-top: 3px solid #000000; 
-    border-right: 3px solid #000000; 
-    overflow: hidden; /* Cache les débordements pour garder l'image carrée */
-    border-radius: 0px 0px 10px 10px; 
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* Coins légèrement arrondis */
     margin-right: 10px;
-    margin-top:12px;
+    margin-top: 12px;
+    border: 1px solid rgba(255, 217, 0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre plus marquée pour un effet de profondeur */
+}
+
+.added-product-user-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+    cursor:pointer;
+}
+
+.added-product-user-profile:hover .added-product-user-img {
+    transform: scale(1.1); 
 }
 
 .added-product-user-text{
-    margin-top:-3px;
+    margin-top:0px;
 }
 
 .added-product-user-img {
@@ -219,7 +232,7 @@ h2 {
     object-fit: cover; /* Ajuste l'image pour couvrir entièrement l'espace sans déformation */
 }
 
-@media (max-width: 720px) {
+@media (max-width: 800px) {
     .page-layout {
         display: block; /* empile verticalement */
     }
