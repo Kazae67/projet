@@ -63,6 +63,7 @@ h2 {
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 5px;
+    position: relative; /* Ajouté pour positionner correctement la ligne de séparation */
 }
 
 .review p {
@@ -106,8 +107,8 @@ h2 {
 .user-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Assure que la photo remplit bien le cadre */
-    border-radius: 50%; /* Arrondi de l'image pour correspondre au cadre */
+    object-fit: cover; /* photo remplit bien le cadre */
+    border-radius: 50%; 
 }
 
 .user-info {
@@ -115,7 +116,7 @@ h2 {
     align-items: center;
 }
 
-/* Effet supplémentaire : une bordure supplémentaire pour plus d'élégance */
+/* bordure supplémentaire pour plus d'élégance */
 .user-profile-picture::after {
     content: '';
     position: absolute;
@@ -128,5 +129,14 @@ h2 {
 
 .user-info {
     display: flex;
-    align-items: center; /* Alignement vertical des éléments */
+    align-items: center;
+}
+
+.rating-title-separator {
+    position: absolute; /* Positionne la ligne de séparation par rapport au .review */
+    left: 0; /* à partir du bord gauche */
+    right: 10px;
+    width: 100%; 
+    border: 1px solid #f7f7f7; 
+    margin-top: 8px ; 
 }
