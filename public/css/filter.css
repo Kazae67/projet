@@ -1,49 +1,62 @@
-form {
+/* Style de base pour les filtres */
+#filter-form {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    gap: 5px; 
     margin-bottom: 20px;
-    max-width: 500px; 
-    margin-left: auto; 
-    margin-right: auto;
 }
 
-/* les sélecteurs de filtre */
-select {
-    flex: 1 1 auto; /* Flexibilité pour que les sélecteurs s'adaptent à la largeur disponible */
-    margin: 10px;
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px 5px 0px 0px;
-    background-color: #f9f9f9;
-    cursor: pointer;
-    max-width: 100%; /* Chaque sélecteur peut s'étendre sur toute la largeur disponible */
+#filter-form select {
+    flex: 1; /* Chaque filtre prend la même largeur */
+    min-width: 120px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+    padding: 8px 12px; 
+    background-color: #ffffff; 
+    transition: border-color 0.4s, box-shadow 0.3s; /* Transition pour hover et focus */
 }
 
-/* bouton de filtrage */
+#filter-form select:hover,
+#filter-form select:focus {
+    box-shadow: 0 
+    0.4px 6px rgb(255, 217, 0); 
+}
+
+/* Bouton de filtrage */
 button[type="submit"] {
-    padding: 5px 15px;
+    padding: 8px 15px;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    flex: 0 1 auto; /* Empêche le bouton de grandir */
-    margin: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button[type="submit"]:hover {
-    background-color: #3e8e41;
+    background-color: #369b47; /* Assombrissement au survol */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-@media (max-width: 523px) {
-    form {
-        max-width: 50%; /* Sur les petits écrans, le formulaire prend toute la largeur */
+/* Responsive */
+@media (max-width: 780px) {
+    /* Réinitialiser la flexibilité pour les sélecteurs en mode responsive */
+    #filter-form select {
+        flex: 1 1 100%;
+        margin: 5px 0;
     }
 
-    select {
-        max-width: 80%; /* Chaque sélecteur prend toute la largeur disponible */
+    /* "Sort" et "Page" côte à côte */
+    #filter-form #sort-select,
+    #filter-form #max-results-select {
+        flex: 1 1 calc(100% - 5px);
+    }
+
+    /* "Price Min", "Price Max", "Page" côte à côte */
+    #filter-form #price-min-select,
+    #filter-form #price-max-select,
+    #filter-form #max-results-select {
+        flex: 1 1 calc(33% - 5px);
     }
 }
