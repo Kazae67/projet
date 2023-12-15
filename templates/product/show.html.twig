@@ -48,7 +48,7 @@
 
                 <!-- Affichage des revues existantes -->
                 <div class="product-reviews">
-                    <h3>Review</h3>
+                    <h2 class="reviews-title">Review</h2>
 
                     <!-- Afficher le formulaire de revue uniquement si l'utilisateur peut laisser un avis et n'est pas le propriétaire du produit -->
                     {% if canReview and app.user != product.user %}
@@ -56,11 +56,10 @@
                             {% include 'review/add.html.twig' with {'form': form} %}
                         </div>
                         <div id="add-review-button" class="btn btn-add-review">Add a review<span class="material-symbols-outlined icon-comment">add_comment</span></div>
-
-
                     {% elseif existingReview %}
                         <p>Thank you for your review!</p>
                     {% endif %}
+
                     {% for review in reviews %}
                         <div class="review" id="review-{{ review.id }}">
                             <!-- Conteneur pour l'image de profil et le rating -->

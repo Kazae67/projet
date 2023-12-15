@@ -99,6 +99,10 @@ input:hover, textarea:hover, select:hover {
     background-color: #1fa828;
 }
 
+.btn-post{
+    margin-bottom:10px;
+    margin-top:-20px;
+}
 .back-link {
     display: block;
     text-align: center;

@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.reviews-title {
+    text-align: center;
+    /* Autres styles que vous souhaitez ajouter */
+}
 .image-container {
     max-width: 400px; 
     margin: 0 auto 20px; 
