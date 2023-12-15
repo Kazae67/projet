@@ -14,35 +14,37 @@
 
             <article class="page-layout">
                 <div class="product-info">
-                    <!-- IMAGE -->
+                    <!-- Titre Product Details -->
+                    <h2 class="product-detail-title">Product Details</h2>
+
+                    <!-- IMAGE avec Hover Info -->
                     <div class="image-container">
                         <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="Image of {{ product.name }}" class="product-img">
+                        <div class="hover-info">
+                            <p><strong>Category:</strong> {{ product.category.name }}</p>
+                            <p><strong>Price:</strong> {{ product.price }}€</p>
+                            <p><strong>Stock:</strong> {{ product.stockQuantity }}</p>
+                        </div>
                     </div>
                     
-                    <!-- CATEGORIE -->
-                    <section>
-                        <h2>Category</h2>
-                        <p>{{ product.category.name }}</p>
-                    </section>
-
+                <!-- Section pour l'image de profil de l'utilisateur qui a ajouté le produit -->
+                <div class="user-added-product-info">
+                    {% if product.user %}
+                        <div class="added-product-user-profile">
+                            {% set profilePicturePath = product.user.profilePicture ? 'uploads/profile_pictures/' ~ product.user.profilePicture : 'images/noPic.png' %}
+                            <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ product.user.username }}" class="added-product-user-img">
+                        </div>
+                        <div class="added-product-user-text">
+                            <p><strong>Username:</strong> {{ product.user.username }}</p>
+                            <p><strong>Date of creation:</strong> {{ product.createdAt ? product.createdAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
+                            <p><strong>Update date:</strong> {{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
+                        </div>
+                    {% endif %}
+                </div>
                     <!-- DESCRIPTION -->
                     <section>
                         <h2>Description</h2>
                         <p>{{ product.description }}</p>
-                    </section>
-
-                    <!-- PRIX ET STOCK -->
-                    <section>
-                        <h2>Price and Stock</h2>
-                        <p><strong>Price:</strong> {{ product.price }}€</p>
-                        <p><strong>Quantity in stock:</strong> {{ product.stockQuantity }}</p>
-                    </section>
-
-                    <!-- DATES -->
-                    <section>
-                        <h2>Dates</h2>
-                        <p><strong>Date of creation:</strong> {{ product.createdAt ? product.createdAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
-                        <p><strong>Update date:</strong> {{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
                     </section>
                 </div>
 

@@ -1,19 +1,25 @@
-.product-detail, .product-reviews {
+.product-detail-title , .product-reviews {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
 }
+.product-detail-title {
+    text-align: center; /* Centre le titre dans sa colonne */
+    margin-bottom: 10px; /* Espacement après le titre */
+}
 
 .reviews-title {
     text-align: center;
-    /* Autres styles que vous souhaitez ajouter */
 }
 .image-container {
-    max-width: 400px; 
-    margin: 0 auto 20px; 
-    overflow: hidden; /* Cacher tout débordement de l'image */
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position:relative;
+    width: 100%;
+    max-width: 800px; /* Largeur maximale de l'image */
+
+    margin: 0; /* Supprimez les marges par défaut */
+    overflow: hidden; /* Cache les débordements de l'image */
+    border-radius: 10px 10px 0px 0px;
+    align-self: start; /* Alignement au début de la grille */
 }
 
 .page-layout {
@@ -22,11 +28,37 @@
     gap: 20px; /* Espace entre les colonnes */
 }
 .product-img {
+    max-width: 100%;
     width: 100%; /* Largeur complète du conteneur pour s'adapter à sa taille */
-    height: auto; 
-    display: block; 
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease;
+    border-radius: 10px 10px 0px 0px;
+}
+.hover-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 10px;
 }
 
+.image-container:hover .product-img {
+    opacity: 0.3; /* Diminue l'opacité de l'image */
+}
+
+.image-container:hover .hover-info {
+    opacity: 1; /* Rend le contenu hover visible */
+}
 /* sections et les titres */
 section {
     margin-bottom: 20px;
@@ -162,4 +194,29 @@ h2 {
     50% { 
         transform: translateX(-5px) rotate(-65deg); /* la gauche avec une rotation */
     }
+}
+
+.user-added-product-info {
+    display: flex;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.added-product-user-profile {
+    display: inline-block;
+    width: 100px; 
+    height: 100px;
+    border-bottom: 3px solid #000000; 
+    border-top: 3px solid #000000; 
+    border-right: 3px solid #000000; 
+    overflow: hidden; /* Cache les débordements pour garder l'image carrée */
+    border-radius: 0px 0px 10px 10px; 
+    margin-right: 10px;
+    margin-top:12px;
+}
+
+.added-product-user-img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; /* Ajuste l'image pour couvrir entièrement l'espace sans déformation */
 }

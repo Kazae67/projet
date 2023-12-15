@@ -6,7 +6,7 @@ h1 {
 }
 
 .form-container {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 10px auto;
     padding: 20px;
     margin-top:100px;
@@ -138,6 +138,7 @@ input:hover, textarea:hover, select:hover {
 animation: fadeIn 3s ease-out;
 }
 
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -154,3 +155,4 @@ animation: fadeIn 3s ease-out;
 .demi-cercle {
     animation: fadeInUp 1s ease-in-out;
 }
+
