@@ -1,19 +1,22 @@
 .product-image-container {
-    width: 100%; /* La largeur du conteneur de l'image prend toute la largeur du cart-item */
-    height: 150px; /* Hauteur fixe mais réduite pour le conteneur de l'image */
+    width: 150px; /* Largeur fixe pour correspondre à la hauteur */
+    height: 150px; /* Hauteur fixe */
     overflow: hidden;
-    border-radius: 5px; /* Bordures légèrement arrondies */
+    border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
-    border:solid 1px black;
+    border: solid 1px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .product-image {
     width: 100%;
-    height: 100%; /* Hauteur ajustée pour remplir le conteneur */
-    object-fit: cover; /* Assure que l'image couvre tout le conteneur sans déformer le ratio */
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
-
 .cart-item {
     display: flex;
     flex-direction: column; /* Organise les éléments verticalement */
