@@ -55,7 +55,15 @@
                         <div id="review-form-container" style="display:none;">
                             {% include 'review/add.html.twig' with {'form': form} %}
                         </div>
-                        <div id="add-review-button" class="btn btn-add-review">Add a review<span class="material-symbols-outlined icon-comment">add_comment</span></div>
+                    <div id="add-review-button" class="btn btn-add-review">
+
+                        <!-- Icons animation ajouter review -->
+                        <div class="add-review-icons">
+                            <span class="material-symbols-outlined icon-comment">rate_review</span>
+                            <span class="material-symbols-outlined slide-icon">arrow_selector_tool</span><h3>Add a review</h3>
+                        </div>
+                    </div>
+
                     {% elseif existingReview %}
                         <p>Thank you for your review!</p>
                     {% endif %}

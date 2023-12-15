@@ -140,3 +140,24 @@ h2 {
     border: 1px solid #f7f7f7; 
     margin-top: 8px ; 
 }
+/* Conteneur pour les icônes */
+.add-review-icons {
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+}
+
+/* Icone slide vers la guche */
+.slide-icon {
+    display: inline-block;
+    animation: slide-and-rotate 2s ease-in-out infinite;
+}
+
+@keyframes slide-and-rotate {
+    0%, 100% { 
+        transform: translateX(0) rotate(-65deg); 
+    }
+    50% { 
+        transform: translateX(-5px) rotate(-65deg); /* la gauche avec une rotation */
+    }
+}
