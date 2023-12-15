@@ -8,57 +8,47 @@
     margin-bottom: 10px; /* Espacement après le titre */
 }
 
-.reviews-title {
+.reviews-title,
+.no-review {
     text-align: center;
 }
 .image-container {
+    width: 100%; /* Largeur relative à l'enveloppe extérieure */
+    padding-top: 75%; /* Hauteur basée sur le ratio d'aspect (450px/600px = 0.75) */
     position: relative;
-    width: 100%;
-    max-width: 700px; 
-    height: 500px; 
-    overflow: hidden; /* Cache les débordements de l'image */
-    border-radius: 10px 10px 0px 0px;
-    border-left: solid 3px rgb(0, 0, 0);
-    border-top: solid 3px rgb(0, 0, 0);
-    align-self: start; 
-    margin-top:-8px;
+    overflow: hidden;
 }
 
+.product-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .page-layout {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Deux colonnes de taille égale */
     gap: 20px; /* Espace entre les colonnes */
 }
-.product-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajuste l'image pour couvrir le conteneur sans déformation */
-
-    transition: opacity 0.3s ease;
-}
 .hover-info {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    width: 100%;
     padding: 10px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
 }
-
 .image-container:hover .product-img {
     opacity: 0.3; /* Diminue l'opacité de l'image */
 }
 
 .image-container:hover .hover-info {
-    opacity: 1; /* Rend le contenu hover visible */
+    transform: translateY(0);
 }
 /* sections et les titres */
 section {
@@ -178,7 +168,9 @@ h2 {
 .add-review-icons {
     display: flex; 
     align-items: center; 
+    justify-content: center; /* Centre les éléments horizontalement */
     gap: 5px; 
+    margin-top: 20px; /* Espacement au-dessus */
 }
 
 /* Icone slide vers la guche */
@@ -228,5 +220,10 @@ h2 {
 @media (max-width: 720px) {
     .page-layout {
         display: block; /* empile verticalement */
+    }
+}
+@media (max-width: 768px) {
+    .card-wrapper {
+        max-width: 100%; /* Pleine largeur sur les petits écrans */
     }
 }
