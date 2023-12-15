@@ -35,7 +35,7 @@
                             <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ product.user.username }}" class="added-product-user-img">
                         </div>
                         <div class="added-product-user-text">
-                            <p><strong>Username:</strong> {{ product.user.username }}</p>
+                            <p class="username-clic"><strong>Username:</strong> {{ product.user.username }}</p>
                             <p><strong>Date of creation:</strong> {{ product.createdAt ? product.createdAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
                             <p><strong>Update date:</strong> {{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
                         </div>
@@ -67,7 +67,7 @@
                     </div>
 
                     {% elseif existingReview %}
-                        <p>Thank you for your review!</p>
+                        <p class="thank-you">Thank you for your review!</p>
                     {% endif %}
 
                     {% for review in reviews %}
@@ -86,7 +86,7 @@
             
                                 <!-- Conteneur pour le rating et le username -->
                                 <div class="user-details">
-                                    <p><strong>Username:</strong> {{ review.user.username }}</p>
+                                    <p class="username-review-clic"><strong>Username:</strong> {{ review.user.username }}</p>
                                     <!-- USERNAME -->
                                     <!-- RATING -->
                                     <div class="rating" id="review-rating-{{ review.id }}" data-rating="{{ review.rating }}">

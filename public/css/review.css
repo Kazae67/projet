@@ -9,7 +9,8 @@
 }
 
 .reviews-title,
-.no-review {
+.no-review,
+.thank-you {
     text-align: center;
 }
 .image-container {
@@ -17,6 +18,11 @@
     padding-top: 75%; /* Hauteur basée sur le ratio d'aspect (450px/600px = 0.75) */
     position: relative;
     overflow: hidden;
+}
+
+.username-review-clic,
+.username-clic{
+    cursor: pointer;
 }
 
 .product-img {
@@ -128,6 +134,7 @@ h2 {
     border: 1px solid rgb(255, 217, 0); /* Une bordure fine et élégante */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre plus marquée pour un effet de profondeur */
     cursor:pointer; 
+    margin-top:10px;
 }
 
 .user-img {
@@ -140,6 +147,7 @@ h2 {
 .user-info {
     display: flex;
     align-items: center;
+    margin-top:-20px;
 }
 
 /* bordure supplémentaire */
