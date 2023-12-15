@@ -39,6 +39,18 @@ button[type="submit"]:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
 /* Responsive */
 @media (max-width: 780px) {
     /* Réinitialiser la flexibilité pour les sélecteurs en mode responsive */
