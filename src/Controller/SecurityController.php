@@ -112,7 +112,7 @@ class SecurityController extends AbstractController
         $user->setUsername('DeletedUser' . rand(1000, 9999));
         $user->setEmail('anonyme' . rand(1000, 9999) . '@xxx.x');
         $user->setIsActivated(0);
-        $user->setProfilePicture(NULL);
+        $user->setProfilePicture('anonyme.png');
         // Mettre à jour l'utilisateur dans la base de données
         $em->persist($user);
         $em->flush();

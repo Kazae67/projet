@@ -61,17 +61,17 @@
                     {% elseif existingReview %}
                         <p>Thank you for your review!</p>
                     {% endif %}
-
                     {% for review in reviews %}
                         <div class="review" id="review-{{ review.id }}">
                             <!-- Conteneur pour l'image de profil et le rating -->
                             <div class="user-info">
                                 <!-- Image de profil de l'utilisateur -->
                                 <div class="user-profile-picture">
-                                    {% if review.user.profilePicture %}
-                                        <img src="{{ asset('uploads/profile_pictures/' ~ review.user.profilePicture) }}" alt="Profile Picture of {{ review.user.username }}" class="user-img">
+                                    {% set profilePicturePath = review.user.profilePicture ? 'uploads/profile_pictures/' ~ review.user.profilePicture : 'images/noPic.png' %}
+                                    {% if review.user.profilePicture != 'anonyme.png' %}
+                                        <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ review.user.username }}" class="user-img">
                                     {% else %}
-                                        <img src="{{ asset('images/logo.png') }}" alt="Default Profile Picture" class="user-img">
+                                        <img src="{{ asset('images/anonyme.png') }}" alt="Anonymized User" class="user-img">
                                     {% endif %}
                                 </div>
                                 

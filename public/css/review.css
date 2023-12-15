@@ -84,25 +84,45 @@ h2 {
 .rating[data-rating='5'] .fa-star.checked { --star-color: rgb(255, 217, 0);}
 
 
-
 .user-profile-picture {
-    width: 50px; /* Taille de l'image */
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden; 
-    display: flex; /* centre l'image dans le conteneur */
-    align-items: center; 
-    justify-content: center; 
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 50%; /* Rend le cadre circulaire */
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #ddd; /* Une bordure fine et élégante */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre plus marquée pour un effet de profondeur */
+
 }
 
 .user-img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; /*l'image couvre tout l'espace*/
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assure que la photo remplit bien le cadre */
+    border-radius: 50%; /* Arrondi de l'image pour correspondre au cadre */
 }
 
 .user-info {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espace entre l'image et le nom d'utilisateur */
+}
+
+/* Effet supplémentaire : une bordure supplémentaire pour plus d'élégance */
+.user-profile-picture::after {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px;
+    right: -3px; bottom: -3px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.7); /* Une bordure claire pour un contraste subtil */
+    z-index: -1;
+}
+
+.user-info {
+    display: flex;
+    align-items: center; /* Alignement vertical des éléments */
 }
