@@ -103,6 +103,14 @@ input:hover, textarea:hover, select:hover {
     margin-bottom:10px;
     margin-top:-20px;
 }
+.btn-edit{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.btn-update{
+    margin-top:-2px;
+}
 .back-link {
     display: block;
     text-align: center;
