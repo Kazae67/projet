@@ -49,13 +49,15 @@
                 {% for product in products %}
                     <div class="card">
                         <div class="card-img-container">
-                        <!-- Si l'utilisateur a ajouté une image, sinon, default-image -->
-                            <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="{{ product.name }}" class="card-img-top">
-
+                       <!-- Lien vers product_show -->
+                <a href="{{ path('product_show', {'id': product.id}) }}">
+                    <!-- Si l'utilisateur a ajouté une image, sinon, default-image -->
+                    <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="{{ product.name }}" class="card-img-top">
                             <!-- Conteneur pour la description au survol -->
                             <div class="card-hover-description">
                                 {{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
                             </div>
+                </a>
 
                             <div class="card-price">{{ product.price }}€</div>
 
