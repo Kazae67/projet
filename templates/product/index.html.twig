@@ -15,7 +15,7 @@
             <form action="{{ path('product') }}" method="get" id="filter-form">
                 <!-- Categories -->
                 <select name="category" id="category-select">
-                    <option value="" {{ category is null ? 'selected' : '' }}>All categories</option>
+                    <option value="" {{ category is null ? 'selected' : '' }}>All Categories</option>
                     {% for categoryOption in categories %}
                         <option value="{{ categoryOption.id }}" {{ categoryOption.id == category ? 'selected' : '' }}>{{ categoryOption.name }}</option>
                     {% endfor %}
@@ -25,13 +25,13 @@
                 <select name="sort" id="sort-select">
                     <!-- Date -->
                     <optgroup label="Date">
-                        <option value="newest" {{ sort == 'newest' ? 'selected' : '' }}>newest to oldest</option>
-                        <option value="oldest" {{ sort == 'oldest' ? 'selected' : '' }}>oldest to newest</option>
+                        <option value="newest" {{ sort == 'newest' ? 'selected' : '' }}>Newest To Oldest</option>
+                        <option value="oldest" {{ sort == 'oldest' ? 'selected' : '' }}>Oldest To Newest</option>
                     </optgroup>
                     <!-- Prix -->
                     <optgroup label="Price">
-                        <option value="price_high_to_low" {{ sort == 'price_high_to_low' ? 'selected' : '' }}>highest to lowest</option>
-                        <option value="price_low_to_high" {{ sort == 'price_low_to_high' ? 'selected' : '' }}>lowest to highest</option>
+                        <option value="price_high_to_low" {{ sort == 'price_high_to_low' ? 'selected' : '' }}>Highest To Lowest</option>
+                        <option value="price_low_to_high" {{ sort == 'price_low_to_high' ? 'selected' : '' }}>Lowest To Highest</option>
                     </optgroup>
                 </select>
 
@@ -47,18 +47,22 @@
 
                 <!-- Tranche de prix minimum -->
                 <select name="priceMin" id="price-min-select">
-                    <option value="">Any</option>
-                    {% for price in [1, 5, 10, 20, 50, 100, 200, 500] %}
-                        <option value="{{ price }}" {{ priceMin == price ? 'selected' : '' }}>{{ price }}€</option>
-                    {% endfor %}
+                    <optgroup label="Price Min">
+                        <option value="">Any Price</option>
+                        {% for price in [1, 5, 10, 20, 50, 100, 200, 500] %}
+                            <option value="{{ price }}" {{ priceMin == price ? 'selected' : '' }}>{{ price }}€</option>
+                        {% endfor %}
+                     </optgroup>
                 </select>
 
                 <!-- Tranche de prix maximum -->
                 <select name="priceMax" id="price-max-select">
-                    <option value="">Any</option>
-                    {% for price in [5, 10, 20, 50, 100, 200, 500, 1000] %}
-                        <option value="{{ price }}" {{ priceMax == price ? 'selected' : '' }}>{{ price }}€</option>
-                    {% endfor %}
+                    <optgroup label="Price Max">
+                        <option value="">Any Price</option>
+                        {% for price in [5, 10, 20, 50, 100, 200, 500, 1000] %}
+                            <option value="{{ price }}" {{ priceMax == price ? 'selected' : '' }}>{{ price }}€</option>
+                        {% endfor %}
+                    </optgroup>
                 </select>
             </form>
             
@@ -67,35 +71,39 @@
                     <div class="card">
                         <div class="card-img-container">
                        <!-- Lien vers product_show -->
-                <a href="{{ path('product_show', {'id': product.id}) }}">
+                        <a href="{{ path('product_show', {'id': product.id}) }}">
                     <!-- Si l'utilisateur a ajouté une image, sinon, default-image -->
                     <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="{{ product.name }}" class="card-img-top">
                             <!-- Conteneur pour la description au survol -->
                             <div class="card-hover-description">
                                 {{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
                             </div>
-                </a>
+                        </a>
 
+                            <!-- Prix -->
                             <div class="card-price">{{ product.price }}€</div>
-
                             <div class="icon-group">
                                 <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
                                     <span class="material-symbols-outlined show">visibility</span>
                                 </a>
+                                 <!-- Si l'utilisateur est connecté -->
                                 {% if product.user != app.user %}
+                                    <!-- Ajouter CART -->
                                     <a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-add">
                                         <span class="material-symbols-outlined cart">add_shopping_cart</span>
                                     </a>
+                                     <!-- Ajouter Wishlist -->
                                     <a href="{{ path('wishlist_add', {'productId': product.id}) }}" class="btn btn-add">
                                         <span class="material-symbols-outlined wishlist">receipt_long</span>
                                     </a>
                                 {% endif %}
                             </div>
                         </div>
-
+                         <!-- Username -->
                         <div class="card-user">{{ product.user.username }}</div>
 
                         <div class="card-body">
+                             <!-- Nom du Produit -->
                             <h5 class="card-title">{{ product.name }}</h5>
                         </div>
                     </div>
