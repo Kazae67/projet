@@ -124,8 +124,8 @@ h2 {
 .user-profile-picture {
     width: 3vw; /* Taille de base relative à la largeur de la fenêtre */
     height: 3vw;
-    min-width: 40px; /* Taille minimale pour empêcher que l'image devienne trop petite */
-    min-height: 40px;
+    min-width: 60px; /* Taille minimale pour empêcher que l'image devienne trop petite */
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,4 +219,10 @@ h2 {
     width: 100%; 
     height: 100%; 
     object-fit: cover; /* Ajuste l'image pour couvrir entièrement l'espace sans déformation */
+}
+
+@media (max-width: 720px) {
+    .page-layout {
+        display: block; /* empile verticalement */
+    }
 }
