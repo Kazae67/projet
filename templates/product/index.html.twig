@@ -21,6 +21,7 @@
                     {% endfor %}
                 </select>
 
+                <!-- Tri -->
                 <select name="sort" id="sort-select">
                     <!-- Date -->
                     <optgroup label="Date">
@@ -34,17 +35,33 @@
                     </optgroup>
                 </select>
 
-				<!-- Nombre de produits que l'utilisateur veut afficher -->
+                <!-- Nombre de produits par page -->
                 <select name="maxResults" id="max-results-select">
-                    <optgroup label="Pages"
-                        {% set options = [0, 5, 10, 20, 30, 50, 100] %}
+                    <optgroup label="Pages">
+                        {% set options = [5, 10, 20, 30, 50, 100] %}
                         {% for option in options %}
                             <option value="{{ option }}" {{ maxResults == option ? 'selected' : '' }}>{{ option }}</option>
                         {% endfor %}
                     </optgroup>
                 </select>
-            </form>
 
+                <!-- Tranche de prix minimum -->
+                <select name="priceMin" id="price-min-select">
+                    <option value="">Any</option>
+                    {% for price in [1, 5, 10, 20, 50, 100, 200, 500] %}
+                        <option value="{{ price }}" {{ priceMin == price ? 'selected' : '' }}>{{ price }}€</option>
+                    {% endfor %}
+                </select>
+
+                <!-- Tranche de prix maximum -->
+                <select name="priceMax" id="price-max-select">
+                    <option value="">Any</option>
+                    {% for price in [5, 10, 20, 50, 100, 200, 500, 1000] %}
+                        <option value="{{ price }}" {{ priceMax == price ? 'selected' : '' }}>{{ price }}€</option>
+                    {% endfor %}
+                </select>
+            </form>
+            
             <div class="products">
                 {% for product in products %}
                     <div class="card">
@@ -90,20 +107,20 @@
                 <!-- Navigation (Boutons précédent, suivant, numéros de page) -->
                 <div class="pagination-nav">
                     {% if currentPage > 1 %}
-                        <a href="{{ path('product', {'page': currentPage - 1, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="pagination-button">Previous</a>
+                        <a href="{{ path('product', {'page': currentPage - 1, 'category': category, 'sort': sort, 'maxResults': maxResults, 'priceMin': priceMin, 'priceMax': priceMax}) }}" class="pagination-button">Previous</a>
                     {% endif %}
 
                     {% for i in startPage..endPage %}
-                        <a href="{{ path('product', {'page': i, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="{{ i == currentPage ? 'pagination-button active' : 'pagination-button' }}">{{ i }}</a>
+                        <a href="{{ path('product', {'page': i, 'category': category, 'sort': sort, 'maxResults': maxResults, 'priceMin': priceMin, 'priceMax': priceMax}) }}" class="{{ i == currentPage ? 'pagination-button active' : 'pagination-button' }}">{{ i }}</a>
                     {% endfor %}
 
                     {% if endPage < totalPages %}
                         <span class="pagination-ellipsis">...</span>
-                        <a href="{{ path('product', {'page': totalPages, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="pagination-button">{{ totalPages }}</a>
+                        <a href="{{ path('product', {'page': totalPages, 'category': category, 'sort': sort, 'maxResults': maxResults, 'priceMin': priceMin, 'priceMax': priceMax}) }}" class="pagination-button">{{ totalPages }}</a>
                     {% endif %}
 
                     {% if currentPage < totalPages %}
-                        <a href="{{ path('product', {'page': currentPage + 1, 'category': category, 'sort': sort, 'maxResults': maxResults}) }}" class="pagination-button">Next</a>
+                        <a href="{{ path('product', {'page': currentPage + 1, 'category': category, 'sort': sort, 'maxResults': maxResults, 'priceMin': priceMin, 'priceMax': priceMax}) }}" class="pagination-button">Next</a>
                     {% endif %}
                 </div>
 
@@ -112,6 +129,8 @@
                     <input type="hidden" name="category" value="{{ category }}">
                     <input type="hidden" name="sort" value="{{ sort }}">
                     <input type="hidden" name="maxResults" value="{{ maxResults }}">
+                    <input type="hidden" name="priceMin" value="{{ priceMin }}">
+                    <input type="hidden" name="priceMax" value="{{ priceMax }}">
                     <input type="number" name="page" min="1" max="{{ totalPages }}" value="{{ currentPage }}">
                     <button type="submit" class="pagination-button">Go</button>
                 </form>

@@ -30,12 +30,20 @@ class ProductController extends AbstractController
         $sort = $request->query->get('sort', 'newest'); 
         $category = $request->query->get('category', null); // Aucune catégorie par défaut
 
+        // Traitement des tranches de prix
+        $priceMin = $request->query->get('priceMin');
+        $priceMax = $request->query->get('priceMax');
+
+        // Convertir les chaînes vides en null
+        $priceMin = $priceMin !== '' ? $priceMin : null;
+        $priceMax = $priceMax !== '' ? $priceMax : null;
+
         // Récupérer les produits filtrés et paginés
-        $totalProducts = $productRepository->countFilteredProducts($category); // Total de produits avec filtre
+        $totalProducts = $productRepository->countFilteredProducts($category, $priceMin, $priceMax); // Total de produits avec filtre
         $totalPages = ceil($totalProducts / $maxResults);
         $page = max(1, min($request->query->getInt('page', 1), $totalPages));
         $start = ($page - 1) * $maxResults;
-        $products = $productRepository->findByFilters($category, $sort, $maxResults, $start);
+        $products = $productRepository->findByFilters($category, $sort, $maxResults, $start, $priceMin, $priceMax);
 
         // Récupérer les catégories
         $categories = $categoryRepository->findAll();
@@ -65,7 +73,9 @@ class ProductController extends AbstractController
             'endPage' => $endPage,
             'sort' => $sort,
             'category' => $category,
-            'categories' => $categories
+            'categories' => $categories,
+            'priceMin' => $priceMin,
+            'priceMax' => $priceMax
         ]);
     }
 

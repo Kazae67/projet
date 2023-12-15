@@ -36,17 +36,27 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
-    // Méthode pour compter les produits filtrés
-    public function countFilteredProducts($category = null)
+    // Méthode pour compter les produits filtrés avec prise en compte de la tranche de prix
+    public function countFilteredProducts($category = null, $priceMin = null, $priceMax = null)
     {
         $qb = $this->createQueryBuilder('p');
     
-        $qb->where('p.is_active = :isActive') // évite de mettre des pages en trop en désactivant les produits inactifs
+        $qb->where('p.is_active = :isActive')
            ->setParameter('isActive', true);
     
         if ($category) {
             $qb->andWhere('p.category = :category')
                ->setParameter('category', $category);
+        }
+
+        if ($priceMin !== null && $priceMin !== '') {
+            $qb->andWhere('p.price >= :priceMin')
+               ->setParameter('priceMin', $priceMin);
+        }
+
+        if ($priceMax !== null && $priceMax !== '') {
+            $qb->andWhere('p.price <= :priceMax')
+               ->setParameter('priceMax', $priceMax);
         }
     
         return $qb->select('count(p.id)')
@@ -54,17 +64,27 @@ class ProductRepository extends ServiceEntityRepository
                   ->getSingleScalarResult();
     }
 
-    // Méthode pour récupérer les produits avec filtres et tri
-    public function findByFilters($category = null, $sort = 'newest', $maxResults, $start)
+    // Méthode pour récupérer les produits avec filtres, tri et tranche de prix
+    public function findByFilters($category = null, $sort = 'newest', $maxResults, $start, $priceMin = null, $priceMax = null)
     {
         $qb = $this->createQueryBuilder('p');
     
-        $qb->where('p.is_active = :isActive')   // condition pour filtrer uniquement les produits actifs
+        $qb->where('p.is_active = :isActive')
            ->setParameter('isActive', true);
     
         if ($category) {
             $qb->andWhere('p.category = :category')
                ->setParameter('category', $category);
+        }
+
+        if ($priceMin !== null && $priceMin !== '') {
+            $qb->andWhere('p.price >= :priceMin')
+               ->setParameter('priceMin', $priceMin);
+        }
+
+        if ($priceMax !== null && $priceMax !== '') {
+            $qb->andWhere('p.price <= :priceMax')
+               ->setParameter('priceMax', $priceMax);
         }
     
         switch ($sort) {
@@ -87,7 +107,7 @@ class ProductRepository extends ServiceEntityRepository
                   ->getQuery()
                   ->getResult();
     }
-    
+
     // You can uncomment and use the following methods as examples for custom queries:
 
     // public function findByExampleField($value): array
