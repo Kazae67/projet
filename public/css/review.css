@@ -90,8 +90,10 @@ h2 {
 
 
 .user-profile-picture {
-    width: 60px;
-    height: 60px;
+    width: 3vw; /* Taille de base relative à la largeur de la fenêtre */
+    height: 3vw;
+    min-width: 40px; /* Taille minimale pour empêcher que l'image devienne trop petite */
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
