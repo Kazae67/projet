@@ -9,7 +9,8 @@
         <div class="demi-cercle"></div>
         <div class="form-container">
     <h1>Profile of {{ user.username }}</h1>
-
+    <p>Last login: {{ lastLogin|date('Y-m-d H:i') }}</p>
+    <p>Total reviews left: {{ reviewCount }}</p>
 
     <h2>Products by {{ user.username }}</h2>
     <div class="products">
