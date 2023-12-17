@@ -30,6 +30,12 @@
 				<link rel="stylesheet" href="{{ asset('css/my-products.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/forms/form-my-products.css') }}">
 			{% endif %}
+			<!-- Pour la liste des produits des autres utilisateurs -->
+			{% if app.request.attributes.get('_route') == 'other_profile' %}
+				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/my-products.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form-my-products.css') }}">
+			{% endif %}
 			<!-- Pour les formulaires add/edit produit -->
 			{% if app.request.attributes.get('_route') == 'product_add' or app.request.attributes.get('_route') == 'product_edit' %}
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
@@ -122,7 +128,7 @@
 								{% if app.user.profilePicture %}
 									<img src="{{ asset('uploads/profile_pictures/' ~ app.user.profilePicture) }}" alt="Profile Picture" class="profil-logo">
 								{% else %}
-									<img src="{{ asset('images/logo.png') }}" alt="Default Profile Picture" class="profil-logo">
+									<img src="{{ asset('images/noPic.png') }}" alt="Default Profile Picture" class="profil-logo">
 								{% endif %}
 							</div>
 							<div class="dropdown-content">

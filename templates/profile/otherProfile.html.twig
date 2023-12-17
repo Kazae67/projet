@@ -1,0 +1,45 @@
+{# templates/profile/otherProfile.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile of {{ user.username }}{% endblock %}
+
+{% block body %}
+    <div class="parent-container">
+        <div class="demi-cercle"></div>
+        <div class="form-container">
+    <h1>Profile of {{ user.username }}</h1>
+
+
+    <h2>Products by {{ user.username }}</h2>
+    <div class="products">
+        {% for product in products %}
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="{{ product.name }}" class="card-img-top">
+
+                    <div class="card-hover-description">
+                        {{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
+                    </div>
+
+                    <div class="card-price">{{ product.price }}€</div>
+                    <div class="card-stock">Stock: {{ product.stockQuantity }}</div>
+
+                    <div class="icon-group">
+                        <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
+                            <span class="material-symbols-outlined show">visibility</span>
+                        </a>
+                        <!-- Autres boutons et actions si nécessaire -->
+                    </div>
+                </div>
+
+                <div class="card-user">{{ product.user.username }}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                </div>
+            </div>
+        {% else %}
+            <p>No products found.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

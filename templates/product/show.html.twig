@@ -30,12 +30,31 @@
                 <!-- Section pour l'image de profil de l'utilisateur qui a ajouté le produit -->
                 <div class="user-added-product-info">
                     {% if product.user %}
-                        <div class="added-product-user-profile">
-                            {% set profilePicturePath = product.user.profilePicture ? 'uploads/profile_pictures/' ~ product.user.profilePicture : 'images/noPic.png' %}
-                            <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ product.user.username }}" class="added-product-user-img">
-                        </div>
+                        <!-- Lien conditionnel pour l'image de profil -->
+                        {% if app.user and app.user == product.user %}
+                            <a href="{{ path('my_products') }}" class="added-product-user-profile">
+                                {% set profilePicturePath = product.user.profilePicture ? 'uploads/profile_pictures/' ~ product.user.profilePicture : 'images/noPic.png' %}
+                                <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ product.user.username }}" class="added-product-user-img">
+                            </a>
+                        {% else %}
+                            <a href="{{ path('other_profile', {'id': product.user.id}) }}" class="added-product-user-profile" {% if not product.user.isActivated %}style="pointer-events: none;"{% endif %}>
+                                {% set profilePicturePath = product.user.profilePicture ? 'uploads/profile_pictures/' ~ product.user.profilePicture : 'images/noPic.png' %}
+                                <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ product.user.username }}" class="added-product-user-img">
+                            </a>
+                        {% endif %}
                         <div class="added-product-user-text">
-                            <p class="username-clic"><strong>Username:</strong> {{ product.user.username }}</p>
+                            <!-- Lien conditionnel pour le nom d'utilisateur -->
+                            {% if app.user and app.user == product.user %}
+                                <p class="username-clic">
+                                    <strong>Username:</strong>
+                                    <a href="{{ path('my_products') }}">{{ product.user.username }}</a>
+                                </p>
+                            {% else %}
+                                <p class="username-clic" {% if not product.user.isActivated %}style="pointer-events: none;"{% endif %}>
+                                    <strong>Username:</strong>
+                                    <a href="{{ path('other_profile', {'id': product.user.id}) }}">{{ product.user.username }}</a>
+                                </p>
+                            {% endif %}
                             <p><strong>Date of creation:</strong> {{ product.createdAt ? product.createdAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
                             <p><strong>Update date:</strong> {{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i') : 'Not specified.' }}</p>
                         </div>
@@ -72,22 +91,40 @@
 
                     {% for review in reviews %}
                         <div class="review" id="review-{{ review.id }}">
-                            <!-- Conteneur pour l'image de profil, le rating et le username -->
                             <div class="user-info">
-                                <!-- Image de profil de l'utilisateur -->
-                                <div class="user-profile-picture">
-                                    {% set profilePicturePath = review.user.profilePicture ? 'uploads/profile_pictures/' ~ review.user.profilePicture : 'images/noPic.png' %}
-                                    {% if review.user.profilePicture != 'anonyme.png' %}
+                                <!-- Image de profil de l'utilisateur avec lien conditionnel -->
+                                {% if app.user and app.user == review.user %}
+                                    <a href="{{ path('my_products') }}" class="user-profile-picture">
+                                        {% set profilePicturePath = review.user.profilePicture ? 'uploads/profile_pictures/' ~ review.user.profilePicture : 'images/noPic.png' %}
                                         <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ review.user.username }}" class="user-img">
-                                    {% else %}
+                                    </a>
+                                {% elseif review.user.isActivated %}
+                                    <a href="{{ path('other_profile', {'id': review.user.id}) }}" class="user-profile-picture">
+                                        {% set profilePicturePath = review.user.profilePicture ? 'uploads/profile_pictures/' ~ review.user.profilePicture : 'images/noPic.png' %}
+                                        <img src="{{ asset(profilePicturePath) }}" alt="Profile Picture of {{ review.user.username }}" class="user-img">
+                                    </a>
+                                {% else %}
+                                    <div class="user-profile-picture">
                                         <img src="{{ asset('images/anonyme.png') }}" alt="Anonymized User" class="user-img">
-                                    {% endif %}
-                                </div>
-            
-                                <!-- Conteneur pour le rating et le username -->
+                                    </div>
+                                {% endif %}
                                 <div class="user-details">
-                                    <p class="username-review-clic"><strong>Username:</strong> {{ review.user.username }}</p>
-                                    <!-- USERNAME -->
+                                    <!-- Lien conditionnel pour le nom d'utilisateur -->
+                                    {% if app.user and app.user == review.user %}
+                                        <p class="username-review-clic">
+                                            <strong>Username:</strong>
+                                            <a href="{{ path('my_products') }}">{{ review.user.username }}</a>
+                                        </p>
+                                    {% elseif review.user.isActivated %}
+                                        <p class="username-review-clic">
+                                            <strong>Username:</strong>
+                                            <a href="{{ path('other_profile', {'id': review.user.id}) }}">{{ review.user.username }}</a>
+                                        </p>
+                                    {% else %}
+                                        <p class="username-review-clic">
+                                            <strong>Username:</strong> {{ review.user.username }}
+                                        </p>
+                                    {% endif %}
                                     <!-- RATING -->
                                     <div class="rating" id="review-rating-{{ review.id }}" data-rating="{{ review.rating }}">
                                         {% for i in 1..5 %}

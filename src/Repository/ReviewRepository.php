@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Review;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -31,6 +32,17 @@ class ReviewRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function countReviewsByUser(User $user): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->where('r.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 
 //    /**
 //     * @return Review[] Returns an array of Review objects

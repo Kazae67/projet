@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Adress;
+use App\Repository\UserRepository;
+use App\Repository\ProductRepository;
+use App\Repository\ReviewRepository;
 use App\DTO\ChangePasswordModel;
 use App\Form\ChangePasswordFormType;
 use App\Form\ProfilePictureType;
@@ -125,6 +128,33 @@ class ProfileController extends AbstractController
         // Rendre la vue 'profile/changePassword.html.twig' avec le formulaire de changement de mot de passe
         return $this->render('profile/changePassword.html.twig', [
             'changePasswordForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/user/{id}', name: 'other_profile', requirements: ['id' => '\d+'])]
+    public function viewUserProfile($id, UserRepository $userRepository, ProductRepository $productRepository, ReviewRepository $reviewRepository, EntityManagerInterface $entityManager): Response
+    {
+        if (!is_numeric($id)) {
+            error_log("Invalid ID: " . $id); 
+            throw $this->createNotFoundException('Invalid user ID');
+        }
+    
+        $id = (int) $id; 
+        $user = $userRepository->find($id);
+    
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+    
+        $products = $productRepository->findBy(['user' => $user]);
+        $reviewCount = $reviewRepository->countReviewsByUser($user);
+        $lastLogin = $user->getLastLogin();
+    
+        return $this->render('profile/otherProfile.html.twig', [
+            'user' => $user,
+            'products' => $products,
+            'reviewCount' => $reviewCount,
+            'lastLogin' => $lastLogin,
         ]);
     }
 }
