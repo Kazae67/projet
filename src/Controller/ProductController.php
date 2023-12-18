@@ -22,39 +22,47 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'product')]
-    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request): Response
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, ReviewRepository $reviewRepository, Request $request): Response
     {
         // Paramètres de pagination et de filtre
         $defaultMaxResults = 20; // Valeur par défaut pour le nombre de produits par page
         $maxResults = $request->query->getInt('maxResults', $defaultMaxResults); // Récupérer la valeur choisie 
         $sort = $request->query->get('sort', 'newest'); 
         $category = $request->query->get('category', null); // Aucune catégorie par défaut
-
+    
         // Traitement des tranches de prix
         $priceMin = $request->query->get('priceMin');
         $priceMax = $request->query->get('priceMax');
-
+    
         // Convertir les chaînes vides en null
         $priceMin = $priceMin !== '' ? $priceMin : null;
         $priceMax = $priceMax !== '' ? $priceMax : null;
-
+    
         // Récupérer les produits filtrés et paginés
         $totalProducts = $productRepository->countFilteredProducts($category, $priceMin, $priceMax); // Total de produits avec filtre
         $totalPages = ceil($totalProducts / $maxResults);
         $page = max(1, min($request->query->getInt('page', 1), $totalPages));
         $start = ($page - 1) * $maxResults;
         $products = $productRepository->findByFilters($category, $sort, $maxResults, $start, $priceMin, $priceMax);
-
+    
+        // Calcul de la moyenne des notes et du nombre total de votes pour chaque produit
+        foreach ($products as $product) {
+            $ratingInfo = $reviewRepository->getAverageRatingPercentForProduct($product);
+            $averageRatingPercent = round($ratingInfo['averageRatingPercent'] ?? 0); // Arrondi à l'entier le plus proche
+            $product->averageRatingPercent = $averageRatingPercent;
+            $product->reviewCount = $ratingInfo['reviewCount'] ?? 0;
+        }
+    
         // Récupérer les catégories
         $categories = $categoryRepository->findAll();
-
+    
         // Pour déterminer les pages à afficher
         $maxPagesToShow = 3; // Nombre maximal de pages à afficher
         $pagesToShow = min($maxPagesToShow, $totalPages);
         $halfPagesToShow = floor($pagesToShow / 2);
         $startPage = max(1, $page - $halfPagesToShow);
         $endPage = min($totalPages, $page + $halfPagesToShow);
-
+    
         if ($endPage - $startPage + 1 < $pagesToShow) {
             if ($startPage === 1) {
                 $endPage = min($totalPages, $startPage + $pagesToShow - 1);
@@ -62,7 +70,7 @@ class ProductController extends AbstractController
                 $startPage = max(1, $endPage - $pagesToShow + 1);
             }
         }
-
+    
         return $this->render('product/index.html.twig', [
             'products' => $products,
             'totalProducts' => $totalProducts,
@@ -78,30 +86,33 @@ class ProductController extends AbstractController
             'priceMax' => $priceMax
         ]);
     }
+    
 
 
     #[Route('/product/{id}', name: 'product_show', requirements: ['id' => '\d+'])]
     public function show(int $id, ProductRepository $productRepository, ReviewRepository $reviewRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = $productRepository->find($id);
-    
+
         if (!$product || !$product->isActive()) {
             throw $this->createNotFoundException('The requested product does not exist or is not active.');
-        }    
-    
-        // Récupérer les revues triées du plus récent au plus ancien
+        }
+
         $reviews = $reviewRepository->findByProductSortedByDate($product);
-    
+
+        // getAverageRatingPercentForProduct du ReviewRepository
+        $ratingInfo = $reviewRepository->getAverageRatingPercentForProduct($product);
+        $averageRatingPercent = $ratingInfo['averageRatingPercent'] ?? 0;
+        $totalVotes = $ratingInfo['reviewCount'] ?? 0;
+
         $user = $this->getUser();
         $existingReview = $reviewRepository->findOneBy(['product' => $product, 'user' => $user]);
-    
+
         $form = $this->createForm(ReviewFormType::class, new Review());
-    
-        // Afficher le formulaire seulement si l'utilisateur n'a pas déjà laissé de revue
-        // et si l'utilisateur n'est pas le propriétaire du produit
+
         if (!$existingReview && $user !== $product->getUser()) {
             $form->handleRequest($request);
-    
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $review = $form->getData();
                 $review->setProduct($product);
@@ -109,17 +120,19 @@ class ProductController extends AbstractController
                 $review->setCreatedAt(new \DateTimeImmutable());
                 $entityManager->persist($review);
                 $entityManager->flush();
-    
+
                 return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
             }
         }
-    
+
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'reviews' => $reviews,
             'form' => $form->createView(),
             'existingReview' => $existingReview,
             'canReview' => !$existingReview && $user !== $product->getUser(),
+            'averageRatingPercent' => $averageRatingPercent,
+            'totalVotes' => $totalVotes
         ]);
     }
     

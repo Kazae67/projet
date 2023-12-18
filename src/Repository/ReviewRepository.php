@@ -43,6 +43,22 @@ class ReviewRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function getAverageRatingPercentForProduct(Product $product)
+    {
+        $result = $this->createQueryBuilder('r')
+            ->select('AVG(r.rating) as averageRating', 'COUNT(r.id) as reviewCount')
+            ->where('r.product = :product')
+            ->setParameter('product', $product)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if ($result) {
+            $result['averageRatingPercent'] = ($result['averageRating'] / 5) * 100; // Conversion en pourcentage
+            $result['averageRatingPercent'] = number_format($result['averageRatingPercent'], 2); // Formatage avec 2 chiffres après la virgule
+        }
+
+        return $result;
+    }
 
 //    /**
 //     * @return Review[] Returns an array of Review objects

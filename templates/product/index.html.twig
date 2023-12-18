@@ -77,8 +77,26 @@
                         <div class="card-img-container">
                        <!-- Lien vers product_show -->
                         <a href="{{ path('product_show', {'id': product.id}) }}">
-                    <!-- Si l'utilisateur a ajouté une image, sinon, default-image -->
-                    <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="Image of {{ product.name }}" class="card-img-top">
+                            <!-- Si l'utilisateur a ajouté une image, sinon, default-image -->
+                            <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="Image of {{ product.name }}" class="card-img-top">
+                            <!-- VOTE -->
+                            <div class="rating-overlay">
+                                <span class="material-symbols-outlined vote
+                                    {% if product.reviewCount == 0 %}
+                                        vote-none
+                                    {% elseif product.averageRatingPercent >= 70 %}
+                                        vote-high
+                                    {% elseif product.averageRatingPercent <= 30 %}
+                                        vote-low
+                                    {% else %}
+                                        vote-medium
+                                    {% endif %}
+                                ">
+                                    recommend
+                                </span>
+                                <span>{{ product.averageRatingPercent }}% ({{ product.reviewCount }})</span>&nbsp
+                            </div>
+                            
                             <!-- Conteneur pour la description au survol -->
                             <div class="card-hover-description">
                                 {{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
@@ -106,6 +124,14 @@
                     </div>
                          <!-- Username -->
                     <div class="card-user">{{ product.user.username }}</div>
+                    <!-- Username avec lien conditionnel -->
+                    {% if product.user == app.user %}
+                        <!-- Redirection vers my_products si l'utilisateur de la carte est l'utilisateur connecté -->
+                        <a href="{{ path('my_products') }}" class="card-user">{{ product.user.username }}</a>
+                    {% else %}
+                        <!-- Redirection vers other_profile si l'utilisateur de la carte n'est pas l'utilisateur connecté -->
+                        <a href="{{ path('other_profile', {'id': product.user.id}) }}" class="card-user">{{ product.user.username }}</a>
+                    {% endif %}
 
                     <div class="card-body">
                             <!-- Nom du Produit -->

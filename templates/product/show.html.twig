@@ -20,6 +20,25 @@
                     <!-- IMAGE avec Hover Info -->
                     <div class="image-container">
                         <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="Image of {{ product.name }}" class="product-img">
+
+                     <!-- VOTE -->   
+                    <div class="rating-overlay">
+                        <span class="material-symbols-outlined vote
+                            {% if totalVotes == 0 %}
+                                vote-none
+                            {% elseif averageRatingPercent >= 70 %}
+                                vote-high
+                            {% elseif averageRatingPercent <= 30 %}
+                                vote-low
+                            {% else %}
+                                vote-medium
+                            {% endif %}
+                        ">
+                            recommend
+                        </span>
+                        <span>{{ averageRatingPercent }}% ({{ totalVotes }} votes)</span>&nbsp
+                    </div>
+
                         <div class="hover-info">
                             <p><strong>Category:</strong> {{ product.category.name }}</p>
                             <p><strong>Price:</strong> {{ product.price }}€</p>

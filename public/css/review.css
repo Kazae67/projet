@@ -118,6 +118,10 @@ h2 {
 .rating[data-rating='4'] .fa-star.checked { --star-color: rgb(255, 208, 0); }
 .rating[data-rating='5'] .fa-star.checked { --star-color: rgb(255, 217, 0);}
 
+.fa-star-half-o.checked {
+    /* Dégradé de couleur pour la demi-étoile */
+    color: linear-gradient(90deg, var(--star-color) 50%, white 50%);
+}
 
 .user-profile-picture {
     width: 3vw; /* Taille de base relative à la largeur de la fenêtre */
@@ -244,4 +248,37 @@ h2 {
     .page-layout {
         display: block; /* empile verticalement */
     }
+}
+
+
+.rating-overlay {
+    position:absolute;
+    color: rgb(255, 255, 255); 
+    background: rgba(0, 0, 0, 0.6); 
+    padding: 10px; 
+    border-radius: 30px; 
+    display: inline-flex; /* Aligner l'icône et le texte côte à côte */
+    align-items: center; 
+    font-size: 1.2em; 
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+}
+
+.vote {
+    color: white;
+    margin-right: 4px;
+}
+
+.vote-high {
+    color: green; /* les scores élevés */
+}
+
+.vote-medium {
+    color: orange; /* les scores moyens */
+}
+
+.vote-low {
+    color: red; /* les scores faibles */
+    transform: rotate(180deg) scaleX(-1); /* Rotation et inversion horizontale */
 }
