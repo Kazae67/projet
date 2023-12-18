@@ -105,6 +105,8 @@ class ProductController extends AbstractController
         $averageRatingPercent = $ratingInfo['averageRatingPercent'] ?? 0;
         $totalVotes = $ratingInfo['reviewCount'] ?? 0;
 
+        $salesCount = $productRepository->countSalesForProduct($product); // Compte le nombre de produit vendu
+
         $user = $this->getUser();
         $existingReview = $reviewRepository->findOneBy(['product' => $product, 'user' => $user]);
 
@@ -132,7 +134,8 @@ class ProductController extends AbstractController
             'existingReview' => $existingReview,
             'canReview' => !$existingReview && $user !== $product->getUser(),
             'averageRatingPercent' => $averageRatingPercent,
-            'totalVotes' => $totalVotes
+            'totalVotes' => $totalVotes,
+            'salesCount' => $salesCount
         ]);
     }
     
@@ -221,18 +224,32 @@ class ProductController extends AbstractController
 
     #[IsGranted('ROLE_CRAFTSMAN')]
     #[Route('/my-products', name: 'my_products')]
-    public function myProducts(ProductRepository $productRepository): Response
+    public function myProducts(ProductRepository $productRepository, ReviewRepository $reviewRepository): Response
     {
         $user = $this->getUser();
-    
+        
         if (!$user) {
             throw $this->createNotFoundException('User not found or not logged in.');
         }
-    
+        
         $products = $productRepository->findBy(['user' => $user, 'is_active' => true]);
+        $productsWithRatings = [];
+    
+        foreach ($products as $product) {
+            $ratingInfo = $reviewRepository->getAverageRatingPercentForProduct($product);
+            $averageRatingPercent = round($ratingInfo['averageRatingPercent'] ?? 0); // Arrondi à l'entier le plus proche
+            $salesCount = $productRepository->countSalesForProduct($product); // Compter le nombre total de ventes
+    
+            $productsWithRatings[] = [
+                'product' => $product,
+                'averageRatingPercent' => $averageRatingPercent,
+                'reviewCount' => $ratingInfo['reviewCount'] ?? 0,
+                'salesCount' => $salesCount // le nombre de ventes
+            ];
+        }
     
         return $this->render('product/myProducts.html.twig', [
-            'products' => $products
+            'productsWithRatings' => $productsWithRatings
         ]);
     }
 

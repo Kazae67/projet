@@ -58,6 +58,38 @@
 
 }
 
+.rating-overlay {
+    position: absolute;
+    color: rgb(255, 255, 255); 
+    padding: 5px; 
+    border-radius: 30px; 
+    font-weight:bolder;
+    display: inline-flex; /* Aligner l'icône et le texte côte à côte */
+    align-items: center; 
+    font-size: 1em; 
+    bottom: 8px;
+    right: 10px;
+    z-index:2;
+    background-color: rgba(0, 0, 0, 0.637);
+}
+.vote {
+    color: white;
+    margin-right: 4px;
+}
+
+.vote-high {
+    color: green; /* scores élevés */
+}
+
+.vote-medium {
+    color: orange; /* scores moyens */
+}
+
+.vote-low {
+    color: red; /*les scores faibles */
+    transform: rotate(180deg) scaleX(-1); /* Rotation et inversion horizontale */
+}
+
 .material-symbols-outlined.plus:hover{
     animation: pulse 2s infinite ease-in-out; 
 }

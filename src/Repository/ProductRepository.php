@@ -108,6 +108,19 @@ class ProductRepository extends ServiceEntityRepository
                   ->getResult();
     }
 
+    // Compter le nombre de fois qu'un produit a été vendu
+        public function countSalesForProduct(Product $product): int
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT COUNT(od.id)
+                FROM App\Entity\OrderDetail od
+                WHERE od.product = :product'
+            )
+            ->setParameter('product', $product)
+            ->getSingleScalarResult();
+    }
+
     // You can uncomment and use the following methods as examples for custom queries:
 
     // public function findByExampleField($value): array

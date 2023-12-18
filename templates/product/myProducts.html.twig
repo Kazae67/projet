@@ -7,60 +7,75 @@
         <div class="demi-cercle"></div>
         <div class="form-container">
             <h1>My Products</h1>
-            {% if products|length == 0 %}
+            {% if productsWithRatings|length == 0 %}
                 <p class="no-products-message">You have not added any products yet.</p>
-            {% endif %}
+            {% else %}
+                <div class="products">
+                    {% for productData in productsWithRatings %}
+                        <div class="card">
+                            <div class="card-img-container">
+                              <a href="{{ path('product_show', {'id': productData.product.id}) }}">
+                                <img src="{{ productData.product.imageUrl|default('/images/default-image.jpg') }}" alt="{{ productData.product.name }}" class="card-img-top">
+                                
+                                <!-- Survol nombre de fois vendu -->
+                                <div class="card-hover-description">
+                                    Sold: {{ productData.salesCount }} times
+                                </div>
+                              </a>
+                                <!-- Prix du produit -->
+                                <div class="card-price">{{ productData.product.price }}€</div>
 
-            <div class="products">
-                {% for product in products %}
-                    <div class="card">
-                        <div class="card-img-container">
-                            <img src="{{ product.imageUrl|default('/images/default-image.jpg') }}" alt="{{ product.name }}" class="card-img-top">
-
-                            <!-- Description au survol (similaire à index.html.twig) -->
-                            <div class="card-hover-description">
-                                {{ product.description|length > 100 ? product.description|slice(0, 100) ~ '...' : product.description }}
+                                <!-- Ajout de la quantité restante -->
+                                <div class="card-stock">Stock: {{ productData.product.stockQuantity }}</div>
+                                
+                                <!-- VOTE -->
+                                <div class="rating-overlay">
+                                    <span class="material-symbols-outlined vote
+                                        {% if productData.reviewCount == 0 %}
+                                            vote-none
+                                        {% elseif productData.averageRatingPercent >= 75 %}
+                                            vote-high
+                                        {% elseif productData.averageRatingPercent < 25 %}
+                                            vote-low
+                                        {% else %}
+                                            vote-medium
+                                        {% endif %}
+                                    ">
+                                        recommend
+                                    </span>
+                                    <span>{{ productData.averageRatingPercent }}% ({{ productData.reviewCount }})</span>&nbsp
+                                </div>
+                                <!-- Groupe d'icônes pour les actions -->
+                                <div class="icon-group">
+                                    <a href="{{ path('product_show', {'id': productData.product.id}) }}" class="btn btn-show">
+                                        <span class="material-symbols-outlined show">visibility</span>
+                                    </a>
+                                    <a href="{{ path('product_edit', {'id': productData.product.id}) }}" class="btn btn-edit">
+                                        <span class="material-symbols-outlined edit">edit</span>
+                                    </a>
+                                    <form method="post" action="{{ path('product_delete', {'id': productData.product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ productData.product.id) }}">
+                                        <button type="submit" class="btn btn-delete">
+                                            <span class="material-symbols-outlined delete">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
 
-                            <!-- Prix du produit -->
-                            <div class="card-price">{{ product.price }}€</div>
-
-                            <!-- Ajout de la quantité restante -->
-                            <div class="card-stock">Stock: {{ product.stockQuantity }}</div>
-
-                            <!-- Groupe d'icônes pour les actions -->
-                            <div class="icon-group">
-                                <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-show">
-                                    <span class="material-symbols-outlined show">visibility</span>
-                                </a>
-                                <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-edit">
-                                    <span class="material-symbols-outlined edit">edit</span>
-                                </a>
-                                <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-                                    <button type="submit" class="btn btn-delete">
-                                        <span class="material-symbols-outlined delete">delete</span>
-                                    </button>
-                                </form>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ productData.product.name }}</h5>
                             </div>
                         </div>
+                    {% endfor %}
 
-                        <!-- Utilisateur qui a posté le produit -->
-                        <div class="card-user">{{ product.user.username }}</div>
-
-                        <!-- Corps de la carte -->
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                        </div>
+                    <!-- Slot pour ajouter un nouveau produit -->
+                    <div class="add-product-slot">
+                        <a href="{{ path('product_add') }}" class="add-product-link">
+                            <span class="material-symbols-outlined plus">add</span>
+                        </a>
                     </div>
-                {% endfor %}
-                <!-- Slot pour ajouter un nouveau produit -->
-                <div class="add-product-slot">
-                    <a href="{{ path('product_add') }}" class="add-product-link">
-                        <span class="material-symbols-outlined plus">add</span>
-                    </a>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

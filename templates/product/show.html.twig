@@ -21,6 +21,10 @@
                     <div class="image-container">
                         <img src="{{ product.imageUrl ?: '/images/default-image.jpg' }}" alt="Image of {{ product.name }}" class="product-img">
 
+                    <!-- Affichage du nombre de ventes -->
+                    <div class="sales-count-overlay">
+                        Sold: {{ salesCount }} times
+                    </div>
                      <!-- VOTE -->   
                     <div class="rating-overlay">
                         <span class="material-symbols-outlined vote
