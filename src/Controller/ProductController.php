@@ -244,12 +244,13 @@ class ProductController extends AbstractController
                 'product' => $product,
                 'averageRatingPercent' => $averageRatingPercent,
                 'reviewCount' => $ratingInfo['reviewCount'] ?? 0,
-                'salesCount' => $salesCount // le nombre de ventes
+                'salesCount' => $salesCount, // le nombre de ventes
             ];
         }
     
         return $this->render('product/myProducts.html.twig', [
-            'productsWithRatings' => $productsWithRatings
+            'productsWithRatings' => $productsWithRatings,
+            'products' => $products
         ]);
     }
 
