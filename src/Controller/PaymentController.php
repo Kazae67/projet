@@ -93,7 +93,7 @@ class PaymentController extends AbstractController
       $payment->setOrder($order);
       $payment->setTransactionId($charge->id);
       $payment->setStatus($charge->status);
-      $payment->setPaymentMethod("carte de crédit");
+      $payment->setPaymentMethod("Credit Card");
       $payment->setCreatedAt(new \DateTimeImmutable());
 
       // Persiste l'enregistrement de paiement

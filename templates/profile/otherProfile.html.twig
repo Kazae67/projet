@@ -12,7 +12,6 @@
     <p>Last login: {{ lastLogin|date('Y-m-d H:i') }}</p>
     <p>Total reviews left: {{ reviewCount }}</p>
 
-    <h2>Products by {{ user.username }}</h2>
     <div class="products">
         {% for product in products %}
             <div class="card">
