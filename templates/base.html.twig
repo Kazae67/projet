@@ -17,6 +17,13 @@
 			<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 			<link
 			rel="stylesheet" href="{{ asset('css/standard.css') }}">
+
+						<!-- Pour la page home  -->
+			{% if app.request.attributes.get('_route') == 'home' %}
+							<link rel="stylesheet" href="{{ asset('css/forms/form-products.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+			{% endif %}
+
 			<!-- Pour la liste des produits -->
 			{% if app.request.attributes.get('_route') == 'product' %}
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">

@@ -120,7 +120,54 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter('product', $product)
             ->getSingleScalarResult();
     }
+    public function findTopRatedProducts($limit = 5)
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('AVG(r.rating) as HIDDEN avgRating') // Calcule la moyenne des notes
+            ->leftJoin('p.reviews', 'r') // Jointure avec la table des avis
+            ->where('p.is_active = true') // Filtre pour inclure uniquement les produits actifs
+            ->groupBy('p') // Groupe par produit
+            ->orderBy('avgRating', 'DESC') // Trie par note moyenne décroissante
+            ->setMaxResults($limit) // Limite à 5 produits
+            ->getQuery()
+            ->getResult();
+    }
 
+    public function findTopSellingProducts($limit = 5)
+    {
+        // Récupère les produits actifs
+        $products = $this->findBy(['is_active' => true]);
+    
+        // Crée un tableau pour stocker les produits et leur nombre de ventes
+        $productsWithSalesCount = [];
+        foreach ($products as $product) {
+            $salesCount = $this->countSalesForProduct($product);
+            $productsWithSalesCount[] = [
+                'product' => $product,
+                'salesCount' => $salesCount
+            ];
+        }
+    
+        // Trie le tableau par le nombre de ventes en ordre décroissant
+        usort($productsWithSalesCount, function ($a, $b) {
+            return $b['salesCount'] <=> $a['salesCount'];
+        });
+    
+        // Retourne les $limit premiers produits
+        return array_slice($productsWithSalesCount, 0, $limit);
+    }
+
+    public function findLatestProducts($limit = 10)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.is_active = true') // Assurez-vous que le produit est actif
+            ->orderBy('p.created_at', 'DESC') // Trie par date de création, remplacez 'createdAt' par votre champ de date réel
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+        
+    
     // You can uncomment and use the following methods as examples for custom queries:
 
     // public function findByExampleField($value): array

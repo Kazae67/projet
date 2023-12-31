@@ -1,8 +1,145 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue
-{% endblock %}
+{% block title %}Top 5 Rated Products - Craftmen{% endblock %}
+{% block meta_description %}Discover our top 5 rated products. Explore the best items chosen by our customers on Craftmen.{% endblock %}
 
 {% block body %}
-	<h1>Welcome to my project</h1>
+    {% if app.user %}
+        <div class="parent-container">
+            <div class="demi-cercle"></div>
+    {% endif %}
+        <div class="form-container">
+        <h1>Welcome to Craftmen</h1>
+
+        <!-- Carousel for Top Rated Products -->
+            <h2>Top Rated Products</h2>
+        <div class="carousel-container">
+            <div class="carousel carousel-rated">
+                <div class="carousel-images">
+                    {% for product in topRatedProducts %}
+                        <a href="{{ path('product_show', {'id': product.id}) }}">
+                            <img src="{{ product.imageUrl ?: asset('/images/default-image.jpg') }}" 
+                                 alt="{{ product.name }}" 
+                                 class="{{ loop.first ? 'active' : '' }}" 
+                                 id="carousel-img-{{ loop.index0 }}"
+                                 style="opacity: {{ loop.first ? '1' : '0' }};">
+                        </a>
+                    {% else %}
+                        <p>No top rated products found.</p>
+                    {% endfor %}
+                </div>
+                <button class="carousel-button prev">
+                    <span class="material-symbols-outlined">arrow_back_ios_new</span>
+                </button>
+                <button class="carousel-button next">
+                    <span class="material-symbols-outlined">arrow_forward_ios</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Miniatures for Top Rated Products -->
+        <div class="top-rated-products-container">
+            <div class="top-rated-products">
+                {% for product in topRatedProducts %}
+                    <div class="product-thumbnail {% if loop.first %}active{% endif %}">
+                        <a href="{{ path('product_show', {'id': product.id}) }}">
+                            <img src="{{ product.imageUrl ?: asset('/images/default-image.jpg') }}" alt="{{ product.name }}">
+                        </a>
+                    </div>
+                {% else %}
+                    <p>No top rated products found.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Carousel for Top Selling Products -->
+            <h2>Top Selling Products</h2>
+        <div class="carousel-container">
+            <div class="carousel carousel-selling">
+                <div class="carousel-images">
+                    {% for entry in topSellingProducts %}
+                        {% set product = entry.product %}
+                        <a href="{{ path('product_show', {'id': product.id}) }}">
+                            <img src="{{ product.imageUrl ?: asset('/images/default-image.jpg') }}" 
+                                 alt="{{ product.name }}" 
+                                 class="{{ loop.first ? 'active' : '' }}" 
+                                 id="carousel-selling-img-{{ loop.index0 }}"
+                                 style="opacity: {{ loop.first ? '1' : '0' }};">
+                        </a>
+                    {% else %}
+                        <p>No top selling products found.</p>
+                    {% endfor %}
+                </div>
+                <button class="carousel-button prev">
+                    <span class="material-symbols-outlined">arrow_back_ios_new</span>
+                </button>
+                <button class="carousel-button next">
+                    <span class="material-symbols-outlined">arrow_forward_ios</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Miniatures for Top Selling Products -->
+        <div class="top-selling-products-container">
+            <div class="top-selling-products">
+                {% for entry in topSellingProducts %}
+                    {% set product = entry.product %}
+                    <div class="product-thumbnail">
+                        <a href="{{ path('product_show', {'id': product.id}) }}">
+                            <img src="{{ product.imageUrl ?: asset('/images/default-image.jpg') }}" alt="{{ product.name }}">
+                            <div class="sales-count-overlay">
+                                Sold: {{ entry.salesCount }} times
+                            </div>
+                        </a>
+                    </div>
+                {% else %}
+                    <p>No top selling products found.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+		<!-- Carousel for Latest Products -->
+		<h2>Latest Products</h2>
+		<div class="carousel-container">
+			<div class="carousel carousel-latest">
+				<div class="carousel-images">
+					{% for product in latestProducts %}
+						<div class="carousel-item {% if loop.first %}active{% endif %}">
+							<a href="{{ path('product_show', {'id': product.id}) }}">
+								<img src="{{ product.imageUrl ?: asset('/images/default-image.jpg') }}" 
+									alt="{{ product.name }}" 
+									class="{{ loop.first ? 'active' : '' }}" 
+									id="carousel-latest-img-{{ loop.index0 }}">
+							</a>
+						</div>
+					{% else %}
+						<p>No latest products found.</p>
+					{% endfor %}
+				</div>
+				<button class="carousel-button prev">
+					<span class="material-symbols-outlined">arrow_back_ios_new</span>
+				</button>
+				<button class="carousel-button next">
+					<span class="material-symbols-outlined">arrow_forward_ios</span>
+				</button>
+			</div>
+		</div>
+
+		<!-- Miniatures for Latest Products -->
+		<div class="latest-products-container">
+			<div class="latest-products">
+				{% for product in latestProducts %}
+					<div class="product-thumbnail {% if loop.first %}active{% endif %}">
+						<a href="{{ path('product_show', {'id': product.id}) }}">
+							<img src="{{ product.imageUrl ?: asset('/images/default-image.jpg') }}" alt="{{ product.name }}">
+						</a>
+					</div>
+				{% else %}
+					<p>No latest products found.</p>
+				{% endfor %}
+			</div>
+		</div>
+
+        <script src="{{ asset('js/home.js') }}"></script>
+    </div>
 {% endblock %}
