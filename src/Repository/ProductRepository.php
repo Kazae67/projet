@@ -39,54 +39,66 @@ class ProductRepository extends ServiceEntityRepository
     // Méthode pour compter les produits filtrés avec prise en compte de la tranche de prix
     public function countFilteredProducts($category = null, $priceMin = null, $priceMax = null)
     {
+        // Création d'une requête QueryBuilder avec 'p' comme alias pour l'entité produit
         $qb = $this->createQueryBuilder('p');
-    
+
+        // Filtrage des produits actifs
         $qb->where('p.is_active = :isActive')
-           ->setParameter('isActive', true);
-    
+        ->setParameter('isActive', true);
+
+        // Ajout d'un filtre de catégorie, si spécifié
         if ($category) {
             $qb->andWhere('p.category = :category')
-               ->setParameter('category', $category);
+            ->setParameter('category', $category);
         }
 
+        // Ajout de filtres pour la tranche de prix minimum, si spécifiée
         if ($priceMin !== null && $priceMin !== '') {
             $qb->andWhere('p.price >= :priceMin')
-               ->setParameter('priceMin', $priceMin);
+            ->setParameter('priceMin', $priceMin);
         }
 
+        // Ajout de filtres pour la tranche de prix maximum, si spécifiée
         if ($priceMax !== null && $priceMax !== '') {
             $qb->andWhere('p.price <= :priceMax')
-               ->setParameter('priceMax', $priceMax);
+            ->setParameter('priceMax', $priceMax);
         }
-    
+
+        // Renvoie le nombre total de produits qui correspondent aux critères de filtre
         return $qb->select('count(p.id)')
-                  ->getQuery()
-                  ->getSingleScalarResult();
+                ->getQuery()
+                ->getSingleScalarResult();
     }
 
     // Méthode pour récupérer les produits avec filtres, tri et tranche de prix
     public function findByFilters($category = null, $sort = 'newest', $maxResults, $start, $priceMin = null, $priceMax = null)
     {
+        // Création d'une requête QueryBuilder avec 'p' comme alias pour l'entité produit
         $qb = $this->createQueryBuilder('p');
-    
+
+        // Filtrage des produits actifs
         $qb->where('p.is_active = :isActive')
-           ->setParameter('isActive', true);
-    
+        ->setParameter('isActive', true);
+
+        // Ajout d'un filtre de catégorie, si spécifié
         if ($category) {
             $qb->andWhere('p.category = :category')
-               ->setParameter('category', $category);
+            ->setParameter('category', $category);
         }
 
+        // Ajout de filtres pour la tranche de prix minimum, si spécifiée
         if ($priceMin !== null && $priceMin !== '') {
             $qb->andWhere('p.price >= :priceMin')
-               ->setParameter('priceMin', $priceMin);
+            ->setParameter('priceMin', $priceMin);
         }
 
+        // Ajout de filtres pour la tranche de prix maximum, si spécifiée
         if ($priceMax !== null && $priceMax !== '') {
             $qb->andWhere('p.price <= :priceMax')
-               ->setParameter('priceMax', $priceMax);
+            ->setParameter('priceMax', $priceMax);
         }
-    
+
+        // Gestion du tri des produits selon le critère spécifié
         switch ($sort) {
             case 'oldest':
                 $qb->orderBy('p.created_at', 'ASC');
@@ -101,11 +113,12 @@ class ProductRepository extends ServiceEntityRepository
                 $qb->orderBy('p.created_at', 'DESC');
                 break;
         }
-    
+
+        // Application de la pagination avec le nombre maximal de résultats et le point de départ
         return $qb->setMaxResults($maxResults)
-                  ->setFirstResult($start)
-                  ->getQuery()
-                  ->getResult();
+                ->setFirstResult($start)
+                ->getQuery()
+                ->getResult();
     }
 
     // Compter le nombre de fois qu'un produit a été vendu

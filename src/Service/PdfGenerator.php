@@ -17,22 +17,22 @@ class PdfGenerator
 
     public function generatePdfFromHtml($html)
     {
-        // Configuration de DOMPDF
+        // Configuration initiale de DOMPDF
         $options = new Options();
-        $options->set('defaultFont', 'Arial');
-        $dompdf = new Dompdf($options);
-
+        $options->set('defaultFont', 'Arial'); // Définition de la police par défaut
+        $dompdf = new Dompdf($options); // Initialisation de DOMPDF avec les options configurées
+    
         // Chargement du HTML dans DOMPDF
-        $dompdf->loadHtml($html);
-
-        // l'orientation du papier
-        $dompdf->setPaper('A4', 'portrait');
-
-        // Rendu du PDF
-        $dompdf->render();
-
-        // Retourner le contenu du PDF
-        return $dompdf->output();
+        $dompdf->loadHtml($html); // Intégration du contenu HTML à convertir
+    
+        // Définition de l'orientation et du format du papier
+        $dompdf->setPaper('A4', 'portrait'); // Format A4 en orientation portrait
+    
+        // Génération du PDF
+        $dompdf->render(); // Traitement et rendu du PDF
+    
+        // Extraction et retour du contenu PDF généré
+        return $dompdf->output(); // Renvoi du contenu PDF pour utilisation ultérieure
     }
 
     public function generatePdfFromTemplate($templatePath, $data = [])

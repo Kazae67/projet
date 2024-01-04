@@ -173,13 +173,20 @@ class ProductController extends AbstractController
     #[Route('/product/add', name: 'product_add')]
     public function addProduct(Request $request, EntityManagerInterface $em, ProductRepository $productRepository, SluggerInterface $slugger): Response
     {
+        // Création d'une nouvelle instance de l'entité Product
         $product = new Product();
+        // Création et configuration du formulaire pour le produit
         $form = $this->createForm(ProductType::class, $product);
+        // Traitement de la requête HTTP et liaison avec le formulaire
         $form->handleRequest($request);
-    
+
+        // Vérification si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
+            // Recherche dans la base de données si un produit avec le même nom existe déjà
             $existingProduct = $productRepository->findOneBy(['name' => $product->getName()]);
+            // Gestion du cas où un produit avec le même nom existe déjà
             if ($existingProduct) {
+                // Affichage d'un message d'erreur et renvoi du formulaire à l'utilisateur
                 $this->addFlash('error', 'A product with this name already exists.');
                 return $this->render('product/add.html.twig', [
                     'form' => $form->createView(),
@@ -188,24 +195,30 @@ class ProductController extends AbstractController
     
             $imageFile = $form->get('imageFile')->getData();
             if ($imageFile) {
+                // Extraction du nom de fichier original de l'image uploadée
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // Nettoyage du nom de fichier pour obtenir un nom sûr pour l'URL
                 $safeFilename = $slugger->slug($originalFilename);
+                // Création d'un nom de fichier unique pour l'image
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-    
+            
                 try {
+                    // Déplacement de l'image dans le répertoire de stockage
                     $imageFile->move(
                         $this->getParameter('products_directory'),
                         $newFilename
                     );
+                    // Mise à jour de l'URL de l'image dans l'entité produit
                     $product->setImageUrl('/uploads/products/'.$newFilename);
                 } catch (FileException $e) {
-                    // message d'erreur
+                    // Gestion des erreurs lors de l'upload de l'image
                     $this->addFlash('error', 'Failed to upload image: ' . $e->getMessage());
                     return $this->render('product/add.html.twig', [
                         'form' => $form->createView(),
                     ]);
                 }
             } else {
+                // Utilisation d'une image par défaut si aucune image n'est uploadée
                 $product->setImageUrl('/images/default-image.jpg');
             }
     

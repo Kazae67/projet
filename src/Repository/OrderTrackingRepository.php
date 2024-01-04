@@ -21,11 +21,19 @@ class OrderTrackingRepository extends ServiceEntityRepository
 
     public function findByOrder($orderId)
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.order = :val')
-            ->setParameter('val', $orderId)
-            ->orderBy('o.updatedAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+    // Utilisation de createQueryBuilder pour créer une requête DQL en utilisant 'o' comme alias pour l'entité.
+    return $this->createQueryBuilder('o')
+        // Ajout d'une condition où l'attribut 'order' de l'entité représentée par l'alias 'o' doit correspondre à un paramètre nommé.
+        ->andWhere('o.order = :val')
+        // Affectation de la valeur de $orderId au paramètre nommé ':val'.
+        // Doctrine s'occupe automatiquement d'échapper les valeurs pour éviter les injections SQL.
+        ->setParameter('val', $orderId)
+        // Tri des résultats par l'attribut 'updatedAt' de l'entité représentée par l'alias 'o' en ordre décroissant.
+        ->orderBy('o.updatedAt', 'DESC')
+        // Obtention de la requête DQL préparée.
+        ->getQuery()
+        // Exécution de la requête et récupération des résultats.
+        ->getResult();
     }
+    
 }

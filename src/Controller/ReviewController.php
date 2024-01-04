@@ -75,24 +75,30 @@ class ReviewController extends AbstractController
     }
 
 
-    // Mise à jour avec AJAX
+    // Mise à jour des avis avec AJAX
     #[Route('/review/update/{id}', name: 'review_update')]
     public function update(Request $request, Review $review, EntityManagerInterface $entityManager): JsonResponse
     {
+        // Vérification de l'autorisation de l'utilisateur à modifier l'avis
         if ($this->getUser() !== $review->getUser()) {
+            // Envoi d'une réponse JSON en cas d'erreur d'autorisation
             return new JsonResponse(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
-    
+
+        // Récupération des données envoyées par l'utilisateur
         $title = $request->request->get('title');
         $rating = $request->request->get('rating');
         $comment = $request->request->get('comment');
-    
+
+        // Mise à jour de l'avis avec les nouvelles informations
         $review->setTitle($title);
         $review->setRating($rating);
         $review->setComment($comment);
-    
+
+        // Sauvegarde des changements dans la base de données
         $entityManager->flush();
-    
+
+        // Envoi d'une réponse JSON confirmant la mise à jour réussie
         return new JsonResponse(['message' => 'Review updated successfully']);
     }
 }

@@ -79,14 +79,14 @@
 /* my products */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(2) { 
   left: calc(50% + -47px); /* Décale légèrement vers la droite */
-  bottom: -105.5px; /* Descendre l'icône */
+  bottom: -108.5px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
 /* my tracking list */
 .is-craftsman .dropdown-content .dropdown-item:nth-child(3) { 
   left: calc(50% + 33px); /* Décale vers la droite */
-  bottom: -105.5px; /* Descendre l'icône */
+  bottom: -108.5px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
@@ -99,18 +99,18 @@
 
 /******** CUSTOMER ********/
 .is-customer .dropdown-content .dropdown-item:nth-child(1) {
-  left: calc(50% - 75px); /* Décale légèrement vers la gauche */
-  bottom: -20px; /* Descendre l'icône */
+  left: calc(50% - 90px); /* Décale légèrement vers la gauche */
+  bottom: -45px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 .is-customer .dropdown-content .dropdown-item:nth-child(2) {
   left: calc(50% + -6px); /* Décale légèrement vers la droite */
-  bottom: -75px; /* Descendre l'icône */
+  bottom: -120px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 .is-customer .dropdown-content .dropdown-item:nth-child(3) {
-  left: calc(50% + 63px); /* Décale vers la droite */
-  bottom: -20px; /* Descendre l'icône */
+  left: calc(50% + 75px); /* Décale vers la droite */
+  bottom: -45px; /* Descendre l'icône */
   transform: translate(-50%, 0) rotate(0deg);
 }
 
@@ -134,16 +134,18 @@
 /* Styles pour le texte en hover */
 .dropdown-content .dropdown-item .icon-text {
   display: none;
-  font-size: 12px;
+  font-size: 16px; /* Taille du texte */
+  color: white; /* Couleur du texte en blanc */
   text-align: center;
   position: absolute;
-  bottom: -18px; /* valeur pour positionner le texte en dessous de l'icône */
+  bottom: -28px; /* Ajustement de la position si nécessaire */
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  background: none; 
-  border: none; /* Enlève les bordures */
-  border-radius: 0; /* Enlève le style de cercle */
+  background-color: rgba(0, 0, 0, 0.7); /* Fond noir semi-transparent */
+  padding: 2px 5px; /* Padding pour le texte */
+  border-radius: 5px; /* Bords arrondis pour le fond */
+  z-index: 101; /* Assurez-vous qu'il est au-dessus des autres éléments */
 }
 
 .dropdown-content .dropdown-item:hover .icon-text {
@@ -159,7 +161,7 @@
   cursor: pointer;
   font-size: 16px; 
   z-index: 9999;
-  margin-bottom:30px;
+  margin-bottom:35px;
   margin-left:-10px;
   font-weight:bold;
 }
@@ -197,6 +199,13 @@
     z-index: 100;
     font-size: 60px; /* Taille agrandie de l'icône */
     color:black;
+}
+
+.nav-logo {
+  height: 60px; /* Hauteur souhaitée */
+  width: auto; /* Largeur ajustée automatiquement */
+  margin-right: -10px; 
+  margin-left:-10px;
 }
 
 .nav-center .material-symbols-outlined.profil::before {
@@ -257,6 +266,12 @@
   .nav-item {
     margin: 0 0px;
     font-size: 16px;
+}
+.nav-logo {
+  height: 40px; /* Hauteur souhaitée */
+  width: auto; /* Largeur ajustée automatiquement */
+  margin-right: 0px; 
+  margin-left:-5px;
 }
 }
 @media screen and (max-width: 327px) {

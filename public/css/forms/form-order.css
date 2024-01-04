@@ -34,7 +34,7 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%) rotate(45deg);
     z-index: 5;
-    margin-top:-100px;
+    margin-top:-105px;
 }
 
 .form-group {

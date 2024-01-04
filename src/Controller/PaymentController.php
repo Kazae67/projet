@@ -202,20 +202,24 @@ class PaymentController extends AbstractController
   #[Route('/download-invoice/{orderId}', name: 'download_invoice')]
   public function downloadInvoice(int $orderId, EntityManagerInterface $em): Response
   {
-    $order = $em->getRepository(Order::class)->find($orderId);
-
-    if (!$order) {
-      throw $this->createNotFoundException('Order not found.');
-    }
-
-    $pdfContent = $this->pdfGenerator->generatePdfFromTemplate('order/invoice.html.twig', [
-      'order' => $order
-    ]);
-
-    $response = new Response($pdfContent);
-    $response->headers->set('Content-Type', 'application/pdf');
-    $response->headers->set('Content-Disposition', 'attachment; filename="invoice-' . $orderId . '.pdf"');
-
-    return $response;
+      // Recherche de la commande par son ID dans la base de données
+      $order = $em->getRepository(Order::class)->find($orderId);
+  
+      // Gestion de l'absence de la commande
+      if (!$order) {
+          throw $this->createNotFoundException('Order not found.');
+      }
+  
+      // Génération du contenu PDF de la facture
+      $pdfContent = $this->pdfGenerator->generatePdfFromTemplate('order/invoice.html.twig', [
+          'order' => $order // Transmission des données de la commande au template
+      ]);
+  
+      // Création de la réponse HTTP pour le téléchargement
+      $response = new Response($pdfContent);
+      $response->headers->set('Content-Type', 'application/pdf'); // Définition du type de contenu en PDF
+      $response->headers->set('Content-Disposition', 'attachment; filename="invoice-' . $orderId . '.pdf"'); // En-têtes pour le téléchargement du fichier
+  
+      return $response; // Retourne la réponse contenant le PDF
   }
 }

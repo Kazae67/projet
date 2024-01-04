@@ -21,16 +21,21 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, [
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length(['min' => 3, 'max' => 30]),
-                    new Assert\Regex([
-                        'pattern' => '/^[a-zA-Z0-9\s\/]+(?!\/\/)$/',
-                        'message' => 'The title should not contain special characters like @{}|'
-                    ]),
-                ]
-            ])
+        ->add('name', TextType::class, [
+            // Ajout de contraintes sur le champ 'name'.
+            'constraints' => [
+                // Contrainte pour s'assurer que le champ 'name' n'est pas vide.
+                new Assert\NotBlank(),
+                // Contrainte sur la longueur du champ 'name' : doit être entre 3 et 30 caractères.
+                new Assert\Length(['min' => 3, 'max' => 30]),
+                // Contrainte Regex pour valider le format du champ 'name'.
+                // Ici, on vérifie que le nom ne contient pas de caractères spéciaux comme @{}| pour prévenir les attaques XSS.
+                new Assert\Regex([
+                    'pattern' => '/^[a-zA-Z0-9\s\/]+(?!\/\/)$/',
+                    'message' => 'The title should not contain special characters like @{}|'
+                ]),
+            ]
+        ])
             ->add('description', TextareaType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),

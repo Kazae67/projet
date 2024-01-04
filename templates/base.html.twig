@@ -116,10 +116,9 @@
 				{% endblock %}
 				<!-- Section gauche avec Logo et Home -->
 				<div class="nav-left">
-					<a href="{{ path('home') }}" class="nav-item">
-						<span class="material-symbols-outlined">cottage</span>
-						Home
-					</a>
+				<a href="{{ path('home') }}" class="nav-item">
+					<img src="{{ asset('images/logo2.png') }}" alt="Home" class="nav-logo">
+				</a>
 					<a href="{{ path('product') }}" class="nav-item">
 						<span class="material-symbols-outlined">
 							inventory_2

@@ -71,22 +71,27 @@
 			<h1>Order Invoice</h1>
 		</div>
 
+		<!-- Détails du client -->
 		<div class="customer-details">
 			<h2>Customer Details</h2>
 			<p>
+				<!-- Nom -->
 				<strong>Name:</strong>
 				{{ order.firstName }}
 				{{ order.lastName }}</p>
 			<p>
+				<!-- Adresse -->
 				<strong>Address:</strong>
 				{{ order.address.street }},
 				{{ order.address.city }},
 				{{ order.address.postalCode }},
 				{{ order.address.country }}</p>
 			<p>
+				<!-- ID commande (token) -->
 				<strong>Order Number:</strong>
 				{{ order.trackingToken }}</p>
 			<p>
+				<!-- Date -->
 				<strong>Date:</strong>
 				{{ order.updatedAt|date('Y-m-d H:i') }}</p>
 		</div>

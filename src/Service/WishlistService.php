@@ -53,14 +53,19 @@ class WishlistService
     // Méthode pour déplacer un produit de la liste de souhaits vers le panier
     public function moveToCart($wishlistId, CartService $cartService, UserInterface $user)
     {
+        // Recherche de l'élément de la liste de souhaits par son identifiant
         $wishlistItem = $this->wishlistRepository->find($wishlistId);
 
+        // Vérification que l'élément de la liste de souhaits existe et appartient à l'utilisateur connecté
         if ($wishlistItem && $wishlistItem->getUser() === $user) {
+            // Ajout du produit au panier en utilisant le service CartService
             $cartService->add($wishlistItem->getProduct()->getId());
 
+            // Suppression de l'élément de la liste de souhaits de la base de données
             $this->entityManager->remove($wishlistItem);
             $this->entityManager->flush();
         } else {
+            // Lancement d'une exception si l'élément n'est pas trouvé ou si l'accès est refusé
             throw new \Exception('Wishlist item not found or access denied.');
         }
     }
