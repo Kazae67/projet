@@ -115,7 +115,9 @@
     flex-direction: column;
     align-items: center;
 }
-
+p{
+    color:white;
+}
 .card-title {
     font-size: 1.2em;
     font-weight: bold;

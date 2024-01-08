@@ -65,7 +65,10 @@ class ChangePasswordFormType extends AbstractType
         ])
         // Ajout d'un bouton de soumission pour le formulaire
         ->add('submit', SubmitType::class, [
-            'label' => 'Change password', // Étiquette du bouton
+            'label' => 'Change password', // Label du bouton
+            'attr' => [
+                'class' => 'btn btn-update', // Applique la classe pour le style
+            ],
         ]);
     }
 

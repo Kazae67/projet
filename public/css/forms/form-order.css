@@ -24,6 +24,20 @@ h1 {
     position: relative; /* Position relative pour le positionnement du demi-cercle */
 }
 
+.btn-update {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #238B2A;
+    color: rgb(255, 255, 255);
+    border: solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    font-weight:900;
+}
+
 .demi-cercle {
     width: 120px;
     height: 120px;

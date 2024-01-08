@@ -135,12 +135,12 @@ class OrderConfirmationFormType extends AbstractType
             // Boutons de soumission
             ->add('saveAddress', SubmitType::class, [
                 'label' => 'Save Address',
-                'attr' => ['class' => 'btn btn-save'],
+                'attr' => ['class' => 'btn btn-update'], // Applique la classe 'btn btn-update'
                 'validation_groups' => false
             ])
             ->add('confirmOrder', SubmitType::class, [
                 'label' => 'Confirm Order',
-                'attr' => ['class' => 'btn btn-confirm']
+                'attr' => ['class' => 'btn btn-update'] // Applique  la classe 'btn btn-update' 
             ]);
     }
 

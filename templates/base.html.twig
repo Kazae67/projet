@@ -18,12 +18,16 @@
 			<link
 			rel="stylesheet" href="{{ asset('css/standard.css') }}">
 
-						<!-- Pour la page home  -->
+				<!-- Pour la page home  -->
 			{% if app.request.attributes.get('_route') == 'home' %}
-							<link rel="stylesheet" href="{{ asset('css/forms/form-products.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/forms/form-products.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 			{% endif %}
-
+			<!-- pour le paiement -->
+			{% if app.request.attributes.get('_route') == 'payment' or app.request.attributes.get('_route') == 'payment_success'%}
+				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
+			{% endif %}
 			<!-- Pour la liste des produits -->
 			{% if app.request.attributes.get('_route') == 'product' %}
 				<link rel="stylesheet" href="{{ asset('css/product-card.css') }}">
@@ -63,6 +67,7 @@
 			{% if app.request.attributes.get('_route') == 'app_profile' or app.request.attributes.get('_route') == 'app_profile_change_password'%}
 				<link rel="stylesheet" href="{{ asset('css/forms/form.css') }}">
 				<link rel="stylesheet" href="{{ asset('css/myProfile.css') }}">
+				<link rel="stylesheet" href="{{ asset('css/change-password.css') }}">
 			{% endif %}
 			<!-- Pour Review -->
 			{% if app.request.attributes.get('_route') == 'product_show' %}

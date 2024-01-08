@@ -4,7 +4,12 @@
 {% endblock %}
 
 {% block body %}
+    {% if app.user %}
+        <div class="parent-container">
+            <div class="demi-cercle"></div>
+    {% endif %}
+        <div class="form-container">
 	<h1>Payment Successful</h1>
 	<p>Your payment has been processed successfully. Thank you for your order!</p>
-	<a href="{{ path('home') }}" class="btn btn-back">Return to Home</a>
+	<a href="{{ path('home') }}" class="btn back-link">Return to Home</a>
 {% endblock %}
