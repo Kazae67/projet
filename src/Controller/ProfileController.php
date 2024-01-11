@@ -9,7 +9,7 @@ use App\Repository\ProductRepository;
 use App\Repository\ReviewRepository;
 use App\DTO\ChangePasswordModel;
 use App\Form\ChangePasswordFormType;
-use App\Form\ProfilePictureType;
+use App\Form\ProfilePictureFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ class ProfileController extends AbstractController
         }
     
         // Création du formulaire pour la photo de profil
-        $profilePictureForm = $this->createForm(ProfilePictureType::class);
+        $profilePictureForm = $this->createForm(ProfilePictureFormType::class);
         $profilePictureForm->handleRequest($request);
     
         if ($profilePictureForm->isSubmitted() && $profilePictureForm->isValid()) {

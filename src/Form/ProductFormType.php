@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ProductType extends AbstractType
+class ProductFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

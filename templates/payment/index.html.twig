@@ -1,16 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Payment
-{% endblock %}
+{% block title %}Payment{% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
+    {{ parent() }}
+    <style>
+        .stripe-input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .stripe-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .stripe-button:hover {
+            background-color: #0069d9;
+        }
+
+        #card-element {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+        }
+    </style>
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	<script src="https://js.stripe.com/v3/"></script>
-	<script src="{{ asset('js/payment.js') }}"></script>
+    {{ parent() }}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{{ asset('js/payment.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -19,11 +48,12 @@
             <div class="demi-cercle"></div>
     {% endif %}
         <div class="form-container">
-	<h1>Payment</h1>
-	<form id="payment-form" action="{{ path('payment_charge') }}" method="post">
-		<input type="hidden" name="order_id" value="{{ order_id }}">
-		<div id="card-element"></div>
-		<div id="card-errors" role="alert"></div>
-		<button id="submit-button">Pay</button>
-	</form>
+            <h1>Payment</h1>
+            <form id="payment-form" action="{{ path('payment_charge') }}" method="post">
+                <input type="hidden" name="order_id" value="{{ order_id }}">
+                <div id="card-element" class="stripe-input"></div>
+                <div id="card-errors" role="alert"></div>
+                <button id="submit-button" class="stripe-button">Pay</button>
+            </form>
+        </div>
 {% endblock %}

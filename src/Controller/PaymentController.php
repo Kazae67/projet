@@ -68,7 +68,7 @@ class PaymentController extends AbstractController
       $charge = \Stripe\Charge::create([
         'amount' => $amount,
         'currency' => 'eur',
-        'description' => 'Example charge',
+        'description' => 'charge',
         'source' => $token,
       ]);
 

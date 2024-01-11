@@ -1,19 +1,18 @@
 <?php
 
 namespace App\Service;
-
+// Accéder aux classes [Packages]
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 class CartService
-{
+{   // Propriétées des dépendances
     private $session;
     private $productRepository;
     private $tokenStorage;
     private $authorizationChecker;
-
+    // Injection des dépendances
     public function __construct(SessionInterface $session, ProductRepository $productRepository, TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->session = $session;
@@ -21,34 +20,30 @@ class CartService
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
     }
-
     // Méthode pour ajouter un produit au panier
     public function add(int $productId)
     {
-        // Récupérer le produit depuis le référentiel
+        // find() de productRepository récupère le produit. 
         $product = $this->productRepository->find($productId);
 
         if (!$product) {
             throw new \Exception('Product not found.');
         }
-
         // Vérifier si l'utilisateur est connecté
         if (!$this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             throw new \Exception('You must be logged in to add products to the cart.');
         }
-
-        // Vérifier si l'utilisateur est le propriétaire du produit
+        // Si l'utilisateur actuel identifié via tokenStorage, est propriétaire du produit, on interdit l'ajout au panier par une exception
         if ($product->getUser() === $this->tokenStorage->getToken()->getUser()) {
             throw new \Exception('You cannot add your own product to the cart.');
         }
-
-        // Récupérer le panier de la session
+        // récupère le panier de l'utilisateur grâce à  sa session, un tableau associatif contenant les ID des produits et leurs quantités
         $cart = $this->session->get('cart', []);
-
-        // Augmenter la quantité du produit ou l'ajouter au panier
+        // Si le produit est déjà dans le panier, on incrémente sa quantité
         if (!empty($cart[$productId])) {
             $cart[$productId]++;
         } else {
+            // sinon on l'ajoute avec une quantité de départ de un
             $cart[$productId] = 1;
         }
 

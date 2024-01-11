@@ -71,7 +71,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // Méthode pour récupérer les produits avec filtres, tri et tranche de prix
-    public function findByFilters($category = null, $sort = 'newest', $maxResults, $start, $priceMin = null, $priceMax = null)
+    public function findByFilters($maxResults, $start, $category = null, $sort = 'newest', $priceMin = null, $priceMax = null)
     {
         // Création d'une requête QueryBuilder avec 'p' comme alias pour l'entité produit
         $qb = $this->createQueryBuilder('p');

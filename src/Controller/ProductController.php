@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Review;
 use App\Entity\Product;
-use App\Form\ProductType;
+use App\Form\ProductFormType;
 use App\Form\ReviewFormType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
@@ -43,7 +43,8 @@ class ProductController extends AbstractController
         $totalPages = ceil($totalProducts / $maxResults);
         $page = max(1, min($request->query->getInt('page', 1), $totalPages));
         $start = ($page - 1) * $maxResults;
-        $products = $productRepository->findByFilters($category, $sort, $maxResults, $start, $priceMin, $priceMax);
+        $products = $productRepository->findByFilters($maxResults, $start, $category, $sort, $priceMin, $priceMax);
+
     
         // Calcul de la moyenne des notes et du nombre total de votes pour chaque produit
         foreach ($products as $product) {
@@ -169,18 +170,18 @@ class ProductController extends AbstractController
     }
 
     // Les méthodes pour gérer l'ajout, l'édition et la suppression de produits par un artisan sont annotées avec IsGranted pour restreindre l'accès aux artisans.
-    #[IsGranted('ROLE_CRAFTSMAN')]
+    #[IsGranted('ROLE_CRAFTSMAN')] // je restreint l'accès à cette méthode aux utilisateurs avec le rôle ROLE_CRAFTSMAN
     #[Route('/product/add', name: 'product_add')]
     public function addProduct(Request $request, EntityManagerInterface $em, ProductRepository $productRepository, SluggerInterface $slugger): Response
     {
         // Création d'une nouvelle instance de l'entité Product
-        $product = new Product();
-        // Création et configuration du formulaire pour le produit
-        $form = $this->createForm(ProductType::class, $product);
-        // Traitement de la requête HTTP et liaison avec le formulaire
-        $form->handleRequest($request);
+        $product = new Product(); 
+        // Je crée un formulaire pour le produit en utilisant createForm 
+        $form = $this->createForm(ProductFormType::class, $product); 
+        // Le formulaire est lié à la requête HTTP avec handleRequest
+        $form->handleRequest($request); 
 
-        // Vérification si le formulaire est soumis et valide
+        // Je vérifie si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
             // Recherche dans la base de données si un produit avec le même nom existe déjà
             $existingProduct = $productRepository->findOneBy(['name' => $product->getName()]);
@@ -192,7 +193,7 @@ class ProductController extends AbstractController
                     'form' => $form->createView(),
                 ]);
             }
-    
+            // Si une image est uploadée j'extrais son nom je le nettoie pour obtenir un nom sûr pour l’URL
             $imageFile = $form->get('imageFile')->getData();
             if ($imageFile) {
                 // Extraction du nom de fichier original de l'image uploadée
@@ -223,13 +224,13 @@ class ProductController extends AbstractController
             }
     
             $product->setUser($this->getUser());
-            $em->persist($product);
-            $em->flush();
+            $em->persist($product); // Je persist pour sauvegarder la donnée
+            $em->flush(); // Je flush pour envoyer à la base de données et laisser l'ORM parcourir les enregistrement de persist
     
             $this->addFlash('success', 'Product successfully added.');
             return $this->redirectToRoute('my_products');
         }
-    
+        // Je render pour rendre la vue
         return $this->render('product/add.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -271,7 +272,7 @@ class ProductController extends AbstractController
     #[Route('/product/edit/{id}', name: 'product_edit')]
     public function editProduct(Request $request, EntityManagerInterface $em, Product $product, SluggerInterface $slugger): Response
     {
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductFormType::class, $product);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
