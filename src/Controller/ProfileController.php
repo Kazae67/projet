@@ -118,7 +118,8 @@ class ProfileController extends AbstractController
 
             // Utiliser l'EntityManagerInterface injecté pour persister les changements
             $entityManager->persist($user);
-            $entityManager->flush();
+            $entityManager->flush(); 
+            //test
 
             // Rediriger vers la page de profil et afficher un message de succès
             $this->addFlash('success', 'Your password has been changed.');
